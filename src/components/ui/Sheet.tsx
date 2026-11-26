@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { X } from 'lucide-react';
@@ -42,10 +42,23 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
     };
   }, [open]);
 
-  if (!open) return null;
+  // keep the sheet mounted for its closing animation (slides down instead of vanishing)
+  const [mounted, setMounted] = useState(open);
+  const lastChildren = useRef(children);
+  if (open) lastChildren.current = children;
+  useEffect(() => {
+    if (open) return setMounted(true);
+    if (!mounted) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t = setTimeout(() => setMounted(false), reduced ? 0 : 240);
+    return () => clearTimeout(t);
+  }, [open, mounted]);
+
+  if (!open && !mounted) return null;
+  const closing = !open;
   return createPortal(
-    <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6">
-      <div className="absolute inset-0 animate-fade-in bg-black/50 backdrop-blur-sm" onClick={onClose} />
+    <div className={clsx('fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6', closing && 'sheet-closing pointer-events-none')} aria-hidden={closing || undefined}>
+      <div className="sheet-backdrop absolute inset-0 animate-fade-in bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div
         ref={panel}
         tabIndex={-1}
@@ -53,7 +66,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
         aria-modal="true"
         aria-label={typeof title === 'string' ? title : undefined}
         className={clsx(
-          'relative flex w-full flex-col overflow-hidden rounded-t-[28px] bg-surface shadow-2xl outline-none animate-slide-up sm:rounded-3xl sm:animate-pop',
+          'sheet-panel relative flex w-full flex-col overflow-hidden rounded-t-[28px] bg-surface shadow-2xl outline-none animate-slide-up sm:rounded-3xl sm:animate-pop',
           size === 'md' && 'sm:max-w-md',
           size === 'lg' && 'sm:max-w-xl',
           size === 'full' && 'sm:max-w-2xl',
@@ -73,7 +86,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
             </button>
           </div>
         )}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5">{children}</div>
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5">{open ? children : lastChildren.current}</div>
         {footer && <div className="px-5 pb-[calc(var(--safe-bottom)+16px)] pt-3 sm:pb-4">{footer}</div>}
         {!footer && <div className="pb-safe" />}
       </div>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ChevronRight, Dumbbell, Footprints, Link2, RefreshCw, Scale } from 'lucide-react';
+import { ChevronRight, Dumbbell, Footprints, Utensils, Link2, RefreshCw, Scale } from 'lucide-react';
 import { db } from '@/db/db';
 import { useHealthContext, useProfile, useSources } from '@/hooks/useHealth';
 import { useSettings } from '@/hooks/useData';
@@ -13,6 +13,8 @@ import { formatDuration, relativeDay, startOfWeek } from '@/lib/time';
 import { fmtNumber, fmtVolume } from '@/lib/units';
 import { ProgressBar } from '@/components/health/ProgressBar';
 import { NutritionTodayCard } from '@/components/nutrition/NutritionTodayCard';
+import { dayTotals, useDayEntries, useTargets } from '@/components/nutrition/shared';
+import { AnimatedNumber } from '@/components/ui/AnimatedNumber';
 
 /**
  * Central daily overview: TRAINING · ERNÄHRUNG · AKTIVITÄT · KÖRPER.
@@ -63,10 +65,23 @@ function useToday() {
 }
 
 /** Last workout, this week and the next plan in rotation. */
-export function TrainingWidget() {
+export function TrainingWidget({ compact }: { compact?: boolean }) {
   const d = useToday();
   if (!d) return null;
   const { training, settings } = d;
+  if (compact)
+    return (
+      <Link to="/workout" className="card block h-full p-3.5">
+        <Head area="train" icon={<Dumbbell size={15} />} title="Training" />
+        <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
+          <AnimatedNumber value={training.weekCount} />
+          <span className="text-[12px] font-semibold text-subtle"> / {settings.weeklyGoal}</span>
+        </div>
+        <div className="text-[10.5px] text-muted">Workouts diese Woche</div>
+        <ProgressBar className="mt-1.5" value={training.weekCount} max={settings.weeklyGoal} area="train" tone={training.weekCount >= settings.weeklyGoal ? 'good' : undefined} />
+        <div className="mt-2 truncate text-[10.5px] text-muted">{training.last ? `${training.last.name} · ${relativeDay(training.last.startedAt).toLowerCase()}` : 'Noch kein Workout'}</div>
+      </Link>
+    );
   return (
     <>
       {/* TRAINING */}
@@ -102,9 +117,10 @@ export function TrainingWidget() {
 }
 
 /** Today's calories and macros (+ measured or estimated energy need). */
-export function NutritionWidget() {
+export function NutritionWidget({ compact }: { compact?: boolean }) {
   const d = useToday();
   if (!d) return null;
+  if (compact) return <NutritionCompact />;
   const { measuredTotal, plan } = d;
   return (
     <>
@@ -130,8 +146,29 @@ export function NutritionWidget() {
   );
 }
 
+function NutritionCompact() {
+  const today = dayKey();
+  const entries = useDayEntries(today);
+  const targets = useTargets(today);
+  const t = useMemo(() => dayTotals(entries ?? []), [entries]);
+  return (
+    <Link to="/nutrition" className="card block h-full p-3.5">
+      <Head area="food" icon={<Utensils size={15} />} title="Ernährung" />
+      <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
+        <AnimatedNumber value={Math.round(t.kcal)} />
+        <span className="text-[12px] font-semibold text-subtle"> kcal</span>
+      </div>
+      <div className="text-[10.5px] text-muted">{targets.kcal != null ? `von ${fmtNumber(targets.kcal)} kcal` : 'heute gegessen'}</div>
+      <ProgressBar className="mt-1.5" value={t.kcal} max={targets.kcal ?? 0} area="food" tone={targets.kcal != null && t.kcal > targets.kcal ? 'warn' : undefined} />
+      <div className="num mt-2 truncate text-[10.5px] text-muted">
+        P {fmtNumber(t.protein)} · K {fmtNumber(t.carbs)} · F {fmtNumber(t.fat)} g
+      </div>
+    </Link>
+  );
+}
+
 /** Steps today vs. goal (half width). */
-export function ActivityWidget() {
+export function ActivityWidget(_: { compact?: boolean }) {
   const d = useToday();
   if (!d) return null;
   const { steps, profile, v } = d;
@@ -139,7 +176,7 @@ export function ActivityWidget() {
     <>
         <Link to="/activity" className="card block h-full p-3.5">
         <Head area="move" icon={<Footprints size={15} />} title="Aktivität" />
-        <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">{steps != null ? fmtNumber(steps) : '–'}</div>
+        <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">{steps != null ? <AnimatedNumber value={steps} /> : '–'}</div>
         <div className="text-[10.5px] text-muted">von {fmtNumber(profile.stepGoal)} Schritten</div>
         <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
         <div className="num mt-2 truncate text-[10.5px] text-muted">
@@ -151,7 +188,7 @@ export function ActivityWidget() {
 }
 
 /** Current weight, goal and 30-day change (half width). */
-export function BodyWidget() {
+export function BodyWidget(_: { compact?: boolean }) {
   const d = useToday();
   if (!d) return null;
   const { weight, weightDay, weight30, profile, lastSync } = d;
@@ -160,7 +197,7 @@ export function BodyWidget() {
         <Link to="/body" className="card block h-full p-3.5">
         <Head area="body" icon={<Scale size={15} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[10px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
         <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
-          {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
+          {weightDay && weight != null ? <AnimatedNumber value={weight} digits={1} /> : '–'}
           <span className="text-[12px] font-semibold text-subtle"> kg</span>
         </div>
         <div className="text-[10.5px] text-muted">{weightDay ? `gewogen ${relativeDay(new Date(`${weightDay}T12:00:00`).getTime()).toLowerCase()}` : 'Aktuelles Gewicht'}</div>

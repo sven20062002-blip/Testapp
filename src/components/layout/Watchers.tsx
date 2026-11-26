@@ -68,12 +68,20 @@ function RestWatcher() {
   return null;
 }
 
+let themeAnimTimer: ReturnType<typeof setTimeout> | undefined;
 function ThemeSync() {
   const { theme } = useSettings();
   useEffect(() => {
     const mq = matchMedia('(prefers-color-scheme: dark)');
     const apply = () => {
       const dark = theme === 'dark' || (theme === 'system' && mq.matches);
+      const html = document.documentElement;
+      if (html.classList.contains('dark') !== dark) {
+        // colours blend for a moment instead of flashing
+        html.classList.add('theme-anim');
+        clearTimeout(themeAnimTimer);
+        themeAnimTimer = setTimeout(() => html.classList.remove('theme-anim'), 420);
+      }
       document.documentElement.classList.toggle('dark', dark);
       document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0A0A0B' : '#F6F6F8');
     };

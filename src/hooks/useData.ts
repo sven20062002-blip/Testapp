@@ -11,6 +11,12 @@ export function useSettings(): Settings {
   return useMemo(() => ({ ...DEFAULT_SETTINGS, ...(s ?? {}) }), [s]);
 }
 
+/** Settings, or undefined while they are still being read (avoids flashing default values). */
+export function useLoadedSettings(): Settings | undefined {
+  const s = useLiveQuery(async () => (await db.settings.get('settings')) ?? null, []);
+  return useMemo(() => (s === undefined ? undefined : { ...DEFAULT_SETTINGS, ...(s ?? {}) }), [s]);
+}
+
 export function useActiveWorkout() {
   return useLiveQuery(() => db.workouts.where('status').equals('active').first(), []);
 }

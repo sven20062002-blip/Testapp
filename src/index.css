@@ -215,3 +215,80 @@
 @media (max-width: 1023px) {
   html[data-workout-bar] .page { padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 100px); }
 }
+
+/* ======================= motion ======================= */
+:root {
+  --ease-out: cubic-bezier(.2, .9, .25, 1);
+  --ease-spring: cubic-bezier(.3, 1.35, .55, 1);
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes sheet-out {
+  from { transform: none; }
+  to { transform: translateY(100%); }
+}
+@keyframes dialog-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: scale(.96); }
+}
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes grow-bar { from { transform: scaleY(0); } to { transform: none; } }
+@keyframes nav-pop {
+  0% { transform: scale(.6); opacity: .4; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: none; }
+}
+@keyframes icon-bounce {
+  0% { transform: none; }
+  35% { transform: translateY(-3px) scale(1.12); }
+  100% { transform: none; }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* page change: new page fades & slides in (fill none → no transform left behind for fixed/sticky children) */
+.page-transition { animation: page-in .34s var(--ease-out); }
+.sheet-closing .sheet-backdrop { animation: fade-out .22s ease-in forwards; }
+.sheet-closing .sheet-panel { animation: sheet-out .24s cubic-bezier(.4, 0, .9, .6) forwards; }
+@media (min-width: 640px) {
+  .sheet-closing .sheet-panel { animation: dialog-out .18s ease-in forwards; }
+}
+.grow-bar { transform-origin: bottom; animation: grow-bar .6s var(--ease-out) both; }
+.nav-pop { animation: nav-pop .42s var(--ease-spring); }
+.icon-bounce { animation: icon-bounce .45s var(--ease-spring); }
+
+/* lists appear one after another */
+.stagger > * { animation: rise-in .42s var(--ease-out) both; }
+.stagger > *:nth-child(2) { animation-delay: 40ms; }
+.stagger > *:nth-child(3) { animation-delay: 80ms; }
+.stagger > *:nth-child(4) { animation-delay: 120ms; }
+.stagger > *:nth-child(5) { animation-delay: 160ms; }
+.stagger > *:nth-child(6) { animation-delay: 200ms; }
+.stagger > *:nth-child(7) { animation-delay: 240ms; }
+.stagger > *:nth-child(n + 8) { animation-delay: 280ms; }
+
+/* tactile press feedback on tappable cards */
+a.card, button.card, a[class*="rounded-3xl"], button[class*="rounded-3xl"] {
+  transition: transform .2s var(--ease-out), box-shadow .2s, background-color .2s;
+}
+a.card:active, button.card:active, a[class*="rounded-3xl"]:active, button[class*="rounded-3xl"]:active {
+  transform: scale(.982);
+}
+
+/* theme switch: colours blend instead of flashing */
+html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, fill .35s ease, stroke .35s ease !important;
+}
+
+/* slowly drifting colour glow behind hero cards */
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-18px, 14px) scale(1.12); }
+  100% { transform: translate(10px, -8px) scale(.96); }
+}
+.drift { animation: drift 12s ease-in-out infinite alternate; }
+.drift-slow { animation: drift 17s ease-in-out infinite alternate-reverse; }

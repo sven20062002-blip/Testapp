@@ -2,14 +2,15 @@
  * Customisable home screen: which widgets are shown and in which order.
  * Stored as an ordered id list in settings.homeWidgets (null = default layout).
  */
+export type WidgetSize = 'full' | 'half';
 export type WidgetId = 'start' | 'shortcuts' | 'training' | 'nutrition' | 'activity' | 'body' | 'progress' | 'lastWorkout' | 'records';
 
 export interface WidgetMeta {
   id: WidgetId;
   title: string;
   description: string;
-  /** half = two side by side on phones */
-  size: 'full' | 'half';
+  /** default size – the user can switch every widget between full width and a small half tile */
+  size: WidgetSize;
   area: 'train' | 'food' | 'move' | 'body' | 'neutral';
 }
 
@@ -54,3 +55,16 @@ export const addWidget = (list: WidgetId[], id: WidgetId): WidgetId[] => (list.i
 export const hiddenWidgets = (list: WidgetId[]): WidgetMeta[] => WIDGETS.filter((w) => !list.includes(w.id));
 
 export const widgetMeta = (id: WidgetId): WidgetMeta => WIDGETS.find((w) => w.id === id)!;
+
+export function widgetSize(id: WidgetId, sizes: Record<string, string> | null | undefined): WidgetSize {
+  const s = sizes?.[id];
+  return s === 'full' || s === 'half' ? s : widgetMeta(id).size;
+}
+
+/** Returns the new size map; sizes equal to the default are not stored. */
+export function setWidgetSize(sizes: Record<string, WidgetSize> | null | undefined, id: WidgetId, size: WidgetSize): Record<string, WidgetSize> {
+  const next = { ...(sizes ?? {}) };
+  if (size === widgetMeta(id).size) delete next[id];
+  else next[id] = size;
+  return next;
+}

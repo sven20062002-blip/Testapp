@@ -69,7 +69,7 @@ export default function PlansPage() {
         />
       )}
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="stagger grid gap-3 sm:grid-cols-2">
         {plans?.map((p, i) => (
           <article key={p.id} className="card flex flex-col p-3.5 animate-rise" style={{ animationDelay: `${i * 30}ms` }}>
             <div className="flex items-start gap-3">

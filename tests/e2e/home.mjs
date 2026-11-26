@@ -18,6 +18,8 @@ page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
 page.on('console', (m) => m.type() === 'error' && errors.push('console: ' + m.text()));
 const shot = (n) => SHOTS && page.screenshot({ path: `${SHOTS}/${n}.png` });
 const order = () => page.locator('[data-widget]').evaluateAll((els) => els.map((e) => e.getAttribute('data-widget')));
+/** wait until no animation is running any more (tiles glide to their new place) */
+const settled = () => page.waitForFunction(() => document.getAnimations().filter((a) => a.playState === 'running' && !(a.animationName || '').startsWith('drift')).length === 0, null, { timeout: 5000 });
 const until = async (fn, msg, timeout = 4000) => {
   const end = Date.now() + timeout;
   while (Date.now() < end) { if (await fn()) return; await page.waitForTimeout(100); }
@@ -87,11 +89,35 @@ await page.locator('[data-widget="records"]').waitFor();
 if ((await order()).join() !== edited.join()) fail('layout not persisted after reload');
 log('layout is saved and survives a reload');
 
+// make tiles smaller / bigger
+const sizeOf = (id) => page.locator(`[data-widget="${id}"]`).getAttribute('data-size');
+await page.getByRole('button', { name: 'Startseite anpassen' }).click();
+await page.getByRole('button', { name: 'Workout starten verkleinern' }).click();
+await page.getByRole('button', { name: 'Training verkleinern' }).click();
+await page.getByRole('button', { name: 'Aktivität vergrößern' }).click();
+await page.waitForTimeout(500);
+await shot('h3-sizes-edit');
+await page.getByRole('button', { name: 'Fertig' }).click();
+await page.locator('[data-widget="start"]').waitFor();
+if ((await sizeOf('start')) !== 'half' || (await sizeOf('training')) !== 'half' || (await sizeOf('activity')) !== 'full') fail('sizes not applied');
+// the small start tile still starts nothing by accident and shows its label
+await page.locator('[data-widget="start"]').getByText('Workout starten').waitFor();
+await settled();
+const [a, b] = await Promise.all([page.locator('[data-widget="start"]').boundingBox(), page.locator('[data-widget="training"]').boundingBox()]);
+if (a.width > 220 || b.width > 220) fail('small tiles are not half width: ' + JSON.stringify({ a, b }));
+await page.waitForTimeout(900);
+await shot('h4-sizes');
+await page.reload();
+await page.locator('[data-widget="start"]').waitFor();
+if ((await sizeOf('start')) !== 'half' || (await sizeOf('activity')) !== 'full') fail('sizes not persisted: ' + JSON.stringify([await sizeOf('start'), await sizeOf('training'), await sizeOf('activity')]) + await page.evaluate(() => new Promise((res) => { const r = indexedDB.open('forge'); r.onsuccess = () => { const g = r.result.transaction('settings').objectStore('settings').get('settings'); g.onsuccess = () => res(JSON.stringify(g.result.homeWidgetSizes)); }; })));
+log('tiles can be made smaller/bigger and the sizes are saved');
+
 // reset to default
 await page.getByRole('button', { name: 'Startseite anpassen' }).click();
 await page.getByRole('button', { name: 'Standard wiederherstellen' }).click();
 await page.getByRole('button', { name: 'Fertig' }).click();
 await until(async () => (await order()).join() === initial.join(), 'reset to default failed');
+if ((await sizeOf('start')) !== 'full') fail('reset did not restore sizes');
 log('restore default layout');
 
 // remove everything → empty state

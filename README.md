@@ -38,7 +38,11 @@ Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App brau
 
 ## Startseite anpassen
 
-Die Startseite besteht aus Widgets: Workout starten, Schnellzugriffe, Training, Ernährung, Aktivität, Körper, Trainingsfortschritt, Letztes Workout und Bestleistungen. Über das Regler-Symbol oben rechts („Startseite anpassen“) lassen sie sich per Ziehen oder mit den Pfeilen verschieben, mit ✕ entfernen und über „Widget hinzufügen“ wieder einfügen. „Standard wiederherstellen“ setzt die Startseite zurück. Jede Änderung wird sofort gespeichert. Die Trainingspläne stehen nicht mehr auf der Startseite, sondern auf der Seite **Training**, mit Vorschau der Übungen, „Neuer Plan“ und „Verwalten“.
+Die Startseite besteht aus Widgets: Workout starten, Schnellzugriffe, Training, Ernährung, Aktivität, Körper, Trainingsfortschritt, Letztes Workout und Bestleistungen. Über das Regler-Symbol oben rechts („Startseite anpassen“) lassen sie sich per Ziehen oder mit den Pfeilen verschieben, mit ✕ entfernen und über „Widget hinzufügen“ wieder einfügen. Mit ⤡/⤢ wird jede Kachel klein (halbe Breite, kompakte Ansicht) oder groß (ganze Breite). „Standard wiederherstellen“ setzt Reihenfolge und Größen zurück. Jede Änderung wird sofort gespeichert. Die Trainingspläne stehen nicht mehr auf der Startseite, sondern auf der Seite **Training**, mit Vorschau der Übungen, „Neuer Plan“ und „Verwalten“.
+
+## Bewegung & Animationen
+
+Seiten gleiten beim Wechsel herein, Listen erscheinen gestaffelt, Kacheln gleiten beim Verschieben und Größenwechsel an ihren neuen Platz (FLIP), Zahlen zählen hoch, Balken und der Kalorienring laufen auf, Sheets schließen mit einer Gleitbewegung, Segment-Schalter haben eine gleitende Auswahl, und der Wechsel zwischen hell und dunkel blendet weich über. Ist auf dem Gerät „Bewegung reduzieren“ eingestellt, werden alle Animationen abgeschaltet.
 
 ## Architektur
 

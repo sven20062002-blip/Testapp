@@ -140,7 +140,7 @@ export default function NutritionPage() {
       </section>
 
       {/* meals */}
-      <div className="mt-4 space-y-3">
+      <div className="stagger mt-4 space-y-3">
         {MEALS.map((m) => {
           const list = byMeal.get(m.key) ?? [];
           const t = sumNutrients(list.map(entryNutrients));

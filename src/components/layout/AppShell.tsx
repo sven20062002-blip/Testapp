@@ -71,7 +71,10 @@ export function AppShell() {
             <WifiOff size={13} /> Offline-Modus – Daten werden lokal gespeichert
           </div>
         )}
-        <Outlet />
+        {/* keyed by path → every page change plays the entry animation */}
+        <div key={loc.pathname} className="page-transition">
+          <Outlet />
+        </div>
       </main>
 
       {active && !onWorkout && <ActiveWorkoutBar workout={active} />}
@@ -87,7 +90,7 @@ export function AppShell() {
             <NavLink key={to} to={to} end={to === '/'} data-tour={`nav-${to}`} className={`chip-${area ?? 'neutral'} relative flex flex-1 flex-col items-center justify-center gap-[3px]`}>
               {({ isActive }) => (
                 <>
-                  <span className={clsx('nav-ink relative flex h-8 w-14 items-center justify-center rounded-full transition', isActive && 'nav-pill')}>
+                  <span className={clsx('nav-ink relative flex h-8 w-14 items-center justify-center rounded-full transition', isActive && 'nav-pill nav-pop')}>
                     <I size={21} strokeWidth={isActive ? 2.3 : 1.9} />
                     {center && active && <span className="nav-dot absolute right-2.5 top-1 h-2 w-2 animate-pulse rounded-full" aria-hidden />}
                   </span>
@@ -97,7 +100,7 @@ export function AppShell() {
             </NavLink>
           ))}
           <button onClick={() => setMore(true)} data-tour="nav-more" className={`chip-${moreArea} flex flex-1 flex-col items-center justify-center gap-[3px]`} aria-label="Weitere Bereiche">
-            <span className={clsx('nav-ink flex h-8 w-14 items-center justify-center rounded-full transition', moreActive && 'nav-pill')}>
+            <span className={clsx('nav-ink flex h-8 w-14 items-center justify-center rounded-full transition', moreActive && 'nav-pill nav-pop')}>
               <MoreHorizontal size={21} strokeWidth={moreActive ? 2.3 : 1.9} />
             </span>
             <span className={clsx('text-[10px] leading-none', moreActive ? 'nav-ink font-semibold' : 'font-medium text-subtle')}>Mehr</span>

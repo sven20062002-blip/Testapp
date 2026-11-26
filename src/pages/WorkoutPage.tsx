@@ -75,10 +75,11 @@ function StartWorkout() {
         onClick={() => start()}
         className="group relative flex w-full items-center gap-4 overflow-hidden rounded-3xl bg-accent p-5 text-left text-accent-fg transition active:scale-[.99]"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/10">
+        <div aria-hidden className="drift pointer-events-none absolute -right-10 -top-16 h-40 w-40 rounded-full bg-white/25 blur-2xl" />
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-black/10 transition-transform duration-300 group-hover:scale-110">
           <Play size={28} fill="currentColor" />
         </div>
-        <div className="flex-1">
+        <div className="relative flex-1">
           <div className="text-[18px] font-bold tracking-tight">Leeres Workout starten</div>
           <div className="text-[13px] font-medium opacity-75">Übungen frei hinzufügen</div>
         </div>
@@ -95,7 +96,7 @@ function StartWorkout() {
       >
         Trainingspläne
       </SectionTitle>
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+      <div className="stagger grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {sortedPlans.map((p) => (
           <button key={p.id} onClick={() => start({ planId: p.id })} className="card flex w-full min-w-0 items-center gap-3 p-3.5 text-left transition hover:border-line active:scale-[.99]" aria-label={`${p.name} starten`}>
             <span className="h-10 w-1.5 shrink-0 rounded-full" style={{ background: p.color }} />

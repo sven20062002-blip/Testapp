@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import clsx from 'clsx';
 import { db } from '@/db/db';
@@ -8,6 +8,7 @@ import { dailyTargets, entryNutrients, sumNutrients, NUTRIENT_LABELS, type Targe
 import { addDays, dayKey } from '@/lib/day';
 import { valueOn } from '@/health/merge';
 import { fmtNumber } from '@/lib/units';
+import { AnimatedNumber } from '@/components/ui/AnimatedNumber';
 
 export const fmtG = (v: number | null | undefined, d = 1) => (v == null ? 'unbekannt' : `${fmtNumber(v, v >= 100 ? 0 : d)} g`);
 export const fmtKcal = (v: number | null | undefined) => (v == null ? 'unbekannt' : `${fmtNumber(v, 0)} kcal`);
@@ -89,7 +90,13 @@ export function MacroBar({
 export function KcalRing({ value, target, size = 132 }: { value: number; target: number | null; size?: number }) {
   const r = size / 2 - 9;
   const c = 2 * Math.PI * r;
-  const pct = target ? Math.min(1, value / target) : 0;
+  const target01 = target ? Math.min(1, value / target) : 0;
+  // the ring winds up from 0 when it appears
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setPct(target01));
+    return () => cancelAnimationFrame(id);
+  }, [target01]);
   const over = target != null && value > target;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={`${Math.round(value)} von ${target ?? '–'} kcal`}>
@@ -104,10 +111,10 @@ export function KcalRing({ value, target, size = 132 }: { value: number; target:
         strokeLinecap="round"
         strokeDasharray={`${c * pct} ${c}`}
         transform={`rotate(-90 ${size / 2} ${size / 2})`}
-        style={{ transition: 'stroke-dasharray .5s ease' }}
+        style={{ transition: 'stroke-dasharray .9s cubic-bezier(.2,.9,.25,1)' }}
       />
       <text x="50%" y="46%" textAnchor="middle" className="num" style={{ fill: 'rgb(var(--fg))', fontSize: size * 0.17, fontWeight: 800 }}>
-        {fmtNumber(value, 0)}
+        <AnimatedNumber value={Math.round(value)} />
       </text>
       <text x="50%" y="62%" textAnchor="middle" style={{ fill: 'rgb(var(--subtle))', fontSize: size * 0.09, fontWeight: 600 }}>
         {target ? `von ${fmtNumber(target, 0)} kcal` : 'kcal'}

@@ -209,6 +209,8 @@ export interface Settings {
   tourSeenAt: number | null;
   /** home screen widgets in display order (null → default layout) */
   homeWidgets: string[] | null;
+  /** per widget: 'full' (whole width) or 'half' (small tile); missing → widget default */
+  homeWidgetSizes: Record<string, 'full' | 'half'> | null;
   updatedAt: number;
 }
 

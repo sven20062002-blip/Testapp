@@ -222,3 +222,31 @@ describe('home screen layout', () => {
     expect(L.hiddenWidgets(L.DEFAULT_LAYOUT).map((w) => w.id)).toEqual(['lastWorkout']);
   });
 });
+
+describe('home widget sizes', () => {
+  it('default size per widget, switch, only deviations are stored', async () => {
+    const L = await import('@/components/dashboard/layout');
+    expect(L.widgetSize('training', null)).toBe('full');
+    expect(L.widgetSize('activity', null)).toBe('half');
+    let s = L.setWidgetSize(null, 'training', 'half');
+    expect(s).toEqual({ training: 'half' });
+    expect(L.widgetSize('training', s)).toBe('half');
+    s = L.setWidgetSize(s, 'activity', 'full');
+    expect(s).toEqual({ training: 'half', activity: 'full' });
+    s = L.setWidgetSize(s, 'training', 'full'); // back to default → removed
+    expect(s).toEqual({ activity: 'full' });
+    expect(L.widgetSize('records', { records: 'bogus' } as never)).toBe('full');
+  });
+});
+
+describe('settings', () => {
+  it('updateSettingsWith: fast consecutive changes never overwrite each other', async () => {
+    const { updateSettingsWith } = await import('@/db/repo/settings');
+    const { setWidgetSize } = await import('@/components/dashboard/layout');
+    // three "taps" fired at once, like quick taps before the UI re-renders
+    await Promise.all(
+      (['start', 'training', 'records'] as const).map((id) => updateSettingsWith((cur) => ({ homeWidgetSizes: setWidgetSize(cur.homeWidgetSizes, id, 'half') }))),
+    );
+    expect((await getSettings()).homeWidgetSizes).toEqual({ start: 'half', training: 'half', records: 'half' });
+  });
+});

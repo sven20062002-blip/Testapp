@@ -27,7 +27,7 @@ export const TOUR: TourStep[] = [
     area: 'neutral',
     title: 'Heute',
     text: 'Willkommen bei Forge! Hier startest du jeden Tag.',
-    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Über „Anpassen“ ordnest du die Startseite selbst: verschieben, entfernen, hinzufügen'],
+    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Über „Anpassen“ gestaltest du die Startseite selbst: verschieben, verkleinern, entfernen, hinzufügen'],
   },
   {
     id: 'workout',

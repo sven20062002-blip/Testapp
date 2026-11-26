@@ -20,6 +20,7 @@ export const DEFAULT_SETTINGS: Settings = {
   onboardedAt: null,
   tourSeenAt: null,
   homeWidgets: null,
+  homeWidgetSizes: null,
   updatedAt: 0,
 };
 
@@ -32,5 +33,13 @@ export async function updateSettings(patch: Partial<Omit<Settings, 'id'>>): Prom
   await db.transaction('rw', db.settings, async () => {
     const cur = await getSettings();
     await db.settings.put({ ...cur, ...patch, id: 'settings', updatedAt: Date.now() });
+  });
+}
+
+/** Read-modify-write in one transaction: safe when the user taps faster than the UI re-renders. */
+export async function updateSettingsWith(fn: (cur: Settings) => Partial<Omit<Settings, 'id'>>): Promise<void> {
+  await db.transaction('rw', db.settings, async () => {
+    const cur = await getSettings();
+    await db.settings.put({ ...cur, ...fn(cur), id: 'settings', updatedAt: Date.now() });
   });
 }

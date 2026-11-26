@@ -57,7 +57,7 @@ export default function HistoryPage() {
               <h2 className="text-[14px] font-bold capitalize">{month}</h2>
               <span className="text-[11.5px] text-subtle">{ws.length} Workouts</span>
             </div>
-            <div className="space-y-2">
+            <div className="stagger space-y-2">
               {ws.map((w) => (
                 <Link key={w.id} to={`/history/${w.id}`} className="card flex items-center gap-4 p-3.5 transition hover:border-line">
                   <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-elevated">
