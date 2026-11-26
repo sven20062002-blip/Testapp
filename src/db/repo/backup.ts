@@ -92,7 +92,7 @@ export async function importJSON(text: string): Promise<{ workouts: number }> {
     throw new Error('Die Datei ist kein gültiges JSON.');
   }
   if (data?.app !== 'forge' || !Array.isArray(data.exercises) || !Array.isArray(data.workouts))
-    throw new Error('Die Datei ist kein Forge-Backup.');
+    throw new Error('Die Datei ist kein heben-Backup.');
   if (data.version > BACKUP_VERSION) throw new Error('Das Backup stammt aus einer neueren App-Version.');
 
   await db.transaction(

@@ -80,7 +80,7 @@ export default function ChallengePage() {
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-[11.5px] text-subtle">Gewertet werden alle in Forge beendeten Workouts im Zeitraum. Die Rangliste aktualisiert sich, sobald jemand ein Workout abschließt.</p>
+      <p className="mt-4 text-[11.5px] text-subtle">Gewertet werden alle in heben beendeten Workouts im Zeitraum. Die Rangliste aktualisiert sich, sobald jemand ein Workout abschließt.</p>
       <Button
         variant="ghost"
         block

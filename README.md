@@ -1,4 +1,4 @@
-# Forge – Workout, Ernährung & Gesundheit
+# heben – Fitness & Lifestyle
 
 Installierbare Fitness-PWA (React, TypeScript, Tailwind CSS, IndexedDB/Dexie, Recharts, Supabase): Training mit Timern,
 Ernährungstagebuch mit Barcode-Scanner, Aktivität und Körpergewicht – plus **Freunde**: Feed, Ranglisten, Challenges und Live-Duelle.
@@ -79,7 +79,7 @@ Schlaf- und Vitalwerte (Ruhepuls, HRV usw.) sowie Recovery/Readiness sind bewuss
 Datenbank-Migration v3 entfernt eventuell früher importierte Werte.
 
 
-| Quelle | Weg | Voraussetzung | Status in Forge |
+| Quelle | Weg | Voraussetzung | Status in heben |
 |---|---|---|---|
 | **Apple Health** | Export der Health-App (Export.zip) | – | Datei-Import, Streaming im Web Worker |
 | **Google Health Connect / HealthKit live** | Native Brücke `window.ForgeHealthBridge` | Native App-Hülle (Capacitor), siehe docs/NATIVE_BRIDGE.md | Schnittstelle fertig, native Hülle nicht enthalten |

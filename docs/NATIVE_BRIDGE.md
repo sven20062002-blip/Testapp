@@ -2,7 +2,7 @@
 
 Google **Health Connect** (Android) und Apple **HealthKit** (iOS) sind Schnittstellen auf dem Gerät, die
 ausschließlich nativen Apps zur Verfügung stehen. Eine Web-App/PWA hat darauf technisch keinen Zugriff.
-Forge enthält daher eine fertige Erweiterungsschnittstelle: Wird die App in eine native Hülle verpackt
+heben enthält daher eine fertige Erweiterungsschnittstelle: Wird die App in eine native Hülle verpackt
 (empfohlen: [Capacitor](https://capacitorjs.com)), muss diese nur das Objekt `window.ForgeHealthBridge`
 bereitstellen. Die Web-App erkennt es automatisch (Mehr → Datenquellen → „Health Connect / HealthKit“)
 und synchronisiert darüber wie über jede andere Quelle: mit Zustimmung pro Kategorie, Dedupe,
@@ -46,4 +46,4 @@ Einheiten (müssen nativ umgerechnet werden): Schritte = Anzahl, `distance_m` = 
 * Tagessummen mit `HKStatisticsCollectionQuery` (`.cumulativeSum`, dedupliziert Quellen automatisch).
 * Apple-Entwicklerkonto (99 €/Jahr) und Xcode/Mac zum Bauen erforderlich.
 
-Ohne native Hülle bietet Forge den Apple-Health-Export (Datei-Import) und die manuelle Eingabe.
+Ohne native Hülle bietet heben den Apple-Health-Export (Datei-Import) und die manuelle Eingabe.

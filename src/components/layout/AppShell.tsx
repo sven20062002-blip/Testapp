@@ -29,8 +29,8 @@ export function AppShell() {
         <div className="mb-8 flex items-center gap-2.5 px-2">
           <Logo size={34} />
           <div>
-            <div className="text-[16.5px] font-bold leading-none tracking-tight">Forge</div>
-            <div className="mt-0.5 text-[10.5px] font-medium text-subtle">Workout Tracker</div>
+            <div className="text-[16.5px] font-bold leading-none tracking-tight">heben</div>
+            <div className="mt-0.5 text-[10.5px] font-medium text-subtle">Fitness &amp; Lifestyle</div>
           </div>
         </div>
         <nav className="flex flex-col gap-0.5 overflow-y-auto" aria-label="Hauptnavigation">

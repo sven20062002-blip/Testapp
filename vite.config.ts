@@ -14,8 +14,8 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         id: '/',
-        name: 'Forge – Workout Tracker',
-        short_name: 'Forge',
+        name: 'heben – Fitness & Lifestyle',
+        short_name: 'heben',
         description: 'Premium Workout- und Fitness-Tracker mit Timern, Trainingsplänen, Bestleistungen und Statistiken.',
         lang: 'de',
         start_url: '/',

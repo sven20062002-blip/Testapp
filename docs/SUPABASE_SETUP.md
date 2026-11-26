@@ -1,6 +1,6 @@
 # Online-Funktionen einrichten (Supabase)
 
-Für Freunde, Feed, Ranglisten, Challenges und Live-Duelle braucht Forge einen kleinen Server.
+Für Freunde, Feed, Ranglisten, Challenges und Live-Duelle braucht heben einen kleinen Server.
 Dafür nutzt die App **Supabase** (kostenloser Tarif reicht). Einmalige Einrichtung: ca. 10 Minuten.
 
 ## 1. Projekt anlegen
@@ -38,7 +38,7 @@ Echtzeit-Freigabe für Live-Duelle an. Es kann gefahrlos erneut ausgeführt werd
 2. Kopieren:
    - **Project URL** – z. B. `https://abcdefgh.supabase.co`
    - **anon public** Schlüssel (beginnt mit `eyJ…`, bzw. „publishable key“)
-3. In Forge: unten auf **Freunde** tippen → „Online-Server verbinden“ und beide Werte einfügen. Freunde musst du nicht einzeln einrichten: Unter Freunde → „Einladen“ teilst du einen Link, der die Server-Verbindung automatisch mitbringt.
+3. In heben: unten auf **Freunde** tippen → „Online-Server verbinden“ und beide Werte einfügen. Freunde musst du nicht einzeln einrichten: Unter Freunde → „Einladen“ teilst du einen Link, der die Server-Verbindung automatisch mitbringt.
    (Alternativ beim Bauen als `VITE_SUPABASE_URL` und `VITE_SUPABASE_ANON_KEY` setzen.)
 
 **Ist der anon-Schlüssel geheim?** Nein. Er ist dafür gedacht, in Apps zu stehen. Was jemand damit tun

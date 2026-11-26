@@ -42,7 +42,7 @@ export default function SourcesPage() {
         <ShieldCheck size={20} className="mt-0.5 shrink-0 text-good" />
         <div>
           Gesundheitsdaten werden <b className="text-fg">nur nach deiner ausdrücklichen Zustimmung</b> und nur für die freigegebenen Kategorien importiert. Sie werden ausschließlich lokal auf diesem Gerät
-          gespeichert (IndexedDB) und an keinen Forge-Server übertragen – es gibt keinen. Du kannst Verbindungen jederzeit trennen und importierte Daten löschen.
+          gespeichert (IndexedDB) und an keinen heben-Server übertragen – es gibt keinen. Du kannst Verbindungen jederzeit trennen und importierte Daten löschen.
         </div>
       </div>
 
@@ -300,7 +300,7 @@ function BridgeCard({ s }: { s: HealthSourceState }) {
       badge={bridge ? <Badge tone="good">Native Brücke erkannt ({bridge.platform})</Badge> : <Badge>Nur in nativer App verfügbar</Badge>}
     >
       <Collapsible title="Technischer Hintergrund">
-        Google Health Connect und Apple HealthKit sind Schnittstellen auf dem Gerät, die nur native Apps nutzen dürfen – im Browser bzw. als installierte PWA gibt es keinen Zugriff. Forge enthält
+        Google Health Connect und Apple HealthKit sind Schnittstellen auf dem Gerät, die nur native Apps nutzen dürfen – im Browser bzw. als installierte PWA gibt es keinen Zugriff. heben enthält
         dafür eine fertige Erweiterungsschnittstelle („ForgeHealthBridge“): Wird die App in eine native Hülle (z. B. Capacitor) verpackt, die diese Schnittstelle bereitstellt, synchronisiert diese
         Quelle automatisch. Benötigte Berechtigungen und der Schnittstellen-Vertrag stehen in docs/NATIVE_BRIDGE.md.
       </Collapsible>

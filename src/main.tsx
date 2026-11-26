@@ -27,12 +27,16 @@ initDatabase()
       </StrictMode>,
     );
     void requestPersistentStorage();
+    // inside the iOS/Android app: connect Apple Health / Health Connect (no-op in the browser)
+    void import('./health/capacitorBridge').then((m) => m.installNativeHealthBridge()).catch(() => {});
   })
   .catch((e) => {
     console.error(e);
     root.render(<Fatal error={e} />);
   });
 
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
+// the native iOS/Android app ships all files locally – the service worker is only for the web version
+const isNativeApp = !!(window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.();
+if ('serviceWorker' in navigator && import.meta.env.PROD && !isNativeApp) {
   registerSW({ immediate: true });
 }

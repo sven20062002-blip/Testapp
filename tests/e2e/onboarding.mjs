@@ -35,7 +35,7 @@ const valueIs = async (label, v, msg) => {
 const next = () => page.getByRole('button', { name: /^(Los geht's|Weiter)/ }).click();
 
 await page.goto(BASE);
-await page.getByRole('heading', { name: 'Willkommen bei Forge' }).waitFor();
+await page.getByRole('heading', { name: 'Willkommen bei heben' }).waitFor();
 await shot('o1-welcome');
 await page.getByLabel('Name').fill('Sven');
 await next();
@@ -170,7 +170,7 @@ log('a value still being typed is saved when the app is left');
 // reload → no onboarding again
 await page.goto(BASE);
 await page.waitForTimeout(400);
-if (await page.getByRole('heading', { name: 'Willkommen bei Forge' }).count()) fail('onboarding shown again');
+if (await page.getByRole('heading', { name: 'Willkommen bei heben' }).count()) fail('onboarding shown again');
 log('onboarding not shown again');
 
 // plan editor: unsaved plan survives leaving the app
@@ -187,7 +187,7 @@ log('plan editor restores an unsaved plan after leaving the app');
 // restart from settings: prefilled
 await page.goto(BASE + '/settings');
 await page.getByRole('button', { name: 'Starten', exact: true }).click();
-await page.getByRole('heading', { name: 'Willkommen bei Forge' }).waitFor();
+await page.getByRole('heading', { name: 'Willkommen bei heben' }).waitFor();
 await valueIs('Name', 'Sven', 'restart not prefilled');
 await page.getByRole('button', { name: 'Überspringen' }).click();
 await page.getByRole('heading', { name: 'Einstellungen' }).waitFor();
@@ -204,7 +204,7 @@ log('tour restartable from settings, closable at any time');
 // finish and leave the app in the same moment → onboarding must stay completed
 await page.goto(BASE + '/settings');
 await page.getByRole('button', { name: 'Starten', exact: true }).click();
-await page.getByRole('heading', { name: 'Willkommen bei Forge' }).waitFor();
+await page.getByRole('heading', { name: 'Willkommen bei heben' }).waitFor();
 for (const h of ['Über dich', 'Dein Ziel', 'Training', 'Alltag & Darstellung', 'Alles bereit']) {
   await next();
   await page.getByRole('heading', { name: h }).waitFor();

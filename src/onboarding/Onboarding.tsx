@@ -15,7 +15,7 @@ import { fmtNumber, parseDecimal, unitToKg, weightInputValue } from '@/lib/units
 import { STEPS, applyDraft, firstIncompleteStep, initialDraft, parsed, saveDraft, skipOnboarding, stepErrors, type OnboardingDraft, type StepId } from './model';
 
 const STEP_META: Record<StepId, { area: Area; icon: ReactNode; title: string; text: string }> = {
-  welcome: { area: 'train', icon: <Sparkles size={18} />, title: 'Willkommen bei Forge', text: 'Ein paar Angaben, damit Kalorienbedarf, Ziele und Statistiken zu dir passen. Dauert etwa eine Minute.' },
+  welcome: { area: 'train', icon: <Sparkles size={18} />, title: 'Willkommen bei heben', text: 'Ein paar Angaben, damit Kalorienbedarf, Ziele und Statistiken zu dir passen. Dauert etwa eine Minute.' },
   body: { area: 'body', icon: <Ruler size={18} />, title: 'Über dich', text: 'Grundlage für Grundumsatz und Kalorienbedarf (Mifflin-St-Jeor-Formel).' },
   goal: { area: 'food', icon: <Target size={18} />, title: 'Dein Ziel', text: 'Bestimmt Kalorienüberschuss oder -defizit und deinen Proteinbedarf.' },
   training: { area: 'train', icon: <Dumbbell size={18} />, title: 'Training', text: 'Für dein Wochenziel, den Aktivitätsfaktor und die Satzpause.' },

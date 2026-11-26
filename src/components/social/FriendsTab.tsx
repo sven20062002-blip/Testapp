@@ -82,9 +82,9 @@ export function FriendsTab({ myUsername }: { myUsername: string }) {
           onClick={async () => {
             const link = inviteLink(myUsername);
             if (!link) return;
-            const text = `Trainier mit mir in Forge! Mein Benutzername: @${myUsername}`;
+            const text = `Trainier mit mir in heben! Mein Benutzername: @${myUsername}`;
             try {
-              if (navigator.share) await navigator.share({ title: 'Forge', text, url: link });
+              if (navigator.share) await navigator.share({ title: 'heben', text, url: link });
               else {
                 await navigator.clipboard.writeText(`${text}\n${link}`);
                 toast('Einladungslink kopiert', 'success');

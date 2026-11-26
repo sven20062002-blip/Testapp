@@ -25,7 +25,7 @@ export function ServerSetup() {
       </span>
       <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em]">Online-Server verbinden</h2>
       <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
-        Für Freunde, Duelle und Ranglisten braucht Forge einen Server. Du nutzt dafür dein eigenes, kostenloses Supabase-Projekt – deine Daten liegen bei dir. Die Anleitung steht in
+        Für Freunde, Duelle und Ranglisten braucht heben einen Server. Du nutzt dafür dein eigenes, kostenloses Supabase-Projekt – deine Daten liegen bei dir. Die Anleitung steht in
         <span className="font-medium text-fg"> docs/SUPABASE_SETUP.md</span>.
       </p>
       <div className="mt-5 space-y-3">

@@ -194,13 +194,13 @@ export default function SettingsPage() {
           <div className="text-[13.5px] font-semibold">Exportieren</div>
           <div className="text-[11.5px] text-muted">JSON-Backup (ohne Zugangsdaten) oder Tabellen für Excel</div>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            <Button size="sm" icon={<FileJson size={15} />} onClick={async () => downloadText(`forge-backup-${stamp}.json`, await exportJSON(), 'application/json')}>
+            <Button size="sm" icon={<FileJson size={15} />} onClick={async () => downloadText(`heben-backup-${stamp}.json`, await exportJSON(), 'application/json')}>
               Backup (JSON)
             </Button>
-            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-saetze-${stamp}.csv`, await exportCSV(), 'text/csv;charset=utf-8')}>
+            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`heben-saetze-${stamp}.csv`, await exportCSV(), 'text/csv;charset=utf-8')}>
               Sätze (CSV)
             </Button>
-            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-ernaehrung-${stamp}.csv`, await exportNutritionCSV(), 'text/csv;charset=utf-8')}>
+            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`heben-ernaehrung-${stamp}.csv`, await exportNutritionCSV(), 'text/csv;charset=utf-8')}>
               Ernährung (CSV)
             </Button>
           </div>
@@ -269,7 +269,7 @@ export default function SettingsPage() {
         )}
         {install.isIOS && !install.standalone && (
           <div className="px-4 py-3 text-[12.5px] text-muted">
-            <b className="text-fg">iPhone/iPad:</b> In Safari auf „Teilen“ tippen und „Zum Home-Bildschirm“ wählen, um Forge als App zu installieren.
+            <b className="text-fg">iPhone/iPad:</b> In Safari auf „Teilen“ tippen und „Zum Home-Bildschirm“ wählen, um heben als App zu installieren.
           </div>
         )}
         <Row label="Version" hint={install.standalone ? 'Läuft als installierte App' : 'Läuft im Browser'}>

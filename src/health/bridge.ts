@@ -2,7 +2,7 @@
  * Native bridge – extension point for Google Health Connect (Android) and Apple HealthKit (iOS).
  *
  * Neither Health Connect nor HealthKit can be accessed from a browser/PWA: both are on-device
- * APIs reserved for native apps. To read them live, Forge can be wrapped in a native shell
+ * APIs reserved for native apps. To read them live, heben can be wrapped in a native shell
  * (e.g. Capacitor) that implements the small contract below and injects it as
  * `window.ForgeHealthBridge`. The web app then syncs through it exactly like any other source.
  * See docs/NATIVE_BRIDGE.md for the contract and the required native permissions.

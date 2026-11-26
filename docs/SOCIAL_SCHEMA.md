@@ -1,4 +1,4 @@
-# Forge Social – Server-Vertrag (Supabase / Postgres)
+# heben Social – Server-Vertrag (Supabase / Postgres)
 
 Single source of truth for `supabase/migrations/*.sql` and `src/social/*`.
 All functions are `security definer`, `set search_path = public`, granted to `authenticated` only.

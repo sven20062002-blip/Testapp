@@ -235,7 +235,7 @@ export function NewChallengeSheet({ open, onClose, onCreated, preselect }: { ope
             })}
           </div>
         </div>
-        <p className="text-[11.5px] text-subtle">Gewertet werden automatisch alle Workouts im Zeitraum, die ihr in Forge beendet. Ergebnisse basieren auf euren eigenen Eingaben.</p>
+        <p className="text-[11.5px] text-subtle">Gewertet werden automatisch alle Workouts im Zeitraum, die ihr in heben beendet. Ergebnisse basieren auf euren eigenen Eingaben.</p>
         {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
       </div>
     </Sheet>
