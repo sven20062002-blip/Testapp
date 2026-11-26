@@ -1,7 +1,7 @@
 # Forge – Workout, Ernährung & Gesundheit
 
-Installierbare Fitness-PWA (React, TypeScript, Tailwind CSS, IndexedDB/Dexie, Recharts): Training mit Timern,
-Ernährungstagebuch mit Barcode-Scanner, Aktivität (Schritte, Bewegung, Energie) und Körpergewicht.
+Installierbare Fitness-PWA (React, TypeScript, Tailwind CSS, IndexedDB/Dexie, Recharts, Supabase): Training mit Timern,
+Ernährungstagebuch mit Barcode-Scanner, Aktivität und Körpergewicht – plus **Freunde**: Feed, Ranglisten, Challenges und Live-Duelle.
 Alle Daten bleiben lokal auf dem Gerät; Training und Tagebuch funktionieren offline.
 
 ## Starten
@@ -14,6 +14,8 @@ npm run preview    # Build lokal ausliefern (PWA/Offline testbar)
 npm test           # Unit- & Integrationstests (Vitest + fake-indexeddb)
 node tests/e2e/smoke.mjs http://localhost:4173            # E2E Training (Playwright, gegen preview)
 node tests/e2e/health-nutrition.mjs http://localhost:4173 # E2E Aktivität, Körper & Ernährung
+node tests/e2e/social.mjs http://localhost:4173           # E2E Freunde (gegen nachgebildeten Supabase-Server)
+npm run test:sql                                           # Supabase-Schema + Zugriffsregeln gegen lokales Postgres 16
 ```
 
 Zum Installieren auf dem Handy muss die App über **HTTPS** ausgeliefert werden (z. B. Netlify, Vercel, Cloudflare Pages – `dist/` als statische Seite, alle Pfade auf `index.html` umleiten).
@@ -85,3 +87,21 @@ Produktdaten von **Open Food Facts** (offene Datenbank, sehr gute Abdeckung DE/E
 Einträge werden markiert, fehlende Werte nie mit 0 ergänzt. Gescannte Produkte werden lokal gespeichert und sind
 danach offline verfügbar. Nicht gefundene Produkte lassen sich mit Barcode als eigenes Produkt anlegen.
 Kalorienbudget „fest“ (TDEE-Schätzung) oder „mit Aktivitätsdaten“ (BMR × 1,2 + gemessene Aktivitätskalorien) – nie beides.
+
+## Freunde & Wettkämpfe (online)
+
+Backend: **Supabase** (Postgres + Auth + Realtime), Einrichtung in `docs/SUPABASE_SETUP.md`, Schnittstelle in
+`docs/SOCIAL_SCHEMA.md`, Schema in `supabase/migrations/`. Login per E-Mail + Passwort.
+
+- **Feed** mit Reaktionen, **Ranglisten** (Wochen-/Monatsvolumen, 1RM, Maximalgewicht je Standardübung),
+  **Challenges** mit Zeitraum (Volumen, 1RM, Gewicht, Workouts, Sätze – serverseitig berechnet),
+  **Live-Duelle** (abgeschlossene Sätze werden sofort übertragen, Echtzeit-Spielstand, Abfrage-Fallback ohne Socket).
+- Geteilt werden nur Zusammenfassungen (keine Notizen, keine Einzelsätze, keine Ernährungs-/Körperdaten).
+  Sichtbarkeit: nur du und bestätigte Freunde (Row Level Security, lokal mit `npm run test:sql` geprüft).
+- **Offline-Warteschlange** (IndexedDB): Uploads werden nachgeholt, sobald Verbindung und Anmeldung bestehen.
+- **Einladungslink** bringt die Server-Verbindung mit – Freunde müssen nichts konfigurieren.
+- Ergebnisse beruhen auf den eigenen Eingaben (kein Anti-Cheat) – gedacht für Freundeskreise.
+
+**Ehrlicher Hinweis:** Die Supabase-Anbindung wurde gegen ein lokales Postgres mit nachgebildeter Supabase-Auth
+(Schema, Zugriffsregeln, Funktionen) und im Browser gegen einen nachgebildeten Server (App-Abläufe) getestet,
+nicht gegen ein echtes Supabase-Projekt – das war aus der Entwicklungsumgebung nicht erreichbar.

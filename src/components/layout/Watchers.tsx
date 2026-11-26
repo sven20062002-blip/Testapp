@@ -21,6 +21,7 @@ export function Watchers() {
       <WakeLock />
       <AudioUnlock />
       <HealthAutoSync />
+      <SocialOutboxSync />
     </>
   );
 }
@@ -138,6 +139,26 @@ function HealthAutoSync() {
       clearInterval(id);
       document.removeEventListener('visibilitychange', run);
       window.removeEventListener('online', run);
+    };
+  }, []);
+  return null;
+}
+
+/** Sends queued online uploads when the app starts, comes online or returns to the foreground. */
+function SocialOutboxSync() {
+  useEffect(() => {
+    const run = () => {
+      if (document.visibilityState !== 'visible') return;
+      void import('@/social/outbox').then((m) => m.flushOutbox()).catch(() => {});
+    };
+    run();
+    window.addEventListener('online', run);
+    document.addEventListener('visibilitychange', run);
+    const id = setInterval(run, 5 * 60_000);
+    return () => {
+      window.removeEventListener('online', run);
+      document.removeEventListener('visibilitychange', run);
+      clearInterval(id);
     };
   }, []);
   return null;

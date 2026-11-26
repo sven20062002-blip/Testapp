@@ -380,3 +380,20 @@ export interface Profile {
   sourcePriority: HealthSourceId[];
   updatedAt: number;
 }
+
+/* ======================================================================
+ * SOCIAL (online) – local outbox for uploads while offline / not signed in
+ * ==================================================================== */
+
+export type OutboxKind = 'workout' | 'deleteWorkout' | 'duelSet';
+
+export interface OutboxItem {
+  id: string;
+  kind: OutboxKind;
+  /** local workout id (workout/deleteWorkout) or duel id (duelSet) */
+  ref: string;
+  payload: unknown;
+  createdAt: number;
+  attempts: number;
+  lastError: string | null;
+}

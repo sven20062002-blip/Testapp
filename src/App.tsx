@@ -21,6 +21,10 @@ const RecordsPage = lazy(() => import('./pages/RecordsPage'));
 const ActivityPage = lazy(() => import('./pages/health/ActivityPage'));
 const BodyPage = lazy(() => import('./pages/health/BodyPage'));
 const SourcesPage = lazy(() => import('./pages/health/SourcesPage'));
+const SocialPage = lazy(() => import('./pages/social/SocialPage'));
+const DuelPage = lazy(() => import('./pages/social/DuelPage'));
+const ChallengePage = lazy(() => import('./pages/social/ChallengePage'));
+const AccountPage = lazy(() => import('./pages/social/AccountPage'));
 const NutritionPage = lazy(() => import('./pages/nutrition/NutritionPage'));
 const FoodsPage = lazy(() => import('./pages/nutrition/FoodsPage'));
 const NutritionProfilePage = lazy(() => import('./pages/nutrition/NutritionProfilePage'));
@@ -58,6 +62,10 @@ export default function App() {
               <Route path="health" element={<Navigate to="/activity" replace />} />
               <Route path="health/sources" element={<SourcesPage />} />
               <Route path="activity" element={<ActivityPage />} />
+              <Route path="social" element={<SocialPage />} />
+              <Route path="social/duel/:id" element={<DuelPage />} />
+              <Route path="social/challenge/:id" element={<ChallengePage />} />
+              <Route path="social/account" element={<AccountPage />} />
               <Route path="body" element={<BodyPage />} />
               <Route path="nutrition" element={<NutritionPage />} />
               <Route path="nutrition/foods" element={<FoodsPage />} />

@@ -6,6 +6,7 @@ import type {
   FoodLogEntry,
   HealthHourly,
   HealthMetric,
+  OutboxItem,
   HealthSourceState,
   Profile,
   Recipe,
@@ -35,6 +36,7 @@ export class ForgeDB extends Dexie {
   foodLog!: Table<FoodLogEntry, string>;
   recipes!: Table<Recipe, string>;
   profile!: Table<Profile, string>;
+  socialOutbox!: Table<OutboxItem, string>;
 
   constructor(name = 'forge') {
     super(name);
@@ -73,6 +75,8 @@ export class ForgeDB extends Dexie {
           delete p.sleepGoalMin;
         });
       });
+    // v4: outbox for online features (uploads queued while offline)
+    this.version(4).stores({ socialOutbox: 'id, kind, ref, createdAt' });
   }
 }
 

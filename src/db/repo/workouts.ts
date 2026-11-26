@@ -9,6 +9,13 @@ import { countCompleted, sumReps, sumVolume } from '@/lib/metrics';
 import { clockElapsedMs, defaultWorkoutName } from '@/lib/time';
 import type { LivePR } from '@/lib/metrics';
 
+/** Online sync hooks (lazy import keeps the core independent of the social module). */
+function socialSync(kind: 'upload' | 'delete', workoutId: string): void {
+  void import('@/social/outbox')
+    .then((m) => (kind === 'upload' ? m.enqueueWorkout(workoutId) : m.enqueueWorkoutDelete(workoutId)))
+    .catch(() => {});
+}
+
 export async function getActiveWorkout(): Promise<Workout | undefined> {
   return db.workouts.where('status').equals('active').first();
 }
@@ -127,6 +134,7 @@ export async function renameWorkout(id: string, name: string): Promise<void> {
   const n = name.trim();
   if (!n) throw new Error('Name darf nicht leer sein.');
   await db.workouts.update(id, { name: n.slice(0, 60), updatedAt: Date.now() });
+  if ((await db.workouts.get(id))?.status === 'completed') socialSync('upload', id);
 }
 
 export async function setWorkoutNote(id: string, note: string): Promise<void> {
@@ -398,6 +406,7 @@ export async function finishWorkout(id: string): Promise<FinishSummary> {
   await rebuildWorkoutVolumeRecords();
   const prCount = (await db.records.where('workoutId').equals(id).toArray()).filter((r) => r.prevValue != null).length;
   await db.workouts.update(id, { prCount });
+  socialSync('upload', id);
   return { workoutId: id, removedOpenSets };
 }
 
@@ -422,6 +431,7 @@ export async function deleteWorkout(id: string): Promise<void> {
   await rebuildExerciseRecords(exIds);
   await rebuildWorkoutVolumeRecords();
   await recomputePrCounts();
+  socialSync('delete', id);
 }
 
 export async function recomputePrCounts(): Promise<void> {

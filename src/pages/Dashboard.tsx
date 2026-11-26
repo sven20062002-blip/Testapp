@@ -16,6 +16,7 @@ import { describePR } from '@/components/workout/PRCelebration';
 import { RECORD_LABELS } from '@/lib/labels';
 import { unlockAudio } from '@/services/feedback';
 import { TodayOverview } from '@/components/dashboard/TodayOverview';
+import { DuelBanner } from '@/components/social/DuelBanner';
 
 export default function Dashboard() {
   const nav = useNavigate();
@@ -135,6 +136,8 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      <DuelBanner />
 
       {/* Central daily overview */}
       <SectionTitle>Heute</SectionTitle>

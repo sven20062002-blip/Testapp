@@ -134,12 +134,7 @@
     background: rgb(var(--chip) / 0.14);
     color: rgb(var(--chip));
   }
-  .chip-train { --chip: var(--c-train); }
-  .chip-food { --chip: var(--c-food); }
-  .chip-move { --chip: var(--c-move); }
-  .chip-body { --chip: var(--c-body); }
-  .chip-social { --chip: var(--c-social); }
-  :root:not(.dark) .chip-train { --chip: 77 124 15; }
+
   .num {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum', 'cv11';
@@ -200,3 +195,12 @@
 .recharts-tooltip-cursor {
   fill: rgb(var(--fg) / 0.05);
 }
+
+/* Area chip variants live outside @layer so Tailwind never purges them
+   (they are selected dynamically via `chip-${area}`). */
+.chip-train { --chip: var(--c-train); }
+.chip-food { --chip: var(--c-food); }
+.chip-move { --chip: var(--c-move); }
+.chip-body { --chip: var(--c-body); }
+.chip-social { --chip: var(--c-social); }
+:root:not(.dark) .chip-train { --chip: 77 124 15; }
