@@ -29,7 +29,7 @@ export default function ActivityPage() {
   const sources = useSources();
   const sync = useSync();
   const connected = (sources ?? []).filter((x) => x.connected && x.id !== 'manual');
-  const canSync = connected.some((x) => x.id === 'google' || x.id === 'bridge');
+  const canSync = connected.some((x) => x.id === 'bridge');
   const lastSync = connected.reduce<number | null>((m, x) => (x.lastSyncAt && (!m || x.lastSyncAt > m) ? x.lastSyncAt : m), null);
   const [range, setRange] = useState<'7' | '30' | '90'>('30');
   const [metric, setMetric] = useState<MetricKey>('steps');
@@ -101,42 +101,42 @@ export default function ActivityPage() {
       />
 
       {!connected.length && (
-        <Link to="/health/sources" className="card mb-4 flex items-center gap-3 border-accent/40 p-4">
+        <Link to="/health/sources" className="card mb-4 flex items-center gap-3 border-accent/40 p-3.5">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-fg">
             <Link2 size={20} />
           </span>
           <div className="flex-1">
             <div className="font-bold">Datenquelle verbinden</div>
-            <div className="text-[13px] text-muted">Fitbit über Google Health, Apple-Health-Export oder manuelle Eingabe</div>
+            <div className="text-[12.5px] text-muted">Apple-Health-Export oder manuelle Eingabe</div>
           </div>
           <ChevronRight className="text-subtle" />
         </Link>
       )}
 
-      <div className="card p-5">
+      <div className="card p-4">
         <div className="flex items-center gap-2 text-muted">
           <Footprints size={16} />
           <span className="label">Schritte heute</span>
         </div>
-        <div className="num mt-2 text-[38px] font-bold leading-none tracking-tight">
+        <div className="num mt-2 text-[28px] font-bold leading-none tracking-tight">
           {v('steps') ? fmtNumber(steps) : '–'}
-          <span className="text-[18px] font-semibold text-subtle"> / {fmtNumber(profile.stepGoal)}</span>
+          <span className="text-[16.5px] font-semibold text-subtle"> / {fmtNumber(profile.stepGoal)}</span>
         </div>
         <ProgressBar className="mt-3 h-3" value={steps} max={profile.stepGoal} area="move" tone={steps >= profile.stepGoal ? 'good' : undefined} />
-        <div className="mt-2 flex justify-between text-[12px] text-muted">
+        <div className="mt-2 flex justify-between text-[11.5px] text-muted">
           <span>{remaining > 0 ? `Noch ${fmtNumber(remaining)} Schritte` : 'Tagesziel erreicht 🎉'}</span>
           {v('steps') && <SourceBadge m={v('steps')} />}
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div className="mt-3 grid grid-cols-3 gap-1.5">
           <Kv k="Distanz" v={fmtMetric('distance_m', v('distance_m')?.value)} />
           <Kv k="Aktive Minuten" v={fmtMetric('active_min', v('active_min')?.value)} />
           <Kv k="Etagen" v={fmtMetric('floors', v('floors')?.value)} />
-          <Kv k="Aktivitätskalorien" v={fmtMetric('active_kcal', v('active_kcal')?.value)} sub={<span className="text-[10px] text-subtle">nur Bewegung</span>} />
-          <Kv k="Ruheenergie" v={fmtMetric('basal_kcal', v('basal_kcal')?.value)} sub={<span className="text-[10px] text-subtle">Grundumsatz</span>} />
-          <Kv k="Gesamtverbrauch" v={fmtMetric('total_kcal', v('total_kcal')?.value)} sub={<span className="text-[10px] text-subtle">Ruhe + Aktivität</span>} />
+          <Kv k="Aktiv-kcal" v={fmtMetric('active_kcal', v('active_kcal')?.value)} />
+          <Kv k="Ruhe-kcal" v={fmtMetric('basal_kcal', v('basal_kcal')?.value)} />
+          <Kv k="Gesamt-kcal" v={fmtMetric('total_kcal', v('total_kcal')?.value)} />
         </div>
-        <p className="mt-3 text-[11px] leading-relaxed text-subtle">
-          Aktivitätskalorien, Ruheenergie und Gesamtverbrauch sind getrennte Größen: Gesamt = Ruhe + Aktivität. Sie werden nie zusätzlich addiert. Fehlt eine Größe bei deiner Quelle, steht „–“.
+        <p className="mt-2 text-[10px] leading-relaxed text-subtle">
+          Gesamt = Ruhe + Aktivität – die Werte werden nie zusätzlich addiert. „–“ = von deiner Quelle nicht geliefert.
         </p>
       </div>
 
@@ -156,26 +156,26 @@ export default function ActivityPage() {
       >
         Aktivität im Tagesverlauf
       </SectionTitle>
-      <div className="card p-4">
+      <div className="card p-3.5">
         {hourly ? (
           <>
             <BarTrend color="move" data={hourly.steps.map((v, h) => ({ label: `${h}`, value: v }))} fmt={(x) => `${fmtNumber(x)} Schritte`} height={150} />
-            <p className="mt-1 text-[11px] text-subtle">Schritte pro Stunde · <SourceBadge source={hourly.source} /></p>
+            <p className="mt-1 text-[10.5px] text-subtle">Schritte pro Stunde · <SourceBadge source={hourly.source} /></p>
           </>
         ) : (
-          <p className="py-6 text-center text-[13px] text-muted">Kein stündlicher Verlauf verfügbar (wird von Google Health und dem Apple-Health-Import geliefert).</p>
+          <p className="py-6 text-center text-[12.5px] text-muted">Kein stündlicher Verlauf verfügbar (wird vom Apple-Health-Import geliefert).</p>
         )}
       </div>
 
       <SectionTitle>Schrittziel</SectionTitle>
-      <div className="card flex items-center justify-between p-4">
-        <span className="text-[15px] font-semibold">Schritte pro Tag</span>
+      <div className="card flex items-center justify-between p-3.5">
+        <span className="text-[14px] font-semibold">Schritte pro Tag</span>
         <div className="flex items-center rounded-xl bg-elevated">
-          <button className="h-9 w-9 text-lg font-bold text-muted" aria-label="Weniger" onClick={() => updateProfile({ stepGoal: Math.max(1000, profile.stepGoal - 500) })}>
+          <button className="h-9 w-9 text-[16.5px] font-bold text-muted" aria-label="Weniger" onClick={() => updateProfile({ stepGoal: Math.max(1000, profile.stepGoal - 500) })}>
             −
           </button>
-          <span className="num min-w-[4.5rem] text-center text-[14px] font-bold">{fmtNumber(profile.stepGoal)}</span>
-          <button className="h-9 w-9 text-lg font-bold text-muted" aria-label="Mehr" onClick={() => updateProfile({ stepGoal: Math.min(50000, profile.stepGoal + 500) })}>
+          <span className="num min-w-[4.5rem] text-center text-[13px] font-bold">{fmtNumber(profile.stepGoal)}</span>
+          <button className="h-9 w-9 text-[16.5px] font-bold text-muted" aria-label="Mehr" onClick={() => updateProfile({ stepGoal: Math.min(50000, profile.stepGoal + 500) })}>
             +
           </button>
         </div>
@@ -186,7 +186,7 @@ export default function ActivityPage() {
         <Kv k="Ø 7 Tage" v={d.avg7 != null ? fmtNumber(d.avg7) : '–'} />
         <Kv k="Ø 30 Tage" v={d.avg30 != null ? fmtNumber(d.avg30) : '–'} />
         <Kv k={`Ziel erreicht (${range} T)`} v={`${d.goalDays} Tage`} />
-        <Kv k="Bester Tag" v={d.best ? fmtNumber(d.best.v) : '–'} sub={d.best ? <span className="flex items-center gap-1 text-[11px] text-subtle"><Trophy size={10} /> {relativeDayKey(d.best.k)}</span> : null} />
+        <Kv k="Bester Tag" v={d.best ? fmtNumber(d.best.v) : '–'} sub={d.best ? <span className="flex items-center gap-1 text-[10.5px] text-subtle"><Trophy size={10} /> {relativeDayKey(d.best.k)}</span> : null} />
       </div>
 
       <SectionTitle
@@ -194,7 +194,7 @@ export default function ActivityPage() {
       >
         Entwicklung
       </SectionTitle>
-      <div className="card p-4">
+      <div className="card p-3.5">
         <Segmented
           size="sm"
           className="mb-4"
@@ -224,34 +224,34 @@ export default function ActivityPage() {
           const prev = d.weeks[i - 1];
           const diff = prev?.avg && w.avg ? ((w.avg - prev.avg) / prev.avg) * 100 : null;
           return (
-            <div key={w.label} className="flex items-center justify-between px-4 py-3 text-[14px]">
+            <div key={w.label} className="flex items-center justify-between px-3.5 py-2 text-[12.5px]">
               <span className="text-muted">{w.label}</span>
               <span className="num font-semibold">
                 {w.avg != null ? `Ø ${fmtNumber(w.avg)}` : '–'}
-                {diff != null && <span className={`ml-2 text-[12px] ${diff >= 0 ? 'text-good' : 'text-subtle'}`}>{diff >= 0 ? '+' : ''}{fmtNumber(diff)} %</span>}
+                {diff != null && <span className={`ml-2 text-[11.5px] ${diff >= 0 ? 'text-good' : 'text-subtle'}`}>{diff >= 0 ? '+' : ''}{fmtNumber(diff)} %</span>}
               </span>
             </div>
           );
         })}
       </div>
       <SectionTitle>Körper</SectionTitle>
-      <Link to="/body" className="card flex items-center gap-3 p-4">
+      <Link to="/body" className="card flex items-center gap-3 p-3.5">
         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
           <Scale size={18} />
         </span>
         <div className="flex-1">
           <div className="font-semibold">Körpergewicht</div>
-          <div className="text-[12px] text-muted">Verlauf, Zielgewicht, Körperfett</div>
+          <div className="text-[11.5px] text-muted">Verlauf, Zielgewicht, Körperfett</div>
         </div>
         <ChevronRight size={18} className="text-subtle" />
       </Link>
-      <Link to="/health/sources" className="card mt-2.5 flex items-center gap-3 p-4">
+      <Link to="/health/sources" className="card mt-2.5 flex items-center gap-3 p-3.5">
         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
           <Link2 size={18} />
         </span>
         <div className="flex-1">
           <div className="font-semibold">Datenquellen & Datenschutz</div>
-          <div className="text-[12px] text-muted">Verbindungen, Berechtigungen, importierte Daten löschen</div>
+          <div className="text-[11.5px] text-muted">Verbindungen, Berechtigungen, importierte Daten löschen</div>
         </div>
         <ChevronRight size={18} className="text-subtle" />
       </Link>

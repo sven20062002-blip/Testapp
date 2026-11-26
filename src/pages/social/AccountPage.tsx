@@ -31,7 +31,7 @@ export default function AccountPage() {
     return (
       <div className="page">
         <PageHeader back="/social" title="Konto" />
-        <p className="text-sm text-muted">Bitte zuerst unter „Freunde“ anmelden.</p>
+        <p className="text-[13px] text-muted">Bitte zuerst unter „Freunde“ anmelden.</p>
       </div>
     );
 
@@ -39,7 +39,7 @@ export default function AccountPage() {
     <div className="page">
       <PageHeader back="/social" title="Konto & Datenschutz" area="social" subtitle={s.session.user.email ?? undefined} />
 
-      <section className="card p-5">
+      <section className="card p-4">
         <ProfileForm userId={s.session.user.id} initial={s.profile} />
       </section>
 
@@ -47,8 +47,8 @@ export default function AccountPage() {
       <section className="card divide-y divide-line/50">
         <div className="flex items-center justify-between gap-3 px-4 py-3.5">
           <div>
-            <div className="text-[15px] font-semibold">Workouts online speichern</div>
-            <div className="text-[12px] text-muted">Nötig für Feed, Ranglisten und Challenges</div>
+            <div className="text-[14px] font-semibold">Workouts online speichern</div>
+            <div className="text-[11.5px] text-muted">Nötig für Feed, Ranglisten und Challenges</div>
           </div>
           <Toggle
             checked={sync}
@@ -62,8 +62,8 @@ export default function AccountPage() {
         </div>
         <div className="flex items-center justify-between gap-3 px-4 py-3.5">
           <div>
-            <div className="text-[15px] font-semibold">Warteschlange</div>
-            <div className="text-[12px] text-muted">{pending ? `${pending} Einträge warten auf Übertragung` : 'Alles übertragen'}</div>
+            <div className="text-[14px] font-semibold">Warteschlange</div>
+            <div className="text-[11.5px] text-muted">{pending ? `${pending} Einträge warten auf Übertragung` : 'Alles übertragen'}</div>
           </div>
           <Button size="sm" onClick={() => void flushOutbox().then((r) => toast(`${r.sent} übertragen${r.failed ? `, ${r.failed} fehlgeschlagen` : ''}`, r.failed ? 'warn' : 'success'))}>
             Jetzt senden
@@ -71,8 +71,8 @@ export default function AccountPage() {
         </div>
         <div className="flex items-center justify-between gap-3 px-4 py-3.5">
           <div>
-            <div className="text-[15px] font-semibold">Gesamten Verlauf hochladen</div>
-            <div className="text-[12px] text-muted">Alle bisherigen Workouts erneut übertragen</div>
+            <div className="text-[14px] font-semibold">Gesamten Verlauf hochladen</div>
+            <div className="text-[11.5px] text-muted">Alle bisherigen Workouts erneut übertragen</div>
           </div>
           <Button size="sm" icon={<CloudUpload size={15} />} onClick={async () => toast(`${await enqueueAllWorkouts()} Workouts in der Warteschlange`, 'info')}>
             Hochladen
@@ -101,15 +101,15 @@ export default function AccountPage() {
             refreshSocial();
             nav('/social');
           }}
-          className="flex w-full items-center gap-3 px-4 py-3.5 text-left text-[15px] font-semibold hover:bg-elevated/50"
+          className="flex w-full items-center gap-3 px-4 py-3.5 text-left text-[14px] font-semibold hover:bg-elevated/50"
         >
           <LogOut size={18} className="text-muted" /> Abmelden
         </button>
       </section>
 
       <SectionTitle>Datenschutz</SectionTitle>
-      <section className="card p-4">
-        <p className="flex gap-2 text-[13px] leading-relaxed text-muted">
+      <section className="card p-3.5">
+        <p className="flex gap-2 text-[12.5px] leading-relaxed text-muted">
           <ShieldCheck size={16} className="mt-0.5 shrink-0 text-good" />
           Online gespeichert werden nur: dein Profil (Benutzername, Anzeigename, Farbe), Freundschaften, Workout-Zusammenfassungen ohne Notizen und ohne einzelne Sätze, Challenge-/Duell-Ergebnisse
           und Reaktionen. Sichtbar sind sie nur für dich und bestätigte Freunde. Deine E-Mail-Adresse ist für niemanden sichtbar.
@@ -149,11 +149,11 @@ export default function AccountPage() {
       </section>
 
       <SectionTitle>Server</SectionTitle>
-      <section className="card flex items-center gap-3 p-4">
+      <section className="card flex items-center gap-3 p-3.5">
         <Server size={18} className="shrink-0 text-muted" />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[14px] font-medium">{cfg?.url}</div>
-          <div className="text-[12px] text-muted">{cfg?.source === 'build' ? 'In der App hinterlegt' : 'Manuell verbunden'}</div>
+          <div className="truncate text-[13px] font-medium">{cfg?.url}</div>
+          <div className="text-[11.5px] text-muted">{cfg?.source === 'build' ? 'In der App hinterlegt' : 'Manuell verbunden'}</div>
         </div>
         {cfg?.source === 'app' && (
           <Button

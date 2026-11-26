@@ -89,9 +89,9 @@ export default function WorkoutDetail() {
           <button aria-label="Schließen" onClick={() => setParams({}, { replace: true })} className="absolute right-3 top-3 rounded-full p-1.5 hover:bg-black/10">
             <X size={18} />
           </button>
-          <div className="text-[12px] font-bold uppercase tracking-[0.14em] opacity-70">Workout abgeschlossen</div>
-          <div className="mt-1 text-2xl font-bold tracking-tight">Starke Leistung! 💪</div>
-          <div className="mt-1 text-sm font-medium opacity-80">
+          <div className="text-[11.5px] font-bold uppercase tracking-[0.14em] opacity-70">Workout abgeschlossen</div>
+          <div className="mt-1 text-[21px] font-bold tracking-tight">Starke Leistung! 💪</div>
+          <div className="mt-1 text-[13px] font-medium opacity-80">
             {prs.length > 0 ? `${prs.length} neue ${prs.length === 1 ? 'Bestleistung' : 'Bestleistungen'} in diesem Training.` : 'Dein Training ist gespeichert.'}
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function WorkoutDetail() {
       </div>
 
       {prs.length > 0 && (
-        <div className="card mt-3 p-4">
+        <div className="card mt-3 p-3.5">
           <div className="label mb-2">Neue Bestleistungen</div>
           <ul className="space-y-2">
             {prs.map((r) => {
@@ -114,10 +114,10 @@ export default function WorkoutDetail() {
                 <li key={r.id} className="flex items-center gap-3">
                   <Trophy size={16} className="shrink-0 text-fg dark:text-accent" />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-[14px] font-semibold">{r.type === 'workoutVolume' ? 'Gesamtes Workout' : name(we?.snapshot)}</div>
-                    <div className="text-[12px] text-muted">{RECORD_LABELS[r.type]}</div>
+                    <div className="truncate text-[13px] font-semibold">{r.type === 'workoutVolume' ? 'Gesamtes Workout' : name(we?.snapshot)}</div>
+                    <div className="text-[11.5px] text-muted">{RECORD_LABELS[r.type]}</div>
                   </div>
-                  <div className="num text-right text-[13px]">
+                  <div className="num text-right text-[12.5px]">
                     <span className="text-subtle">{describePR({ type: r.type, value: r.prevValue!, weight: r.prevWeight, reps: r.prevReps }, settings.unit)}</span>
                     <span className="mx-1 text-subtle">→</span>
                     <span className="font-bold">{describePR(r, settings.unit)}</span>
@@ -195,12 +195,12 @@ function ExerciseResult({ we, sets, startedAt, workoutId }: { we: WorkoutExercis
   const diff = prevVol != null && vol > 0 ? vol - prevVol : null;
 
   return (
-    <section className="card p-4">
+    <section className="card p-3.5">
       <Link to={`/exercises/${we.exerciseId}`} className="flex items-center gap-3">
         <MuscleIcon muscle={we.snapshot.muscleGroup} size={38} />
         <div className="min-w-0 flex-1">
           <h3 className="truncate font-bold">{name(we.snapshot)}</h3>
-          <div className="num text-[12px] text-muted">
+          <div className="num text-[11.5px] text-muted">
             {sets.length} Sätze
             {vol > 0 && ` · ${fmtVolume(vol, settings.unit)}`}
             {diff != null && diff !== 0 && (
@@ -213,13 +213,13 @@ function ExerciseResult({ we, sets, startedAt, workoutId }: { we: WorkoutExercis
         </div>
       </Link>
       {we.note && (
-        <div className="mt-2.5 flex gap-2 rounded-xl bg-elevated/70 px-3 py-2 text-[13px]">
+        <div className="mt-2.5 flex gap-2 rounded-xl bg-elevated/70 px-3 py-2 text-[12.5px]">
           <StickyNote size={14} className="mt-0.5 shrink-0 text-subtle" /> {we.note}
         </div>
       )}
-      <table className="num mt-3 w-full text-[14px]">
+      <table className="num mt-3 w-full text-[13px]">
         <thead>
-          <tr className="text-[10.5px] font-bold uppercase tracking-wider text-subtle">
+          <tr className="text-[10px] font-bold uppercase tracking-wider text-subtle">
             <th className="w-10 pb-1.5 text-left">Satz</th>
             <th className="pb-1.5 text-left">Leistung</th>
             <th className="pb-1.5 text-left">Vorher</th>
@@ -237,9 +237,9 @@ function ExerciseResult({ we, sets, startedAt, workoutId }: { we: WorkoutExercis
                 <td className={clsx('py-2 font-bold', s.kind === 'warmup' && 'text-warn')}>{s.kind === 'warmup' ? 'W' : i + 1}</td>
                 <td className="py-2 font-semibold">
                   {prevLabel(s, tracking, settings.unit)}
-                  {up && <span className="ml-1.5 text-[11px] font-bold text-good">▲</span>}
+                  {up && <span className="ml-1.5 text-[10.5px] font-bold text-good">▲</span>}
                 </td>
-                <td className="py-2 text-[13px] text-subtle">{p ? prevLabel(p, tracking, settings.unit) : '–'}</td>
+                <td className="py-2 text-[12.5px] text-subtle">{p ? prevLabel(p, tracking, settings.unit) : '–'}</td>
                 <td className="py-2 text-right text-muted">{setVolume(s) > 0 ? fmtWeight(setVolume(s), settings.unit) : ''}</td>
                 <td className="py-2 text-right text-subtle">{s.durationSec != null ? formatClock(s.durationSec * 1000) : '–'}</td>
               </tr>

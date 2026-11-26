@@ -37,14 +37,14 @@ export function DuelsTab() {
 
   return (
     <div>
-      <div className="card relative overflow-hidden p-5">
+      <div className="card relative overflow-hidden p-4">
         <div aria-hidden className="pointer-events-none absolute -right-10 -top-16 h-44 w-44 rounded-full bg-area-social/25 blur-3xl" />
         <div className="relative">
           <span className="chip chip-social h-10 w-10 rounded-2xl">
             <Swords size={20} />
           </span>
-          <div className="mt-3 text-[18px] font-semibold tracking-[-0.01em]">Live-Duell</div>
-          <p className="mt-1 text-[13px] leading-relaxed text-muted">
+          <div className="mt-3 text-[16.5px] font-semibold tracking-[-0.01em]">Live-Duell</div>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-muted">
             Ihr trainiert gleichzeitig – jeder abgeschlossene Satz zählt sofort. Wer nach Ablauf der Zeit mehr Volumen (oder Wiederholungen) hat, gewinnt.
           </p>
           <Button variant="primary" className="mt-4" icon={<Zap size={16} />} onClick={() => setCreating(true)}>
@@ -60,14 +60,14 @@ export function DuelsTab() {
           <DuelRow key={d.id} d={d} live />
         ))}
         {pending.map((d) => (
-          <div key={d.id} className="card p-4">
+          <div key={d.id} className="card p-3.5">
             <div className="flex items-center gap-3">
               <Avatar name={d.opponent_display_name} color={d.opponent_color} size={40} />
               <div className="min-w-0 flex-1">
-                <div className="truncate text-[15px] font-semibold">
+                <div className="truncate text-[14px] font-semibold">
                   {d.i_am_challenger ? `Warte auf ${d.opponent_display_name}` : `${d.opponent_display_name} fordert dich heraus`}
                 </div>
-                <div className="truncate text-[12px] text-muted">
+                <div className="truncate text-[11.5px] text-muted">
                   {d.exercise_name ?? 'Alle Übungen'} · {d.metric === 'volume' ? 'Volumen' : 'Wiederholungen'} · {d.duration_min} min · {ago(d.created_at)}
                 </div>
               </div>
@@ -109,19 +109,19 @@ function DuelRow({ d, live }: { d: DuelSummary; live?: boolean }) {
   const op = d.opponent_score ?? 0;
   const result = me > op ? 'Gewonnen' : me < op ? 'Verloren' : 'Unentschieden';
   return (
-    <Link to={`/social/duel/${d.id}`} className={clsx('card block p-4', live && 'ring-1 ring-area-social/50')}>
+    <Link to={`/social/duel/${d.id}`} className={clsx('card block p-3.5', live && 'ring-1 ring-area-social/50')}>
       <div className="flex items-center gap-3">
         <Avatar name={d.opponent_display_name} color={d.opponent_color} size={40} />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[15px] font-semibold">vs. {d.opponent_display_name}</div>
-          <div className="truncate text-[12px] text-muted">
+          <div className="truncate text-[14px] font-semibold">vs. {d.opponent_display_name}</div>
+          <div className="truncate text-[11.5px] text-muted">
             {d.exercise_name ?? 'Alle Übungen'} · {live && d.ends_at ? `noch ${remaining(d.ends_at)}` : result}
           </div>
         </div>
         {live && <span className="flex h-2.5 w-2.5 animate-pulse rounded-full bg-area-social" aria-label="live" />}
-        <div className="num text-right text-[14px] font-semibold">
+        <div className="num text-right text-[13px] font-semibold">
           {fmtScore(d.metric, me, unit)}
-          <div className="text-[12px] font-normal text-muted">{fmtScore(d.metric, op, unit)}</div>
+          <div className="text-[11.5px] font-normal text-muted">{fmtScore(d.metric, op, unit)}</div>
         </div>
         <ChevronRight size={18} className="text-subtle" />
       </div>
@@ -179,7 +179,7 @@ export function NewDuelSheet({ open, onClose, onCreated }: { open: boolean; onCl
       <div className="space-y-4">
         <div>
           <span className="label mb-2 block">Gegner</span>
-          {!fr.length && <p className="text-[13px] text-muted">Füge zuerst Freunde hinzu.</p>}
+          {!fr.length && <p className="text-[12.5px] text-muted">Füge zuerst Freunde hinzu.</p>}
           <div className="space-y-1.5">
             {fr.map((f) => (
               <button
@@ -189,7 +189,7 @@ export function NewDuelSheet({ open, onClose, onCreated }: { open: boolean; onCl
                 className={clsx('flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition', opp === f.user_id ? 'bg-area-social/15 ring-1 ring-area-social/50' : 'bg-elevated/60')}
               >
                 <Avatar name={f.display_name} color={f.color} size={34} />
-                <span className="flex-1 text-[14px] font-medium">{f.display_name}</span>
+                <span className="flex-1 text-[13px] font-medium">{f.display_name}</span>
               </button>
             ))}
           </div>
@@ -212,7 +212,7 @@ export function NewDuelSheet({ open, onClose, onCreated }: { open: boolean; onCl
           <span className="label mb-2 block">Dauer ab Annahme</span>
           <Segmented value={dur} onChange={setDur} options={['15', '30', '45', '60', '90'].map((v) => ({ value: v, label: `${v} min` }))} size="sm" label="Dauer" />
         </div>
-        {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
+        {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
       </div>
     </Sheet>
   );

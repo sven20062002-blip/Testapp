@@ -93,12 +93,12 @@ export default function SocialPage() {
     <div className="page">
       {header}
       {!online && (
-        <div className="mb-4 flex items-center gap-2 rounded-2xl bg-elevated px-4 py-3 text-[13px] text-muted">
+        <div className="mb-4 flex items-center gap-2 rounded-2xl bg-elevated px-4 py-3 text-[12.5px] text-muted">
           <CloudOff size={16} /> Offline – Freunde-Funktionen brauchen eine Internetverbindung. Workouts werden später automatisch übertragen.
         </div>
       )}
       {invitedBy && s.status !== 'ready' && (
-        <div className="mb-4 rounded-2xl bg-area-social/10 px-4 py-3 text-[14px] ring-1 ring-area-social/30">
+        <div className="mb-4 rounded-2xl bg-area-social/10 px-4 py-3 text-[13px] ring-1 ring-area-social/30">
           <b>@{invitedBy}</b> hat dich eingeladen. Erstelle ein Konto – danach kannst du @{invitedBy} unter „Freunde“ hinzufügen.
         </div>
       )}
@@ -106,12 +106,12 @@ export default function SocialPage() {
       {s.status === 'loading' && <div className="card h-40 animate-pulse" />}
       {s.status === 'signedOut' && <AuthForm />}
       {s.status === 'needsProfile' && (
-        <div className="card p-5">
+        <div className="card p-4">
           <span className="chip chip-social h-11 w-11 rounded-2xl">
             <Users size={22} />
           </span>
-          <h2 className="mt-4 text-[20px] font-semibold">Dein Profil</h2>
-          <p className="mb-5 mt-1 text-[14px] text-muted">So sehen dich deine Freunde.</p>
+          <h2 className="mt-4 text-[18px] font-semibold">Dein Profil</h2>
+          <p className="mb-5 mt-1 text-[13px] text-muted">So sehen dich deine Freunde.</p>
           <ProfileForm userId={s.session.user.id} firstTime submitLabel="Loslegen" />
         </div>
       )}

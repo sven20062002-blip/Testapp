@@ -42,35 +42,35 @@ export default function ChallengePage() {
     <div className="page">
       <PageHeader back="/social" title={c.title} area="social" subtitle={`${METRIC_LABELS[c.metric]}${c.exercise_name ? ` · ${c.exercise_name}` : ''}`} />
       <div className="grid grid-cols-2 gap-2.5">
-        <div className="card p-4">
-          <div className="text-[12px] text-muted">Zeitraum</div>
-          <div className="mt-1 text-[15px] font-semibold">
+        <div className="card p-3.5">
+          <div className="text-[11.5px] text-muted">Zeitraum</div>
+          <div className="mt-1 text-[14px] font-semibold">
             {start} – {end}
           </div>
         </div>
-        <div className="card p-4">
-          <div className="text-[12px] text-muted">{ended ? 'Status' : 'Verbleibend'}</div>
-          <div className="num mt-1 text-[15px] font-semibold">{ended ? 'Beendet' : remaining(c.ends_at, now)}</div>
+        <div className="card p-3.5">
+          <div className="text-[11.5px] text-muted">{ended ? 'Status' : 'Verbleibend'}</div>
+          <div className="num mt-1 text-[14px] font-semibold">{ended ? 'Beendet' : remaining(c.ends_at, now)}</div>
         </div>
       </div>
 
-      <h2 className="mb-3 mt-8 text-[17px] font-semibold">Rangliste</h2>
+      <h2 className="mb-3 mt-8 text-[15.5px] font-semibold">Rangliste</h2>
       {scores.loading && !scores.data && <Skeleton rows={3} />}
       {scores.error && !scores.data && <ErrorNote error={scores.error} onRetry={scores.refresh} />}
       <ol className="space-y-2">
         {rows.map((r) => (
-          <li key={r.user_id} className={clsx('card p-4', r.is_me && 'ring-1 ring-area-social/50')}>
+          <li key={r.user_id} className={clsx('card p-3.5', r.is_me && 'ring-1 ring-area-social/50')}>
             <div className="flex items-center gap-3">
-              <span className="num w-6 text-center text-[15px] font-bold text-muted">{r.rank ?? '–'}</span>
+              <span className="num w-6 text-center text-[14px] font-bold text-muted">{r.rank ?? '–'}</span>
               <Avatar name={r.display_name} color={r.color} size={36} />
               <div className="min-w-0 flex-1">
-                <div className="truncate text-[15px] font-semibold">
+                <div className="truncate text-[14px] font-semibold">
                   {r.is_me ? 'Du' : r.display_name}
                   {r.rank === 1 && (r.score ?? 0) > 0 && ' 🏆'}
                 </div>
-                <div className="text-[12px] text-muted">{r.status === 'invited' ? 'eingeladen' : `@${r.username}`}</div>
+                <div className="text-[11.5px] text-muted">{r.status === 'invited' ? 'eingeladen' : `@${r.username}`}</div>
               </div>
-              <div className="num text-[16px] font-semibold">{r.status === 'joined' ? fmtScore(c.metric, r.score, unit) : '–'}</div>
+              <div className="num text-[15px] font-semibold">{r.status === 'joined' ? fmtScore(c.metric, r.score, unit) : '–'}</div>
             </div>
             {r.status === 'joined' && (
               <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-elevated">
@@ -80,7 +80,7 @@ export default function ChallengePage() {
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-[12px] text-subtle">Gewertet werden alle in Forge beendeten Workouts im Zeitraum. Die Rangliste aktualisiert sich, sobald jemand ein Workout abschließt.</p>
+      <p className="mt-4 text-[11.5px] text-subtle">Gewertet werden alle in Forge beendeten Workouts im Zeitraum. Die Rangliste aktualisiert sich, sobald jemand ein Workout abschließt.</p>
       <Button
         variant="ghost"
         block

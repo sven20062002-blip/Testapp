@@ -89,7 +89,7 @@ export function AmountSheet({
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
-              {food.brand && <div className="truncate text-sm text-muted">{food.brand}</div>}
+              {food.brand && <div className="truncate text-[13px] text-muted">{food.brand}</div>}
               <SourceBadge food={food} />
             </div>
             <button
@@ -110,7 +110,7 @@ export function AmountSheet({
             </label>
             <input
               id="amount"
-              className="field num text-center text-2xl font-bold"
+              className="field num text-center text-[21px] font-bold"
               inputMode="decimal"
               value={amount}
               autoFocus
@@ -123,7 +123,7 @@ export function AmountSheet({
                 <button
                   key={q}
                   onClick={() => setAmount(String(q))}
-                  className={clsx('num rounded-lg px-3 py-1.5 text-[13px] font-semibold', qty === q ? 'bg-fg text-bg' : 'bg-elevated')}
+                  className={clsx('num rounded-lg px-3 py-1.5 text-[12.5px] font-semibold', qty === q ? 'bg-fg text-bg' : 'bg-elevated')}
                 >
                   {q === food.servingSize ? `1 Portion (${q} ${food.unit})` : `${q} ${food.unit}`}
                 </button>
@@ -138,7 +138,7 @@ export function AmountSheet({
                 <button
                   key={m.key}
                   onClick={() => setMeal(m.key)}
-                  className={clsx('rounded-lg py-2 text-[12px] font-semibold', meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}
+                  className={clsx('rounded-lg py-2 text-[11.5px] font-semibold', meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}
                 >
                   {m.label}
                 </button>
@@ -148,14 +148,14 @@ export function AmountSheet({
 
           <div className="rounded-2xl bg-elevated/60 p-3">
             <div className="label mb-2">Nährwerte für {amount || '–'} {food.unit}</div>
-            {n ? <NutrientTable n={n} /> : <p className="text-sm text-muted">Menge eingeben</p>}
-            <div className="mt-3 text-[11px] text-subtle">
+            {n ? <NutrientTable n={n} /> : <p className="text-[13px] text-muted">Menge eingeben</p>}
+            <div className="mt-3 text-[10.5px] text-subtle">
               Basis: pro 100 {food.unit} · {food.per100.kcal == null ? 'Kalorien unbekannt' : `${Math.round(food.per100.kcal)} kcal`}
             </div>
           </div>
 
           {missing.length > 0 && (
-            <div className="flex gap-2 rounded-xl bg-warn/10 p-3 text-[12px]">
+            <div className="flex gap-2 rounded-xl bg-warn/10 p-3 text-[11.5px]">
               <AlertTriangle size={15} className="mt-0.5 shrink-0 text-warn" />
               <span>
                 Nicht angegeben (wird nicht mitgezählt): {missing.map((k) => NUTRIENT_LABELS[k]).join(', ')}.
@@ -164,11 +164,11 @@ export function AmountSheet({
             </div>
           )}
           {food.sourceUrl && (
-            <a href={food.sourceUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[12px] font-semibold text-muted hover:text-fg">
+            <a href={food.sourceUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11.5px] font-semibold text-muted hover:text-fg">
               <ExternalLink size={12} /> Produkt auf Open Food Facts ansehen
             </a>
           )}
-          {error && <p className="text-sm font-medium text-bad">{error}</p>}
+          {error && <p className="text-[13px] font-medium text-bad">{error}</p>}
         </div>
       )}
     </Sheet>

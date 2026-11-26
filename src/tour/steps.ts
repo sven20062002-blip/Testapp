@@ -89,7 +89,7 @@ export const TOUR: TourStep[] = [
     area: 'move',
     title: 'Aktivität & Körper',
     text: 'Deine Werte außerhalb des Studios – auf dem Handy ebenfalls unter „Mehr“.',
-    bullets: ['Schritte und Aktivitätskalorien', 'Gewichtsverlauf mit Trend', 'Datenquellen: Google Health, Health Connect oder Apple Health verbinden'],
+    bullets: ['Schritte und Aktivitätskalorien', 'Gewichtsverlauf mit Trend', 'Datenquellen: Apple Health importieren oder Werte selbst eintragen'],
   },
   {
     id: 'done',

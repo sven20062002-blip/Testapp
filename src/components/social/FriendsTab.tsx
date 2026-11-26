@@ -60,7 +60,7 @@ export function FriendsTab({ myUsername }: { myUsername: string }) {
       >
         <span className="text-muted">@</span>
         <input
-          className="min-w-0 flex-1 bg-transparent py-2 text-[15px] outline-none placeholder:text-subtle"
+          className="min-w-0 flex-1 bg-transparent py-2 text-[14px] outline-none placeholder:text-subtle"
           placeholder="Benutzername eines Freundes"
           value={name}
           autoCapitalize="none"
@@ -73,7 +73,7 @@ export function FriendsTab({ myUsername }: { myUsername: string }) {
         </Button>
       </form>
       <div className="mt-2 flex items-center justify-between gap-3 px-1">
-        <p className="text-[12px] text-subtle">
+        <p className="text-[11.5px] text-subtle">
           Dein Benutzername: <span className="font-semibold text-fg">@{myUsername}</span>
         </p>
         <Button
@@ -174,8 +174,8 @@ function Row({ f, hint, children }: { f: FriendRow; hint?: string; children: Rea
     <div className="flex items-center gap-3 px-4 py-3">
       <Avatar name={f.display_name} color={f.color} size={40} />
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[15px] font-semibold">{f.display_name}</div>
-        <div className="truncate text-[12px] text-muted">
+        <div className="truncate text-[14px] font-semibold">{f.display_name}</div>
+        <div className="truncate text-[11.5px] text-muted">
           @{f.username}
           {hint ? ` · ${hint}` : ''}
         </div>

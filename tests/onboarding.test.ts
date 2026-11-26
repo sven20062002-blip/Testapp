@@ -182,3 +182,26 @@ describe('migration v5', () => {
     }
   });
 });
+
+describe('migration v6', () => {
+  it('disconnects a former Google Health connection and forgets the login, imported values stay', async () => {
+    const { ForgeDB } = await import('@/db/db');
+    const name = 'forge-mig-google';
+    await new Promise<void>((res, rej) => {
+      const r = indexedDB.open(name, 50);
+      r.onupgradeneeded = () => {
+        r.result.createObjectStore('healthSources', { keyPath: 'id' }).put({ id: 'google', connected: true, accessToken: 'tok', clientId: 'x.apps.googleusercontent.com', categories: { activity: true, body: true } });
+        r.result.createObjectStore('healthMetrics', { keyPath: 'id' }).put({ id: 'google:steps:2026-11-20', source: 'google', metric: 'steps', date: '2026-11-20', value: 8000 });
+      };
+      r.onsuccess = () => (r.result.close(), res());
+      r.onerror = () => rej(r.error);
+    });
+    const d = new ForgeDB(name);
+    await d.open();
+    const s = await d.healthSources.get('google');
+    expect(s).toMatchObject({ connected: false, accessToken: null });
+    expect(s?.clientId).toBeUndefined();
+    expect(await d.healthMetrics.count()).toBe(1);
+    d.close();
+  });
+});

@@ -64,7 +64,7 @@ export const SetRow = memo(function SetRow({ set, tracking, unit, prev, suggesti
   return (
     <div
       className={clsx(
-        'grid items-center gap-2 rounded-xl px-1.5 py-1 transition-colors',
+        'grid items-center gap-2 rounded-xl px-1.5 py-0.5 transition-colors',
         tracking === 'duration' ? 'grid-cols-[40px_1fr_1.25fr_48px]' : 'grid-cols-[40px_1fr_1fr_1fr_48px]',
         done && 'bg-good/[.09]',
         timerRunning && 'bg-accent/[.08] ring-1 ring-accent/40',
@@ -74,10 +74,10 @@ export const SetRow = memo(function SetRow({ set, tracking, unit, prev, suggesti
     >
       <button
         onClick={() => onMenu(set)}
-        className="flex h-11 flex-col items-center justify-center rounded-lg hover:bg-elevated"
+        className="flex h-10 flex-col items-center justify-center rounded-lg hover:bg-elevated"
         aria-label={`Satz ${set.order + 1} – Optionen`}
       >
-        <span className={clsx('num text-[15px] font-bold leading-none', set.kind === 'warmup' ? 'text-warn' : done ? 'text-good' : 'text-fg')}>
+        <span className={clsx('num text-[14px] font-bold leading-none', set.kind === 'warmup' ? 'text-warn' : done ? 'text-good' : 'text-fg')}>
           {set.kind === 'warmup' ? 'W' : set.order + 1}
         </span>
         {timeLabel && <span className={clsx('num mt-0.5 text-[10px] font-semibold leading-none', timerRunning ? 'text-fg dark:text-accent' : 'text-subtle')}>{timeLabel}</span>}
@@ -86,7 +86,7 @@ export const SetRow = memo(function SetRow({ set, tracking, unit, prev, suggesti
       <button
         onClick={() => prev && onCopyPrev(set, prev)}
         disabled={!prev || done}
-        className="num flex min-w-0 items-center justify-center gap-1 truncate rounded-lg py-2 text-[13px] font-medium text-subtle enabled:hover:bg-elevated enabled:hover:text-fg"
+        className="num flex min-w-0 items-center justify-center gap-1 truncate rounded-lg py-2 text-[12.5px] font-medium text-subtle enabled:hover:bg-elevated enabled:hover:text-fg"
         aria-label={prev ? `Letztes Mal ${prevLabel(prev, tracking, unit)} übernehmen` : 'Kein Vorwert'}
       >
         <span className="truncate">{prevLabel(prev, tracking, unit)}</span>
@@ -128,11 +128,11 @@ export const SetRow = memo(function SetRow({ set, tracking, unit, prev, suggesti
         aria-label={done ? `Satz ${set.order + 1} wieder öffnen` : `Satz ${set.order + 1} abschließen`}
         aria-pressed={done}
         className={clsx(
-          'flex h-11 w-12 items-center justify-center rounded-xl transition active:scale-90',
+          'flex h-10 w-12 items-center justify-center rounded-xl transition active:scale-90',
           done ? 'animate-check bg-good text-white' : 'bg-elevated text-subtle hover:text-fg',
         )}
       >
-        <Check size={22} strokeWidth={3} />
+        <Check size={20} strokeWidth={3} />
       </button>
     </div>
   );
@@ -188,7 +188,7 @@ function NumField({
         if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
       }}
       className={clsx(
-        'num h-11 w-full min-w-0 rounded-xl border border-transparent bg-elevated text-center text-[17px] font-bold outline-none transition placeholder:font-semibold placeholder:text-subtle/80 focus:border-accent focus:bg-surface',
+        'num h-10 w-full min-w-0 rounded-xl border border-transparent bg-elevated text-center text-[15.5px] font-bold outline-none transition placeholder:font-semibold placeholder:text-subtle/80 focus:border-accent focus:bg-surface',
         done && 'bg-transparent',
       )}
     />

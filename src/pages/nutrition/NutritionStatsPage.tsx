@@ -102,19 +102,19 @@ export default function NutritionStatsPage() {
           </div>
 
           <SectionTitle>Kalorien pro Tag</SectionTitle>
-          <div className="card p-4">
+          <div className="card p-3.5">
             <BarTrend color="food" data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d)?.kcal != null ? Math.round(byDay.get(d)!.kcal) : null }))} fmt={(v) => `${fmtNumber(v)} kcal`} />
-            {targets.kcal && <p className="mt-2 text-[12px] text-muted">Tagesziel: {fmtNumber(targets.kcal, 0)} kcal</p>}
+            {targets.kcal && <p className="mt-2 text-[11.5px] text-muted">Tagesziel: {fmtNumber(targets.kcal, 0)} kcal</p>}
           </div>
 
           <SectionTitle>Protein pro Tag</SectionTitle>
-          <div className="card p-4">
+          <div className="card p-3.5">
             <LineTrend color="food" data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d) ? Math.round(byDay.get(d)!.protein) : null }))} fmt={(v) => `${fmtNumber(v)} g Protein`} />
-            {targets.protein && <p className="mt-2 text-[12px] text-muted">Tagesziel: {fmtNumber(targets.protein, 0)} g</p>}
+            {targets.protein && <p className="mt-2 text-[11.5px] text-muted">Tagesziel: {fmtNumber(targets.protein, 0)} g</p>}
           </div>
 
           <SectionTitle>Makroverteilung (Ø Energieanteil)</SectionTitle>
-          <div className="card space-y-2.5 p-4">
+          <div className="card space-y-2.5 p-3.5">
             {(
               [
                 ['Protein', avgP * 4],
@@ -125,7 +125,7 @@ export default function NutritionStatsPage() {
               const pct = macroKcal ? (k / macroKcal) * 100 : 0;
               return (
                 <div key={l}>
-                  <div className="flex justify-between text-[13px]">
+                  <div className="flex justify-between text-[12.5px]">
                     <span className="font-semibold">{l}</span>
                     <span className="num text-muted">{fmtNumber(pct, 0)} %</span>
                   </div>
@@ -138,10 +138,10 @@ export default function NutritionStatsPage() {
           </div>
 
           <SectionTitle>Wochenvergleich</SectionTitle>
-          <div className="card overflow-x-auto p-4">
-            <table className="num w-full text-[13px]">
+          <div className="card overflow-x-auto p-3.5">
+            <table className="num w-full text-[12.5px]">
               <thead>
-                <tr className="text-left text-[11px] uppercase tracking-wider text-subtle">
+                <tr className="text-left text-[10.5px] uppercase tracking-wider text-subtle">
                   <th className="pb-2 font-bold">Woche</th>
                   <th className="pb-2 text-right font-bold">kcal</th>
                   <th className="pb-2 text-right font-bold">P</th>
@@ -154,7 +154,7 @@ export default function NutritionStatsPage() {
                   <tr key={wk.label} className="border-t border-line/50">
                     <td className="py-2 font-semibold">
                       {wk.label}
-                      <div className="text-[11px] font-normal text-subtle">{wk.days} Tage erfasst</div>
+                      <div className="text-[10.5px] font-normal text-subtle">{wk.days} Tage erfasst</div>
                     </td>
                     <td className="py-2 text-right">{wk.days ? fmtNumber(wk.kcal, 0) : '–'}</td>
                     <td className="py-2 text-right">{wk.days ? fmtNumber(wk.protein, 0) : '–'}</td>
@@ -164,20 +164,20 @@ export default function NutritionStatsPage() {
                 ))}
               </tbody>
             </table>
-            <p className="mt-2 text-[11px] text-subtle">Tagesdurchschnitte (g) über die erfassten Tage der Woche.</p>
+            <p className="mt-2 text-[10.5px] text-subtle">Tagesdurchschnitte (g) über die erfassten Tage der Woche.</p>
           </div>
         </>
       )}
 
       <SectionTitle>Tagesvergleich</SectionTitle>
-      <div className="card p-4">
+      <div className="card p-3.5">
         <div className="grid grid-cols-2 gap-2">
           <input type="date" className="field" value={cmpA} max={today} onChange={(e) => e.target.value && setCmpA(e.target.value)} aria-label="Erster Tag" />
           <input type="date" className="field" value={cmpB} max={today} onChange={(e) => e.target.value && setCmpB(e.target.value)} aria-label="Zweiter Tag" />
         </div>
-        <table className="num mt-3 w-full text-[13px]">
+        <table className="num mt-3 w-full text-[12.5px]">
           <thead>
-            <tr className="text-left text-[11px] uppercase tracking-wider text-subtle">
+            <tr className="text-left text-[10.5px] uppercase tracking-wider text-subtle">
               <th className="pb-2" />
               <th className="pb-2 text-right">{relativeDayKey(cmpA, today).split(',')[0]}</th>
               <th className="pb-2 text-right">{relativeDayKey(cmpB, today).split(',')[0]}</th>
@@ -206,11 +206,11 @@ export default function NutritionStatsPage() {
             })}
           </tbody>
         </table>
-        {(byDay.get(cmpA) == null || byDay.get(cmpB) == null) && <p className="mt-2 text-[11px] text-subtle">Hinweis: Tage ohne Einträge werden als „–“ angezeigt (Daten der letzten ~3 Monate).</p>}
+        {(byDay.get(cmpA) == null || byDay.get(cmpB) == null) && <p className="mt-2 text-[10.5px] text-subtle">Hinweis: Tage ohne Einträge werden als „–“ angezeigt (Daten der letzten ~3 Monate).</p>}
       </div>
 
       <SectionTitle>Gewicht & Ziel</SectionTitle>
-      <div className="card space-y-2 p-4 text-[13px]">
+      <div className="card space-y-2 p-3.5 text-[12.5px]">
         <p>
           Ziel: <b>{GOAL_LABELS[profile.goal]}</b>
           {profile.goalWeightKg != null && w.kg != null && (
@@ -240,7 +240,7 @@ export default function NutritionStatsPage() {
           </p>
         )}
         {expected != null && (
-          <p className="text-[12px] text-muted">
+          <p className="text-[11.5px] text-muted">
             Rechnerisch erwartet (Ø {fmtNumber(avgKcal, 0)} kcal vs. geschätztem Bedarf {fmtNumber(plan!.tdee, 0)} kcal): {expected >= 0 ? '+' : '−'}
             {fmtNumber(Math.abs(expected), 2)} kg/Woche. Schätzwert (7.700 kcal ≈ 1 kg) – unvollständige Erfassung verfälscht das Ergebnis.
           </p>

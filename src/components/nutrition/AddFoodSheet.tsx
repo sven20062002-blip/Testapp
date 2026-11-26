@@ -109,7 +109,7 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
               }}
             />
             {q.trim().length >= 2 && (
-              <button type="submit" className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-lg bg-surface px-2.5 py-1.5 text-[12px] font-bold">
+              <button type="submit" className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1 rounded-lg bg-surface px-2.5 py-1.5 text-[11.5px] font-bold">
                 <Globe size={13} /> Online
               </button>
             )}
@@ -139,7 +139,7 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
               ))}
             </ul>
             {!list.length && (
-              <p className="py-6 text-center text-sm text-muted">
+              <p className="py-6 text-center text-[13px] text-muted">
                 {q.trim()
                   ? 'Nichts Lokales gefunden – tippe auf „Online“, um Open Food Facts zu durchsuchen.'
                   : tab === 'favorites'
@@ -156,19 +156,19 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
               <Globe size={12} /> Open Food Facts
             </div>
             {searching && (
-              <p className="flex items-center gap-2 py-4 text-sm text-muted">
+              <p className="flex items-center gap-2 py-4 text-[13px] text-muted">
                 <Loader2 size={16} className="animate-spin" /> Suche läuft …
               </p>
             )}
-            {onlineError && <p className="py-3 text-sm text-warn">{onlineError}</p>}
-            {online && !online.length && <p className="py-3 text-sm text-muted">Keine Treffer mit Nährwerten.</p>}
+            {onlineError && <p className="py-3 text-[13px] text-warn">{onlineError}</p>}
+            {online && !online.length && <p className="py-3 text-[13px] text-muted">Keine Treffer mit Nährwerten.</p>}
             <ul className="divide-y divide-line/60">
               {online?.map((p) => (
                 <li key={p.barcode + p.name}>
                   <button onClick={() => pickOnline(p)} className="flex w-full items-center gap-3 px-1 py-2.5 text-left hover:bg-elevated/50">
                     <div className="min-w-0 flex-1">
                       <div className="truncate font-semibold">{p.name}</div>
-                      <div className="truncate text-[12px] text-muted">
+                      <div className="truncate text-[11.5px] text-muted">
                         {[p.brand, `${fmtNumber(p.per100.kcal ?? 0, 0)} kcal/100 ${p.unit}`].filter(Boolean).join(' · ')}
                       </div>
                       <SourceBadge food={{ source: 'off', incomplete: p.incomplete }} />
@@ -177,7 +177,7 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
                 </li>
               ))}
             </ul>
-            {online && <p className="mt-2 text-[11px] text-subtle">Daten: Open Food Facts (Community-Datenbank, ODbL). Angaben können unvollständig sein.</p>}
+            {online && <p className="mt-2 text-[10.5px] text-subtle">Daten: Open Food Facts (Community-Datenbank, ODbL). Angaben können unvollständig sein.</p>}
           </div>
         )}
 
@@ -191,7 +191,7 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
                     <ChefHat size={18} className="text-subtle" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate font-semibold">{r.name}</div>
-                      <div className="text-[12px] text-muted">
+                      <div className="text-[11.5px] text-muted">
                         {fmtNumber(pp.kcal ?? 0, 0)} kcal pro Portion · <MacroLine n={pp} />
                       </div>
                     </div>
@@ -199,7 +199,7 @@ export function AddFoodSheet({ open, onClose, date, meal }: { open: boolean; onC
                 </li>
               );
             })}
-            {!recipes?.length && <p className="py-6 text-center text-sm text-muted">Noch keine Rezepte. Lege sie unter „Lebensmittel & Rezepte“ an oder speichere eine Mahlzeit als Rezept.</p>}
+            {!recipes?.length && <p className="py-6 text-center text-[13px] text-muted">Noch keine Rezepte. Lege sie unter „Lebensmittel & Rezepte“ an oder speichere eine Mahlzeit als Rezept.</p>}
           </ul>
         )}
       </Sheet>
@@ -245,7 +245,7 @@ export function FoodRow({ food, onClick, right }: { food: Food; onClick: () => v
             <span className="truncate font-semibold">{food.name}</span>
             {food.favorite === 1 && <Star size={12} className="shrink-0 fill-warn text-warn" />}
           </div>
-          <div className="truncate text-[12px] text-muted">
+          <div className="truncate text-[11.5px] text-muted">
             {[food.brand, food.per100.kcal != null ? `${fmtNumber(food.per100.kcal, 0)} kcal/100 ${food.unit}` : 'kcal unbekannt'].filter(Boolean).join(' · ')}
           </div>
           <SourceBadge food={food} />
@@ -292,24 +292,24 @@ export function RecipeLogSheet({ recipe, date, meal: initialMeal, onClose }: { r
     >
       {recipe && pp && (
         <div className="space-y-4">
-          <p className="text-sm text-muted">
+          <p className="text-[13px] text-muted">
             {recipe.items.length} Zutaten · Rezept ergibt {recipe.portions} {recipe.portions === 1 ? 'Portion' : 'Portionen'}
           </p>
           <label className="block">
             <span className="label mb-1.5 block">Portionen</span>
-            <input className="field num text-center text-xl font-bold" inputMode="decimal" value={portions} onChange={(e) => setPortions(e.target.value.replace(/[^\d.,]/g, ''))} />
+            <input className="field num text-center text-[18px] font-bold" inputMode="decimal" value={portions} onChange={(e) => setPortions(e.target.value.replace(/[^\d.,]/g, ''))} />
           </label>
           <div className="grid grid-cols-4 gap-1.5">
             {MEALS.map((m) => (
-              <button key={m.key} onClick={() => setMeal(m.key)} className={clsx('rounded-lg py-2 text-[12px] font-semibold', meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
+              <button key={m.key} onClick={() => setMeal(m.key)} className={clsx('rounded-lg py-2 text-[11.5px] font-semibold', meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
                 {m.label}
               </button>
             ))}
           </div>
-          <div className="num rounded-xl bg-elevated/60 p-3 text-sm">
+          <div className="num rounded-xl bg-elevated/60 p-3 text-[13px]">
             <b>{fmtNumber((pp.kcal ?? 0) * (p ?? 0), 0)} kcal</b> · <MacroLine n={{ ...pp, protein: pp.protein != null ? pp.protein * (p ?? 0) : null, carbs: pp.carbs != null ? pp.carbs * (p ?? 0) : null, fat: pp.fat != null ? pp.fat * (p ?? 0) : null }} />
           </div>
-          {err && <p className="text-sm text-bad">{err}</p>}
+          {err && <p className="text-[13px] text-bad">{err}</p>}
         </div>
       )}
     </Sheet>

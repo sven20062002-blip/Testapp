@@ -118,7 +118,7 @@ export default function ExercisesPage() {
                         <span className="truncate font-semibold">{name(e)}</span>
                         {e.isCustom === 1 && <Badge tone="accent">Eigene</Badge>}
                       </div>
-                      <div className="truncate text-[13px] text-muted">
+                      <div className="truncate text-[12.5px] text-muted">
                         {MUSCLE_LABELS[e.muscleGroup]} · {CATEGORY_LABELS[e.category]}
                       </div>
                     </div>

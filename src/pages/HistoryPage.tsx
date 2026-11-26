@@ -54,29 +54,29 @@ export default function HistoryPage() {
         {groups.map(([month, ws]) => (
           <section key={month}>
             <div className="mb-2 flex items-baseline justify-between px-1">
-              <h2 className="text-[15px] font-bold capitalize">{month}</h2>
-              <span className="text-[12px] text-subtle">{ws.length} Workouts</span>
+              <h2 className="text-[14px] font-bold capitalize">{month}</h2>
+              <span className="text-[11.5px] text-subtle">{ws.length} Workouts</span>
             </div>
             <div className="space-y-2">
               {ws.map((w) => (
-                <Link key={w.id} to={`/history/${w.id}`} className="card flex items-center gap-4 p-4 transition hover:border-line">
+                <Link key={w.id} to={`/history/${w.id}`} className="card flex items-center gap-4 p-3.5 transition hover:border-line">
                   <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-elevated">
                     <span className="text-[10px] font-semibold uppercase text-muted">{dayFmt.format(w.startedAt)}</span>
-                    <span className="num text-[17px] font-bold leading-none">{new Date(w.startedAt).getDate()}</span>
+                    <span className="num text-[15.5px] font-bold leading-none">{new Date(w.startedAt).getDate()}</span>
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="truncate font-bold">{w.name}</span>
                       {w.prCount > 0 && (
-                        <span className="flex shrink-0 items-center gap-0.5 rounded-md bg-accent-soft px-1.5 py-0.5 text-[11px] font-bold dark:text-accent">
+                        <span className="flex shrink-0 items-center gap-0.5 rounded-md bg-accent-soft px-1.5 py-0.5 text-[10.5px] font-bold dark:text-accent">
                           <Trophy size={11} /> {w.prCount}
                         </span>
                       )}
                     </div>
-                    <div className="num text-[13px] text-muted">
+                    <div className="num text-[12.5px] text-muted">
                       {fmtTime(w.startedAt)} · {formatDuration(w.durationSec)} · {w.totalSets} Sätze · {fmtVolume(w.totalVolume, settings.unit, true)}
                     </div>
-                    <div className="mt-0.5 truncate text-[12px] text-subtle">{(exByWorkout.get(w.id) ?? []).join(' · ')}</div>
+                    <div className="mt-0.5 truncate text-[11.5px] text-subtle">{(exByWorkout.get(w.id) ?? []).join(' · ')}</div>
                   </div>
                   <ChevronRight size={18} className="shrink-0 text-subtle" />
                 </Link>

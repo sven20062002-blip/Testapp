@@ -53,21 +53,21 @@ export function PRCelebration({ prs, exerciseName, unit, onClose }: { prs: LiveP
             <Trophy size={24} />
           </div>
           <div className="min-w-0">
-            <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-fg dark:text-accent">Neuer Rekord!</div>
-            <div className="truncate text-[16px] font-bold">{exerciseName}</div>
+            <div className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-fg dark:text-accent">Neuer Rekord!</div>
+            <div className="truncate text-[15px] font-bold">{exerciseName}</div>
           </div>
         </div>
         <div className="relative mt-3 space-y-2">
           {prs.map((p) => (
             <div key={p.type} className="rounded-xl bg-elevated px-3 py-2">
-              <div className="text-[12px] font-semibold text-muted">
+              <div className="text-[11.5px] font-semibold text-muted">
                 {RECORD_LABELS[p.type]}
                 {p.type === 'reps' && p.weight ? <span className="text-subtle"> · bei gleichem/höherem Gewicht</span> : null}
               </div>
-              <div className="num mt-0.5 flex items-baseline gap-2 text-[14px]">
+              <div className="num mt-0.5 flex items-baseline gap-2 text-[13px]">
                 <span className="text-subtle line-through decoration-1">{describePrev(p, unit)}</span>
                 <span className="text-subtle">→</span>
-                <span className="text-[17px] font-bold">{describePR(p, unit)}</span>
+                <span className="text-[15.5px] font-bold">{describePR(p, unit)}</span>
               </div>
             </div>
           ))}

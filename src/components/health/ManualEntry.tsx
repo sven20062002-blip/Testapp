@@ -67,7 +67,7 @@ export function MetricEntrySheet({ open, onClose, metric: initial = 'weight_kg',
           <Field label={`Wert${meta.unit ? ` (${meta.unit})` : ''}`} htmlFor="me-val">
             <input
               id="me-val"
-              className="field num text-[17px] font-bold"
+              className="field num text-[15.5px] font-bold"
               inputMode="decimal"
               value={value}
               autoFocus
@@ -76,8 +76,8 @@ export function MetricEntrySheet({ open, onClose, metric: initial = 'weight_kg',
             />
           </Field>
         </div>
-        <p className="text-[12px] text-subtle">Manuelle Werte werden als „manuell“ gekennzeichnet. Hat eine verbundene Quelle für denselben Tag einen Messwert, entscheidet die Quellen-Reihenfolge.</p>
-        {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
+        <p className="text-[11.5px] text-subtle">Manuelle Werte werden als „manuell“ gekennzeichnet. Hat eine verbundene Quelle für denselben Tag einen Messwert, entscheidet die Quellen-Reihenfolge.</p>
+        {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
       </div>
     </Sheet>
   );

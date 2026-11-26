@@ -77,7 +77,7 @@ export default function SettingsPage() {
       </Group>
 
       <Group title="Gesundheit & Ernährung" icon={<HeartPulse size={16} />}>
-        <Row label="Datenquellen & Datenschutz" hint="Fitbit/Google Health, Apple Health, Berechtigungen, Löschen">
+        <Row label="Datenquellen & Datenschutz" hint="Apple Health, Berechtigungen, Löschen">
           <Button size="sm" onClick={() => nav('/health/sources')}>
             Öffnen
           </Button>
@@ -176,11 +176,11 @@ export default function SettingsPage() {
         <ToggleRow label="Vor dem Löschen bestätigen" checked={s.confirmDeletes} onChange={(v) => updateSettings({ confirmDeletes: v })} />
         <Row label="System-Benachrichtigungen" hint={notif === 'unsupported' ? 'Auf diesem Gerät nicht verfügbar (iOS: nur als installierte App)' : 'Pausenende, wenn die App im Hintergrund ist'}>
           {notif === 'granted' ? (
-            <span className="text-[13px] font-semibold text-good">Aktiv</span>
+            <span className="text-[12.5px] font-semibold text-good">Aktiv</span>
           ) : notif === 'denied' ? (
-            <span className="text-[13px] text-subtle">Blockiert</span>
+            <span className="text-[12.5px] text-subtle">Blockiert</span>
           ) : notif === 'unsupported' ? (
-            <span className="text-[13px] text-subtle">–</span>
+            <span className="text-[12.5px] text-subtle">–</span>
           ) : (
             <Button size="sm" onClick={async () => setNotif(await requestNotifications())}>
               Erlauben
@@ -190,21 +190,21 @@ export default function SettingsPage() {
       </Group>
 
       <Group title="Daten" icon={<Database size={16} />}>
-        <Row label="Export als JSON" hint="Training, Ernährung, Gesundheit – ohne Zugangsdaten">
-          <Button size="sm" icon={<FileJson size={15} />} onClick={async () => downloadText(`forge-backup-${stamp}.json`, await exportJSON(), 'application/json')}>
-            Export
-          </Button>
-        </Row>
-        <Row label="Export als CSV" hint="Alle Sätze, z. B. für Excel">
-          <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-saetze-${stamp}.csv`, await exportCSV(), 'text/csv;charset=utf-8')}>
-            Export
-          </Button>
-        </Row>
-        <Row label="Ernährungstagebuch als CSV" hint="Alle Einträge mit Nährwerten">
-          <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-ernaehrung-${stamp}.csv`, await exportNutritionCSV(), 'text/csv;charset=utf-8')}>
-            Export
-          </Button>
-        </Row>
+        <div className="px-3.5 py-2.5">
+          <div className="text-[13.5px] font-semibold">Exportieren</div>
+          <div className="text-[11.5px] text-muted">JSON-Backup (ohne Zugangsdaten) oder Tabellen für Excel</div>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <Button size="sm" icon={<FileJson size={15} />} onClick={async () => downloadText(`forge-backup-${stamp}.json`, await exportJSON(), 'application/json')}>
+              Backup (JSON)
+            </Button>
+            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-saetze-${stamp}.csv`, await exportCSV(), 'text/csv;charset=utf-8')}>
+              Sätze (CSV)
+            </Button>
+            <Button size="sm" icon={<FileSpreadsheet size={15} />} onClick={async () => downloadText(`forge-ernaehrung-${stamp}.csv`, await exportNutritionCSV(), 'text/csv;charset=utf-8')}>
+              Ernährung (CSV)
+            </Button>
+          </div>
+        </div>
         <Row label="Backup wiederherstellen" hint="Ersetzt alle Daten (außer laufendem Workout)">
           <Button size="sm" icon={<Upload size={15} />} onClick={() => fileRef.current?.click()}>
             Import
@@ -242,7 +242,7 @@ export default function SettingsPage() {
           </Button>
         </Row>
         <Row label="Speicher" hint={usage || 'Lokal auf diesem Gerät (IndexedDB)'}>
-          <span className={`text-[13px] font-semibold ${persisted ? 'text-good' : 'text-subtle'}`}>{persisted ? 'Dauerhaft' : persisted === false ? 'Standard' : '–'}</span>
+          <span className={`text-[12.5px] font-semibold ${persisted ? 'text-good' : 'text-subtle'}`}>{persisted ? 'Dauerhaft' : persisted === false ? 'Standard' : '–'}</span>
         </Row>
         <Row label="Alle Daten löschen" hint="Kann nicht rückgängig gemacht werden">
           <Button
@@ -268,14 +268,14 @@ export default function SettingsPage() {
           </Row>
         )}
         {install.isIOS && !install.standalone && (
-          <div className="px-4 py-3 text-[13px] text-muted">
+          <div className="px-4 py-3 text-[12.5px] text-muted">
             <b className="text-fg">iPhone/iPad:</b> In Safari auf „Teilen“ tippen und „Zum Home-Bildschirm“ wählen, um Forge als App zu installieren.
           </div>
         )}
         <Row label="Version" hint={install.standalone ? 'Läuft als installierte App' : 'Läuft im Browser'}>
-          <span className="num text-[13px] text-subtle">1.0.0</span>
+          <span className="num text-[12.5px] text-subtle">1.0.0</span>
         </Row>
-        <div className="flex gap-2 px-4 py-3 text-[12px] leading-relaxed text-subtle">
+        <div className="flex gap-2 px-4 py-3 text-[11.5px] leading-relaxed text-subtle">
           <Info size={14} className="mt-0.5 shrink-0" />
           <span>
             Alle Daten bleiben lokal auf deinem Gerät und funktionieren vollständig offline. Timer basieren auf Zeitstempeln und laufen auch korrekt weiter, wenn das Betriebssystem die App im
@@ -289,7 +289,7 @@ export default function SettingsPage() {
 
 function Group({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
   return (
-    <section className="mb-6">
+    <section className="mb-5">
       <h2 className="label mb-2 flex items-center gap-1.5 px-1">
         {icon}
         {title}
@@ -301,10 +301,10 @@ function Group({ title, icon, children }: { title: string; icon: ReactNode; chil
 
 function Row({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
-    <div className="flex min-h-[60px] items-center justify-between gap-4 px-4 py-3">
+    <div className="flex min-h-[52px] items-center justify-between gap-4 px-3.5 py-2.5">
       <div className="min-w-0">
-        <div className="text-[15px] font-semibold">{label}</div>
-        {hint && <div className="text-[12px] text-muted">{hint}</div>}
+        <div className="text-[13.5px] font-semibold">{label}</div>
+        {hint && <div className="text-[11.5px] text-muted">{hint}</div>}
       </div>
       <div className="shrink-0">{children}</div>
     </div>
@@ -322,11 +322,11 @@ function ToggleRow({ label, hint, checked, onChange }: { label: string; hint?: s
 function Stepper({ value, min, max, step = 1, onChange }: { value: number; min: number; max: number; step?: number; onChange: (v: number) => void }) {
   return (
     <div className="flex items-center rounded-xl bg-elevated">
-      <button className="h-9 w-9 text-lg font-bold text-muted hover:text-fg" aria-label="Verringern" onClick={() => onChange(Math.max(min, value - step))}>
+      <button className="h-9 w-9 text-[16.5px] font-bold text-muted hover:text-fg" aria-label="Verringern" onClick={() => onChange(Math.max(min, value - step))}>
         −
       </button>
-      <span className="num min-w-[2.5rem] text-center text-[14px] font-bold">{value}</span>
-      <button className="h-9 w-9 text-lg font-bold text-muted hover:text-fg" aria-label="Erhöhen" onClick={() => onChange(Math.min(max, value + step))}>
+      <span className="num min-w-[2.5rem] text-center text-[13px] font-bold">{value}</span>
+      <button className="h-9 w-9 text-[16.5px] font-bold text-muted hover:text-fg" aria-label="Erhöhen" onClick={() => onChange(Math.min(max, value + step))}>
         +
       </button>
     </div>

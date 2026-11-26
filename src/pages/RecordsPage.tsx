@@ -59,9 +59,9 @@ export default function RecordsPage() {
 
       {workoutBest && (
         <Link to={`/history/${workoutBest.workoutId}`} className="relative block overflow-hidden rounded-3xl bg-accent p-5 text-accent-fg">
-          <div className="text-[12px] font-bold uppercase tracking-[0.14em] opacity-70">Höchstes Workout-Volumen</div>
-          <div className="num mt-1 text-[32px] font-bold leading-none">{fmtVolume(workoutBest.value, settings.unit)}</div>
-          <div className="mt-1.5 text-sm font-medium opacity-75">{fmtDate(workoutBest.achievedAt)}</div>
+          <div className="text-[11.5px] font-bold uppercase tracking-[0.14em] opacity-70">Höchstes Workout-Volumen</div>
+          <div className="num mt-1 text-[28px] font-bold leading-none">{fmtVolume(workoutBest.value, settings.unit)}</div>
+          <div className="mt-1.5 text-[13px] font-medium opacity-75">{fmtDate(workoutBest.achievedAt)}</div>
           <Trophy className="absolute -bottom-3 -right-3 opacity-15" size={110} />
         </Link>
       )}
@@ -75,12 +75,12 @@ export default function RecordsPage() {
                 <Link to={r.exerciseId === WORKOUT_RECORD_KEY ? `/history/${r.workoutId}` : `/exercises/${r.exerciseId}`} className="flex items-center gap-3 px-4 py-3 hover:bg-elevated/40">
                   <Trophy size={16} className="shrink-0 text-fg dark:text-accent" />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-[14px] font-semibold">{r.exerciseId === WORKOUT_RECORD_KEY ? 'Gesamtes Workout' : name(exMap.get(r.exerciseId))}</div>
-                    <div className="text-[12px] text-muted">
+                    <div className="truncate text-[13px] font-semibold">{r.exerciseId === WORKOUT_RECORD_KEY ? 'Gesamtes Workout' : name(exMap.get(r.exerciseId))}</div>
+                    <div className="text-[11.5px] text-muted">
                       {RECORD_LABELS[r.type]} · {relativeDay(r.achievedAt)}
                     </div>
                   </div>
-                  <div className="num text-right text-[13px]">
+                  <div className="num text-right text-[12.5px]">
                     <span className="text-subtle">{describePR({ type: r.type, value: r.prevValue!, weight: r.prevWeight, reps: r.prevReps }, settings.unit)}</span>
                     <span className="mx-1 text-subtle">→</span>
                     <span className="font-bold">{describePR(r, settings.unit)}</span>
@@ -103,7 +103,7 @@ export default function RecordsPage() {
             {rows.map(([id, m]) => {
               const ex = exMap.get(id)!;
               return (
-                <Link key={id} to={`/exercises/${id}`} className="card block p-4 hover:border-line">
+                <Link key={id} to={`/exercises/${id}`} className="card block p-3.5 hover:border-line">
                   <div className="flex items-center gap-3">
                     <MuscleIcon muscle={ex.muscleGroup} size={36} />
                     <span className="flex-1 truncate font-bold">{name(ex)}</span>
@@ -114,8 +114,8 @@ export default function RecordsPage() {
                       const r = m.get(t);
                       return (
                         <div key={t} className="rounded-xl bg-elevated/70 px-3 py-2">
-                          <div className="text-[11px] font-semibold text-muted">{SHORT[t]}</div>
-                          <div className="num text-[14px] font-bold">{r ? describePR(r, settings.unit) : '–'}</div>
+                          <div className="text-[10.5px] font-semibold text-muted">{SHORT[t]}</div>
+                          <div className="num text-[13px] font-bold">{r ? describePR(r, settings.unit) : '–'}</div>
                         </div>
                       );
                     })}
@@ -124,7 +124,7 @@ export default function RecordsPage() {
               );
             })}
           </div>
-          <p className="mt-4 text-[12px] leading-relaxed text-subtle">
+          <p className="mt-4 text-[11.5px] leading-relaxed text-subtle">
             Gewichts-, Wiederholungs- und Zeitrekorde sind tatsächlich erbrachte Leistungen. Das 1RM ist ein Schätzwert (Epley, 1–12 Wdh). Wiederholungsrekorde zählen nur gegenüber Sätzen mit gleichem oder höherem Gewicht; Aufwärmsätze werden ignoriert.
           </p>
         </>

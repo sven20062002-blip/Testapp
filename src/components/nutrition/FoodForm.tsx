@@ -110,11 +110,11 @@ export function FoodForm({
         </div>
         <div>
           <span className="label mb-1.5 block">Nährwerte pro 100 {unit}</span>
-          <p className="mb-2 text-[12px] text-subtle">Nur Kalorien sind Pflicht. Leere Felder gelten als „unbekannt“ und werden nicht als 0 gezählt.</p>
+          <p className="mb-2 text-[11.5px] text-subtle">Nur Kalorien sind Pflicht. Leere Felder gelten als „unbekannt“ und werden nicht als 0 gezählt.</p>
           <div className="grid grid-cols-2 gap-2.5">
             {NUTRIENT_KEYS.map((k) => (
               <label key={k} className="block">
-                <span className="mb-1 block text-[12px] font-semibold text-muted">
+                <span className="mb-1 block text-[11.5px] font-semibold text-muted">
                   {NUTRIENT_LABELS[k]} ({k === 'kcal' ? 'kcal' : 'g'}){k === 'kcal' && ' *'}
                 </span>
                 <input
@@ -128,7 +128,7 @@ export function FoodForm({
             ))}
           </div>
         </div>
-        {error && <p className="animate-shake text-sm font-medium text-bad">{error}</p>}
+        {error && <p className="animate-shake text-[13px] font-medium text-bad">{error}</p>}
       </form>
     </Sheet>
   );

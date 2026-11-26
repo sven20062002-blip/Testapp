@@ -84,8 +84,8 @@ export default function StatsPage() {
           </div>
 
           <SectionTitle>Trainingshäufigkeit</SectionTitle>
-          <div className="card p-4">
-            <div className="mb-3 text-[13px] text-muted">Workouts {granLabel[data.b.granularity]}</div>
+          <div className="card p-3.5">
+            <div className="mb-3 text-[12.5px] text-muted">Workouts {granLabel[data.b.granularity]}</div>
             <BarTrend data={data.b.data.map((b) => ({ label: b.label, value: b.workouts }))} fmt={(v) => `${v} Workout${v === 1 ? '' : 's'}`} />
           </div>
 
@@ -106,8 +106,8 @@ export default function StatsPage() {
           >
             Trainingsvolumen
           </SectionTitle>
-          <div className="card p-4">
-            <div className="mb-3 text-[13px] text-muted">
+          <div className="card p-3.5">
+            <div className="mb-3 text-[12.5px] text-muted">
               Volumen {granLabel[data.vb.granularity]} ({unit})
             </div>
             <AreaTrend
@@ -119,8 +119,8 @@ export default function StatsPage() {
           </div>
 
           <SectionTitle>Trainingszeit</SectionTitle>
-          <div className="card p-4">
-            <div className="mb-3 text-[13px] text-muted">Minuten {granLabel[data.b.granularity]}</div>
+          <div className="card p-3.5">
+            <div className="mb-3 text-[12.5px] text-muted">Minuten {granLabel[data.b.granularity]}</div>
             <BarTrend data={data.b.data.map((b) => ({ label: b.label, value: b.minutes }))} fmt={(v) => `${v} Min`} />
           </div>
 
@@ -140,7 +140,7 @@ export default function StatsPage() {
           >
             Muskelgruppen
           </SectionTitle>
-          <div className="card p-4">
+          <div className="card p-3.5">
             <RankBars
               items={[...data.muscles]
                 .sort((a, b) => (muscleBy === 'sets' ? b.sets - a.sets : b.volume - a.volume))
@@ -151,7 +151,7 @@ export default function StatsPage() {
           </div>
 
           <SectionTitle>Fortschritt pro Übung</SectionTitle>
-          <div className="card p-4">
+          <div className="card p-3.5">
             <select className="field mb-3" value={selectedEx} onChange={(e) => setExId(e.target.value)} aria-label="Übung wählen">
               {data.trained.map((id) => (
                 <option key={id} value={id}>
@@ -176,22 +176,22 @@ export default function StatsPage() {
             {progress.length >= 2 ? (
               <LineTrend data={exChart} fmt={exFmt} />
             ) : (
-              <p className="py-8 text-center text-sm text-muted">Mindestens zwei Einheiten im Zeitraum nötig.</p>
+              <p className="py-8 text-center text-[13px] text-muted">Mindestens zwei Einheiten im Zeitraum nötig.</p>
             )}
             {selectedEx && (
-              <Link to={`/exercises/${selectedEx}`} className="mt-3 flex items-center justify-end gap-1 text-[13px] font-semibold text-muted hover:text-fg">
+              <Link to={`/exercises/${selectedEx}`} className="mt-3 flex items-center justify-end gap-1 text-[12.5px] font-semibold text-muted hover:text-fg">
                 Übungsdetails <ChevronRight size={15} />
               </Link>
             )}
           </div>
 
-          <Link to="/records" className="card mt-7 flex items-center gap-3 p-4 hover:border-line">
+          <Link to="/records" className="card mt-7 flex items-center gap-3 p-3.5 hover:border-line">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft dark:text-accent">
               <Trophy size={20} />
             </div>
             <div className="flex-1">
               <div className="font-bold">Persönliche Bestleistungen</div>
-              <div className="text-[13px] text-muted">Alle Rekorde nach Übung</div>
+              <div className="text-[12.5px] text-muted">Alle Rekorde nach Übung</div>
             </div>
             <ChevronRight className="text-subtle" />
           </Link>
@@ -211,5 +211,5 @@ function VolumeTrendNote({ data }: { data: number[] }) {
   if (a === 0 && b === 0) return null;
   const pct = a === 0 ? 100 : Math.round(((b - a) / a) * 100);
   const txt = pct > 3 ? `Steigend: +${pct} % gegenüber der ersten Hälfte des Zeitraums` : pct < -3 ? `Rückläufig: ${pct} % gegenüber der ersten Hälfte` : 'Stabil gegenüber der ersten Hälfte des Zeitraums';
-  return <p className={`mt-2 text-[12px] font-semibold ${pct > 3 ? 'text-good' : 'text-muted'}`}>{txt}</p>;
+  return <p className={`mt-2 text-[11.5px] font-semibold ${pct > 3 ? 'text-good' : 'text-muted'}`}>{txt}</p>;
 }

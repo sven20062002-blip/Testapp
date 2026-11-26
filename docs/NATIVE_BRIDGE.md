@@ -46,4 +46,4 @@ Einheiten (müssen nativ umgerechnet werden): Schritte = Anzahl, `distance_m` = 
 * Tagessummen mit `HKStatisticsCollectionQuery` (`.cumulativeSum`, dedupliziert Quellen automatisch).
 * Apple-Entwicklerkonto (99 €/Jahr) und Xcode/Mac zum Bauen erforderlich.
 
-Ohne native Hülle bietet Forge: Google Health API (Fitbit, live) und Apple-Health-Export (Datei-Import).
+Ohne native Hülle bietet Forge den Apple-Health-Export (Datei-Import) und die manuelle Eingabe.

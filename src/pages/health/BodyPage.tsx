@@ -84,12 +84,12 @@ export default function BodyPage() {
     <div className="page">
       <PageHeader back title="Körpergewicht" actions={<Button size="sm" variant="primary" onClick={() => setEntry(true)} icon={<Plus size={15} />}>Wiegen</Button>} />
 
-      <div className="card p-5">
+      <div className="card p-4">
         <div className="label">Aktuelles Gewicht</div>
-        <div className="num mt-1 text-[38px] font-bold leading-none tracking-tight">
-          {d.current != null ? fmtNumber(d.current, 1) : '–'} <span className="text-[18px] text-subtle">kg</span>
+        <div className="num mt-1 text-[28px] font-bold leading-none tracking-tight">
+          {d.current != null ? fmtNumber(d.current, 1) : '–'} <span className="text-[16.5px] text-subtle">kg</span>
         </div>
-        <div className="mt-1 text-[12px] text-muted">
+        <div className="mt-1 text-[11.5px] text-muted">
           {d.latestDay ? relativeDayKey(d.latestDay) : 'Noch kein Eintrag'}
           {d.latestDay && <> · <SourceBadge m={valueOn(ctx.merged, 'weight_kg', d.latestDay)} /></>}
         </div>
@@ -99,11 +99,11 @@ export default function BodyPage() {
           <Kv k="90 Tage" v={sign(d.c90)} />
         </div>
         <div className="mt-2 grid grid-cols-2 gap-2">
-          <Kv k="Zielgewicht" v={goalW != null ? `${fmtNumber(goalW, 1)} kg` : '–'} sub={toGoal != null ? <span className="text-[11px] text-subtle">noch {sign(toGoal)}</span> : null} />
+          <Kv k="Zielgewicht" v={goalW != null ? `${fmtNumber(goalW, 1)} kg` : '–'} sub={toGoal != null ? <span className="text-[10.5px] text-subtle">noch {sign(toGoal)}</span> : null} />
           <Kv k="Körperfett" v={d.fat ? `${fmtNumber(d.fat.value, 1)} %` : '–'} sub={d.fat ? <SourceBadge m={d.fat} /> : null} />
         </div>
         {verdict && (
-          <div className={`mt-3 flex gap-2 rounded-xl px-3 py-2.5 text-[13px] ${verdict.ok ? 'bg-good/10' : 'bg-warn/10'}`}>
+          <div className={`mt-3 flex gap-2 rounded-xl px-3 py-2.5 text-[12.5px] ${verdict.ok ? 'bg-good/10' : 'bg-warn/10'}`}>
             {d.weekly! < 0 ? <TrendingDown size={16} className="mt-0.5 shrink-0" /> : <TrendingUp size={16} className="mt-0.5 shrink-0" />}
             <span>
               {verdict.text} <span className="text-subtle">(Trend der letzten 4 Wochen, eigene Berechnung)</span>
@@ -119,19 +119,19 @@ export default function BodyPage() {
       >
         Gewichtsverlauf
       </SectionTitle>
-      <div className="card p-4">
+      <div className="card p-3.5">
         {d.chart.filter((p) => p.value != null).length >= 2 ? (
           <>
             <LineTrend color="body" data={range === '7' ? d.chart : d.smooth} fmt={(v) => `${fmtNumber(v, 1)} kg`} goal={goalW} goalLabel="Zielgewicht" />
-            {range !== '7' && <p className="mt-1 text-[11px] text-subtle">Gleitender 7-Tage-Durchschnitt – glättet Wasserschwankungen.</p>}
+            {range !== '7' && <p className="mt-1 text-[10.5px] text-subtle">Gleitender 7-Tage-Durchschnitt – glättet Wasserschwankungen.</p>}
           </>
         ) : (
-          <p className="py-8 text-center text-sm text-muted">Mindestens zwei Messungen im Zeitraum nötig.</p>
+          <p className="py-8 text-center text-[13px] text-muted">Mindestens zwei Messungen im Zeitraum nötig.</p>
         )}
       </div>
 
       <SectionTitle>Zielgewicht</SectionTitle>
-      <div className="card flex items-center gap-2 p-4">
+      <div className="card flex items-center gap-2 p-3.5">
         <Target size={18} className="text-muted" />
         <input
           className="field flex-1"
@@ -153,7 +153,7 @@ export default function BodyPage() {
           Speichern
         </Button>
       </div>
-      <p className="mt-2 px-1 text-[12px] text-subtle">
+      <p className="mt-2 px-1 text-[11.5px] text-subtle">
         Zielgewicht und Ernährungsziel werden im <Link to="/nutrition/profile" className="font-semibold underline">Ernährungsprofil</Link> gemeinsam genutzt.
       </p>
 
@@ -162,10 +162,10 @@ export default function BodyPage() {
         {(entries ?? []).slice(0, 60).map((e) => (
           <div key={e.id} className="flex items-center gap-3 px-4 py-2.5">
             <div className="min-w-0 flex-1">
-              <div className="num text-[14px] font-semibold">
+              <div className="num text-[13px] font-semibold">
                 {e.metric === 'weight_kg' ? `${fmtNumber(e.value, 1)} kg` : `${fmtNumber(e.value, 1)} % Körperfett`}
               </div>
-              <div className="text-[12px] text-muted">
+              <div className="text-[11.5px] text-muted">
                 {relativeDayKey(e.date)} · {SOURCE_META[e.source].short}
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function BodyPage() {
             )}
           </div>
         ))}
-        {!entries?.length && <p className="p-5 text-center text-sm text-muted">Noch keine Einträge.</p>}
+        {!entries?.length && <p className="p-5 text-center text-[13px] text-muted">Noch keine Einträge.</p>}
       </div>
       <MetricEntrySheet open={entry} onClose={() => setEntry(false)} metric="weight_kg" metrics={['weight_kg', 'body_fat_pct']} />
     </div>

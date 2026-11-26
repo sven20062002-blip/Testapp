@@ -8,7 +8,7 @@ export function Chip({ active, onClick, children }: { active?: boolean; onClick?
       aria-pressed={active}
       onClick={onClick}
       className={clsx(
-        'shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition',
+        'shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[12.5px] font-medium transition',
         active ? 'bg-fg text-bg' : 'bg-elevated text-muted hover:text-fg',
       )}
     >
@@ -21,7 +21,7 @@ export function Badge({ children, tone = 'default', className }: { children: Rea
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-semibold',
+        'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold',
         tone === 'default' && 'bg-elevated text-muted',
         tone === 'accent' && 'bg-accent-soft text-fg dark:text-accent',
         tone === 'good' && 'bg-good/12 text-good',

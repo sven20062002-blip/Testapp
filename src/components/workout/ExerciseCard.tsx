@@ -119,8 +119,8 @@ export function ExerciseCard({ workout, we, sets, index, count, onToggleSet, inv
       <div className="flex items-start gap-3 px-1">
         <MuscleIcon muscle={we.snapshot.muscleGroup} size={42} />
         <div className="min-w-0 flex-1 pt-0.5">
-          <h3 className="truncate text-[17px] font-bold leading-tight tracking-tight">{name(we.snapshot)}</h3>
-          <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[12px] text-muted">
+          <h3 className="truncate text-[15.5px] font-bold leading-tight tracking-tight">{name(we.snapshot)}</h3>
+          <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11.5px] text-muted">
             <span>{MUSCLE_LABELS[we.snapshot.muscleGroup]}</span>
             <span className="text-subtle">·</span>
             <span className="num">
@@ -156,31 +156,31 @@ export function ExerciseCard({ workout, we, sets, index, count, onToggleSet, inv
 
       {/* Last workout */}
       {last && lastSets.length > 0 && (
-        <div className="mx-1 mt-3 rounded-xl bg-elevated/70 p-3">
+        <div className="mx-1 mt-2.5 rounded-xl bg-elevated/70 px-3 py-2.5">
           <div className="flex items-center justify-between">
             <div className="label">Letztes Training · {relativeDay(last.workout.endedAt ?? last.workout.startedAt)}</div>
             {ordered.some((s) => !s.completed) && (
-              <button onClick={applyLast} className="flex items-center gap-1 rounded-lg px-2 py-1 text-[12px] font-bold text-fg hover:bg-line dark:text-accent">
+              <button onClick={applyLast} className="flex items-center gap-1 rounded-lg px-2 py-1 text-[11.5px] font-bold text-fg hover:bg-line dark:text-accent">
                 <ClipboardCopy size={13} /> Übernehmen
               </button>
             )}
           </div>
-          <div className="num mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[13px] text-muted">
+          <div className="num mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[12.5px] text-muted">
             {lastSets.map((s, i) => (
               <span key={s.id}>
                 <span className="text-subtle">{s.kind === 'warmup' ? 'W' : i + 1}:</span> {prevLabel(s, tracking, settings.unit)}
               </span>
             ))}
           </div>
-          {last.note && <div className="mt-1.5 text-[12px] italic text-subtle">„{last.note}“</div>}
+          {last.note && <div className="mt-1.5 text-[11.5px] italic text-subtle">„{last.note}“</div>}
         </div>
       )}
 
       {/* Sets */}
-      <div className="mt-3">
+      <div className="mt-2">
         <div
           className={clsx(
-            'grid gap-2 px-1.5 pb-1 text-center text-[10.5px] font-bold uppercase tracking-wider text-subtle',
+            'grid gap-2 px-1.5 pb-1 text-center text-[10px] font-bold uppercase tracking-wider text-subtle',
             tracking === 'duration' ? 'grid-cols-[40px_1fr_1.25fr_48px]' : 'grid-cols-[40px_1fr_1fr_1fr_48px]',
           )}
         >
@@ -196,7 +196,7 @@ export function ExerciseCard({ workout, we, sets, index, count, onToggleSet, inv
           )}
           <span>✓</span>
         </div>
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {ordered.map((s, i) => (
             <SetRow
               key={s.id}
@@ -218,18 +218,18 @@ export function ExerciseCard({ workout, we, sets, index, count, onToggleSet, inv
       <div className="mt-2 flex items-center gap-2 px-1">
         <button
           onClick={() => addSet(we.id)}
-          className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-elevated text-[14px] font-semibold transition hover:bg-line active:scale-[.99]"
+          className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-elevated text-[12.5px] font-semibold transition hover:bg-line active:scale-[.99]"
         >
           <Plus size={17} /> Satz hinzufügen
         </button>
         {!showOneOff && (
-          <IconButton label="Workout-Notiz hinzufügen" variant="secondary" className="h-11 w-11" onClick={() => setShowOneOff(true)}>
+          <IconButton label="Workout-Notiz hinzufügen" variant="secondary" className="h-10 w-10" onClick={() => setShowOneOff(true)}>
             <StickyNote size={18} />
           </IconButton>
         )}
       </div>
       {volume > 0 && (
-        <div className="num mt-2 px-1.5 text-right text-[12px] text-subtle">
+        <div className="num mt-2 px-1.5 text-right text-[11.5px] text-subtle">
           Volumen <span className="font-semibold text-muted">{fmtVolume(volume, settings.unit)}</span>
         </div>
       )}
@@ -317,7 +317,7 @@ function PermanentNote({ exerciseId, text }: { exerciseId: string; text: string 
   const [editing, setEditing] = useState(false);
   if (!text && !editing)
     return (
-      <button onClick={() => setEditing(true)} className="ml-1 mt-2 flex items-center gap-1.5 text-[12px] font-semibold text-subtle hover:text-muted">
+      <button onClick={() => setEditing(true)} className="ml-1 mt-1.5 flex items-center gap-1.5 text-[11.5px] font-semibold text-subtle hover:text-muted">
         <Pin size={12} /> Dauerhafte Notiz hinzufügen
       </button>
     );
@@ -388,8 +388,8 @@ export function AutoNote({
       <span className={clsx('mt-[3px] shrink-0', tone === 'accent' ? 'text-fg/70 dark:text-accent' : 'text-subtle')}>{icon}</span>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between">
-          <span className="text-[10.5px] font-bold uppercase tracking-wider opacity-60">{label}</span>
-          <span className="text-[10.5px] text-subtle" aria-live="polite">
+          <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">{label}</span>
+          <span className="text-[10px] text-subtle" aria-live="polite">
             {saved ? '' : 'Speichert …'}
           </span>
         </div>
@@ -413,7 +413,7 @@ export function AutoNote({
             flush(text);
             if (!text.trim()) onEmptyBlur?.();
           }}
-          className="mt-0.5 block w-full resize-none bg-transparent text-[14px] leading-snug outline-none placeholder:text-subtle"
+          className="mt-0.5 block w-full resize-none bg-transparent text-[13px] leading-snug outline-none placeholder:text-subtle"
         />
       </div>
     </div>
@@ -442,7 +442,7 @@ export function MenuItem({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-[15px] font-semibold transition hover:bg-elevated disabled:opacity-35',
+        'flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-[14px] font-semibold transition hover:bg-elevated disabled:opacity-35',
         danger && 'text-bad',
       )}
     >

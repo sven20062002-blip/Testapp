@@ -28,20 +28,20 @@ function Banner({ d }: { d: DuelSummary }) {
   const total = me + op || 1;
   return (
     <Link to={`/social/duel/${d.id}`} className="block overflow-hidden rounded-2xl bg-area-social/10 p-3 ring-1 ring-area-social/40">
-      <div className="flex items-center justify-between text-[12px] font-semibold">
+      <div className="flex items-center justify-between text-[11.5px] font-semibold">
         <span className="flex items-center gap-1.5 text-area-social">
           <Swords size={14} /> Duell vs. {d.opponent_display_name}
         </span>
         <span className="num text-muted">noch {d.ends_at ? remaining(d.ends_at, now) : '–'}</span>
       </div>
-      <div className="num mt-1.5 flex items-baseline justify-between text-[15px] font-semibold">
+      <div className="num mt-1.5 flex items-baseline justify-between text-[14px] font-semibold">
         <span>Du {fmtScore(d.metric, me, unit)}</span>
         <span className="text-muted">{fmtScore(d.metric, op, unit)}</span>
       </div>
       <div className="mt-1.5 flex h-1.5 overflow-hidden rounded-full bg-elevated">
         <div className="h-full bg-area-social transition-all duration-500" style={{ width: `${(me / total) * 100}%` }} />
       </div>
-      <div className="mt-1 text-[11px] text-subtle">{d.exercise_name ? `Nur ${d.exercise_name} zählt` : 'Jede Übung zählt'} · Sätze werden automatisch übertragen</div>
+      <div className="mt-1 text-[10.5px] text-subtle">{d.exercise_name ? `Nur ${d.exercise_name} zählt` : 'Jede Übung zählt'} · Sätze werden automatisch übertragen</div>
     </Link>
   );
 }

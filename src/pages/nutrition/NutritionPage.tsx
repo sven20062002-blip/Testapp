@@ -72,7 +72,7 @@ export default function NutritionPage() {
         <IconButton label="Vorheriger Tag" variant="secondary" onClick={() => setDate(addDays(date, -1))}>
           <ChevronLeft size={20} />
         </IconButton>
-        <button onClick={() => setCalendar(true)} className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-elevated text-[14px] font-bold" aria-label="Datum wählen">
+        <button onClick={() => setCalendar(true)} className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-elevated text-[13px] font-bold" aria-label="Datum wählen">
           <CalendarDays size={16} className="text-muted" />
           {relativeDayKey(date, today)}
         </button>
@@ -82,23 +82,23 @@ export default function NutritionPage() {
       </div>
 
       {/* summary */}
-      <section className="card p-4" aria-label="Tagesübersicht">
+      <section className="card p-3.5" aria-label="Tagesübersicht">
         <div className="flex items-center gap-4">
           <KcalRing value={totals.kcal} target={targets.kcal} />
           <div className="min-w-0 flex-1 space-y-2">
             <div>
-              <div className="text-[12px] font-semibold text-muted">{kcalLeft == null ? 'Kein Kalorienziel' : kcalLeft >= 0 ? 'Verbleibend' : 'Über dem Ziel'}</div>
+              <div className="text-[11.5px] font-semibold text-muted">{kcalLeft == null ? 'Kein Kalorienziel' : kcalLeft >= 0 ? 'Verbleibend' : 'Über dem Ziel'}</div>
               <div className={clsx('num text-[26px] font-bold leading-tight', kcalLeft != null && kcalLeft < 0 && 'text-warn')}>
                 {kcalLeft == null ? '–' : `${fmtNumber(Math.abs(kcalLeft), 0)} kcal`}
               </div>
-              {totals.incomplete.includes('kcal') && <div className="text-[11px] text-subtle">mind. – einige Einträge ohne Kalorienangabe</div>}
+              {totals.incomplete.includes('kcal') && <div className="text-[10.5px] text-subtle">mind. – einige Einträge ohne Kalorienangabe</div>}
             </div>
             {targets.kcal == null ? (
-              <Link to="/nutrition/profile" className="chip-food block rounded-xl bg-[rgb(var(--chip)/0.14)] px-2.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--chip))]">
+              <Link to="/nutrition/profile" className="chip-food block rounded-xl bg-[rgb(var(--chip)/0.14)] px-2.5 py-1.5 text-[11.5px] font-semibold text-[rgb(var(--chip))]">
                 Profil ausfüllen, um dein Kalorienziel zu berechnen →
               </Link>
             ) : (
-              <div className="text-[11px] text-subtle">
+              <div className="text-[10.5px] text-subtle">
                 Ziel {fmtNumber(targets.kcal, 0)} kcal · {targets.manual.kcal ? 'manuell' : 'Schätzwert'}
                 {targets.activeBonus > 0 && ` · inkl. ${fmtNumber(targets.activeBonus, 0)} kcal Aktivität`}
               </div>
@@ -120,18 +120,18 @@ export default function NutritionPage() {
             ] as const
           ).map(([l, v, k]) => (
             <div key={k} className="rounded-xl bg-elevated/70 px-1 py-2">
-              <div className="text-[13px] font-bold">
+              <div className="text-[12.5px] font-bold">
                 {totals.incomplete.includes(k) && entries?.length ? '≥' : ''}
                 {fmtNumber(v, k === 'salt' ? 1 : 0)} g
               </div>
-              <div className="text-[10.5px] text-muted">{l}</div>
+              <div className="text-[10px] text-muted">{l}</div>
             </div>
           ))}
         </div>
         {hints.length > 0 && (
           <ul className="mt-3 space-y-1.5">
             {hints.map((h) => (
-              <li key={h} className="flex gap-2 rounded-xl bg-area-food/10 px-3 py-2 text-[13px]">
+              <li key={h} className="flex gap-2 rounded-xl bg-area-food/10 px-3 py-2 text-[12.5px]">
                 <Info size={14} className="mt-0.5 shrink-0" /> {h}
               </li>
             ))}
@@ -148,8 +148,8 @@ export default function NutritionPage() {
             <section key={m.key} className="card p-3" aria-label={m.label}>
               <div className="flex items-center gap-2 px-1">
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-[16px] font-bold">{m.label}</h2>
-                  <div className="num text-[12px] text-muted">{list.length ? `${fmtNumber(t.kcal, 0)} kcal · P ${fmtNumber(t.protein, 0)} · K ${fmtNumber(t.carbs, 0)} · F ${fmtNumber(t.fat, 0)}` : 'Noch nichts erfasst'}</div>
+                  <h2 className="text-[15px] font-bold">{m.label}</h2>
+                  <div className="num text-[11.5px] text-muted">{list.length ? `${fmtNumber(t.kcal, 0)} kcal · P ${fmtNumber(t.protein, 0)} · K ${fmtNumber(t.carbs, 0)} · F ${fmtNumber(t.fat, 0)}` : 'Noch nichts erfasst'}</div>
                 </div>
                 {list.length > 0 && (
                   <IconButton label={`${m.label} – Optionen`} onClick={() => setMealMenu(m.key)}>
@@ -169,15 +169,15 @@ export default function NutritionPage() {
                         <button onClick={() => setEditing(e)} className="flex w-full items-center gap-3 rounded-lg px-1 py-2.5 text-left hover:bg-elevated/50">
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-1.5">
-                              <span className="truncate text-[14px] font-semibold">{e.name}</span>
+                              <span className="truncate text-[13px] font-semibold">{e.name}</span>
                               {e.incomplete && <Badge tone="warn">unvollst.</Badge>}
                             </div>
-                            <div className="truncate text-[12px] text-muted">
+                            <div className="truncate text-[11.5px] text-muted">
                               {fmtNumber(e.amount, 1)} {e.unit === 'portion' ? (e.amount === 1 ? 'Portion' : 'Portionen') : e.unit}
                               {e.brand ? ` · ${e.brand}` : ''} · <MacroLine n={n} />
                             </div>
                           </div>
-                          <span className="num shrink-0 text-[14px] font-bold">{n.kcal == null ? '?' : fmtNumber(n.kcal, 0)} kcal</span>
+                          <span className="num shrink-0 text-[13px] font-bold">{n.kcal == null ? '?' : fmtNumber(n.kcal, 0)} kcal</span>
                         </button>
                       </li>
                     );
@@ -260,7 +260,7 @@ function EntrySheet({ entry, onClose }: { entry: FoodLogEntry | null; onClose: (
         <div className="space-y-4">
           <label className="block">
             <span className="label mb-1.5 block">Menge ({unitLabel})</span>
-            <input className="field num text-center text-xl font-bold" inputMode="decimal" value={amount} onChange={(e) => (setAmount(e.target.value.replace(/[^\d.,]/g, '')), setErr(null))} />
+            <input className="field num text-center text-[18px] font-bold" inputMode="decimal" value={amount} onChange={(e) => (setAmount(e.target.value.replace(/[^\d.,]/g, '')), setErr(null))} />
           </label>
           <div>
             <span className="label mb-1.5 flex items-center gap-1">
@@ -274,7 +274,7 @@ function EntrySheet({ entry, onClose }: { entry: FoodLogEntry | null; onClose: (
                     await moveEntry(entry.id, m.key);
                     onClose();
                   }}
-                  className={clsx('rounded-lg py-2 text-[12px] font-semibold', entry.meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}
+                  className={clsx('rounded-lg py-2 text-[11.5px] font-semibold', entry.meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}
                 >
                   {m.label}
                 </button>
@@ -282,10 +282,10 @@ function EntrySheet({ entry, onClose }: { entry: FoodLogEntry | null; onClose: (
             </div>
           </div>
           {preview && <NutrientTable n={preview} />}
-          <p className="text-[11px] text-subtle">
+          <p className="text-[10.5px] text-subtle">
             Quelle: {entry.source === 'off' ? 'Open Food Facts' : entry.source === 'recipe' ? 'Rezept' : 'Eigenes Lebensmittel'} · Nährwerte zum Zeitpunkt der Erfassung gespeichert
           </p>
-          {err && <p className="text-sm text-bad">{err}</p>}
+          {err && <p className="text-[13px] text-bad">{err}</p>}
         </div>
       )}
     </Sheet>
@@ -354,7 +354,7 @@ function MealMenu({ date, meal, onClose }: { date: string; meal: MealSlot | null
         </label>
         <div className="mt-4 grid grid-cols-4 gap-1.5">
           {MEALS.map((m) => (
-            <button key={m.key} onClick={() => setTarget((t) => ({ ...t, meal: m.key }))} className={clsx('rounded-lg py-2 text-[12px] font-semibold', target.meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
+            <button key={m.key} onClick={() => setTarget((t) => ({ ...t, meal: m.key }))} className={clsx('rounded-lg py-2 text-[11.5px] font-semibold', target.meal === m.key ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
               {m.label}
             </button>
           ))}
@@ -402,7 +402,7 @@ function CalendarSheet({ open, onClose, value, onPick }: { open: boolean; onClos
           <ChevronRight size={20} />
         </IconButton>
       </div>
-      <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-subtle">
+      <div className="grid grid-cols-7 gap-1 text-center text-[10.5px] font-semibold text-subtle">
         {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((d) => (
           <span key={d}>{d}</span>
         ))}
@@ -420,7 +420,7 @@ function CalendarSheet({ open, onClose, value, onPick }: { open: boolean; onClos
               disabled={d > today}
               onClick={() => onPick(d)}
               className={clsx(
-                'num flex aspect-square flex-col items-center justify-center rounded-xl text-[13px] font-semibold transition disabled:opacity-30',
+                'num flex aspect-square flex-col items-center justify-center rounded-xl text-[12.5px] font-semibold transition disabled:opacity-30',
                 d === value ? 'bg-fg text-bg' : has ? 'bg-area-food/15' : 'bg-elevated/60',
               )}
             >
@@ -430,7 +430,7 @@ function CalendarSheet({ open, onClose, value, onPick }: { open: boolean; onClos
           );
         })}
       </div>
-      <p className="mt-3 text-[12px] text-subtle">Markierte Tage enthalten Einträge.</p>
+      <p className="mt-3 text-[11.5px] text-subtle">Markierte Tage enthalten Einträge.</p>
     </Sheet>
   );
 }

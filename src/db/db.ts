@@ -85,6 +85,20 @@ export class ForgeDB extends Dexie {
           if (!s.theme || s.theme === 'dark') s.theme = 'light';
         });
       });
+    // v6: Google Health / Fitbit connection removed – disconnect and forget the login (imported values stay)
+    this.version(6)
+      .stores({})
+      .upgrade(async (tx) => {
+        await tx.table('healthSources').where('id').equals('google').modify((s: Record<string, unknown>) => {
+          s.connected = false;
+          s.accessToken = null;
+          s.tokenExpiresAt = null;
+          s.lastStatus = 'idle';
+          delete s.clientId;
+          delete s.grantedScopes;
+          delete s.diagnostics;
+        });
+      });
   }
 }
 

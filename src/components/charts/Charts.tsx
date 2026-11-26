@@ -32,9 +32,9 @@ interface Point {
 function Tip({ active, payload, label, fmt }: TooltipProps<number, string> & { fmt: (v: number) => string }) {
   if (!active || !payload?.length || payload[0].value == null) return null;
   return (
-    <div className="rounded-xl border border-line bg-surface px-3 py-2 text-[12px] shadow-xl">
+    <div className="rounded-xl border border-line bg-surface px-3 py-2 text-[11.5px] shadow-xl">
       <div className="text-muted">{label}</div>
-      <div className="num text-[14px] font-bold text-fg">{fmt(payload[0].value as number)}</div>
+      <div className="num text-[13px] font-bold text-fg">{fmt(payload[0].value as number)}</div>
     </div>
   );
 }
@@ -176,7 +176,7 @@ export function RankBars({ items, fmt, color }: { items: { label: string; value:
     <ul className="space-y-2.5">
       {items.map((i) => (
         <li key={i.label} className="group" title={`${i.label}: ${fmt(i.value)}`}>
-          <div className="mb-1 flex justify-between text-[13px]">
+          <div className="mb-1 flex justify-between text-[12.5px]">
             <span className="font-semibold">{i.label}</span>
             <span className="num text-muted">{fmt(i.value)}</span>
           </div>

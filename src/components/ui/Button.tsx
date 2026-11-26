@@ -19,10 +19,10 @@ const variants: Record<Variant, string> = {
   outline: 'border border-line text-fg hover:bg-elevated',
 };
 const sizes: Record<Size, string> = {
-  sm: 'h-9 px-3.5 text-[13px] gap-1.5 rounded-full',
-  md: 'h-11 px-5 text-[15px] gap-2 rounded-full',
-  lg: 'h-12 px-6 text-[15px] gap-2 rounded-full',
-  xl: 'h-14 px-7 text-base gap-2.5 rounded-full',
+  sm: 'h-9 px-3.5 text-[12.5px] gap-1.5 rounded-full',
+  md: 'h-11 px-5 text-[14px] gap-2 rounded-full',
+  lg: 'h-12 px-6 text-[14px] gap-2 rounded-full',
+  xl: 'h-14 px-7 text-[15px] gap-2.5 rounded-full',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(

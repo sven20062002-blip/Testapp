@@ -43,7 +43,7 @@ export default function PlansPage() {
         subtitle="Gespeicherte Abläufe – mit einem Tipp starten"
         actions={
           <>
-            <Link to="/exercises" className="hidden h-11 items-center gap-2 rounded-xl bg-elevated px-4 text-[15px] font-semibold sm:flex lg:hidden">
+            <Link to="/exercises" className="hidden h-11 items-center gap-2 rounded-xl bg-elevated px-4 text-[14px] font-semibold sm:flex lg:hidden">
               <BookOpen size={17} /> Übungen
             </Link>
             <Button variant="primary" onClick={() => nav('/plans/new')} icon={<Plus size={18} />}>
@@ -52,7 +52,7 @@ export default function PlansPage() {
           </>
         }
       />
-      <Link to="/exercises" className="mb-4 flex items-center gap-3 rounded-2xl bg-elevated/70 px-4 py-3 text-[14px] font-semibold sm:hidden">
+      <Link to="/exercises" className="mb-4 flex items-center gap-3 rounded-2xl bg-elevated/70 px-4 py-3 text-[13px] font-semibold sm:hidden">
         <BookOpen size={18} className="text-muted" /> Übungsbibliothek öffnen
       </Link>
 
@@ -71,18 +71,18 @@ export default function PlansPage() {
 
       <div className="grid gap-3 sm:grid-cols-2">
         {plans?.map((p, i) => (
-          <article key={p.id} className="card flex flex-col p-4 animate-rise" style={{ animationDelay: `${i * 30}ms` }}>
+          <article key={p.id} className="card flex flex-col p-3.5 animate-rise" style={{ animationDelay: `${i * 30}ms` }}>
             <div className="flex items-start gap-3">
               <span className="mt-1 h-9 w-1.5 shrink-0 rounded-full" style={{ background: p.color }} />
               <Link to={`/plans/${p.id}`} className="min-w-0 flex-1">
-                <h2 className="truncate text-[17px] font-bold">{p.name}</h2>
-                <p className="truncate text-[13px] text-muted">{p.description || `${p.exercises.length} Übungen`}</p>
+                <h2 className="truncate text-[15.5px] font-bold">{p.name}</h2>
+                <p className="truncate text-[12.5px] text-muted">{p.description || `${p.exercises.length} Übungen`}</p>
               </Link>
               <IconButton label={`Optionen für ${p.name}`} onClick={() => setMenu(p)}>
                 <MoreHorizontal size={20} />
               </IconButton>
             </div>
-            <ul className="mt-3 flex-1 space-y-1 text-[13px]">
+            <ul className="mt-3 flex-1 space-y-1 text-[12.5px]">
               {p.exercises.slice(0, 5).map((e) => (
                 <li key={e.id} className="flex justify-between gap-2">
                   <span className="truncate text-fg/90">{name(exMap.get(e.exerciseId))}</span>
@@ -94,7 +94,7 @@ export default function PlansPage() {
               {p.exercises.length > 5 && <li className="text-subtle">+ {p.exercises.length - 5} weitere</li>}
             </ul>
             <div className="mt-4 flex items-center gap-2">
-              <span className="flex-1 text-[12px] text-subtle">{p.lastUsedAt ? `Zuletzt ${relativeDay(p.lastUsedAt).toLowerCase()}` : 'Noch nie trainiert'}</span>
+              <span className="flex-1 text-[11.5px] text-subtle">{p.lastUsedAt ? `Zuletzt ${relativeDay(p.lastUsedAt).toLowerCase()}` : 'Noch nie trainiert'}</span>
               <Button variant="primary" size="sm" onClick={() => start(p)} icon={<Play size={14} fill="currentColor" />}>
                 Starten
               </Button>

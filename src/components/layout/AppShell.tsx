@@ -17,7 +17,10 @@ export function AppShell() {
   const nav = useNavigate();
   const [more, setMore] = useState(false);
   const secondary = NAV.filter((n) => !n.primary);
-  const moreActive = secondary.some((n) => loc.pathname.startsWith(n.to));
+  const moreItem = secondary.find((n) => loc.pathname.startsWith(n.to));
+  const moreActive = !!moreItem;
+  // "Mehr" takes the colour of the area that is currently open behind it
+  const moreArea = moreItem?.area ?? 'neutral';
 
   return (
     <div className="min-h-dvh lg:flex">
@@ -26,8 +29,8 @@ export function AppShell() {
         <div className="mb-8 flex items-center gap-2.5 px-2">
           <Logo size={34} />
           <div>
-            <div className="text-lg font-bold leading-none tracking-tight">Forge</div>
-            <div className="mt-0.5 text-[11px] font-medium text-subtle">Workout Tracker</div>
+            <div className="text-[16.5px] font-bold leading-none tracking-tight">Forge</div>
+            <div className="mt-0.5 text-[10.5px] font-medium text-subtle">Workout Tracker</div>
           </div>
         </div>
         <nav className="flex flex-col gap-0.5 overflow-y-auto" aria-label="Hauptnavigation">
@@ -42,12 +45,12 @@ export function AppShell() {
                   data-tour={`nav-${to}`}
                   className={({ isActive }) =>
                     clsx(
-                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-semibold transition',
-                      isActive ? 'bg-elevated text-fg' : 'text-muted hover:bg-elevated/60 hover:text-fg',
+                      `chip-${area ?? 'neutral'} flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-semibold transition`,
+                      isActive ? 'nav-pill text-fg' : 'text-muted hover:bg-elevated/60 hover:text-fg',
                     )
                   }
                 >
-                  <I size={19} className={area ? `text-area-${area}` : undefined} />
+                  <I size={18} className="nav-ink" />
                   {label}
                   {to === '/workout' && active && <span className="ml-auto h-2 w-2 animate-pulse-ring rounded-full bg-accent" />}
                 </NavLink>
@@ -56,7 +59,7 @@ export function AppShell() {
           ))}
         </nav>
         {!online && (
-          <div className="mt-auto flex items-center gap-2 rounded-xl bg-elevated px-3 py-2 text-xs font-medium text-muted">
+          <div className="mt-auto flex items-center gap-2 rounded-xl bg-elevated px-3 py-2 text-[11.5px] font-medium text-muted">
             <WifiOff size={14} /> Offline – alles wird lokal gespeichert
           </div>
         )}
@@ -64,7 +67,7 @@ export function AppShell() {
 
       <main className="min-w-0 flex-1">
         {!online && (
-          <div className="flex items-center justify-center gap-2 bg-elevated py-1 text-xs font-medium text-muted lg:hidden" style={{ paddingTop: 'calc(var(--safe-top) + 4px)' }}>
+          <div className="flex items-center justify-center gap-2 bg-elevated py-1 text-[11.5px] font-medium text-muted lg:hidden" style={{ paddingTop: 'calc(var(--safe-top) + 4px)' }}>
             <WifiOff size={13} /> Offline-Modus – Daten werden lokal gespeichert
           </div>
         )}
@@ -81,32 +84,23 @@ export function AppShell() {
       >
         <div className="mx-auto flex h-[var(--nav-h)] max-w-md items-stretch justify-around rounded-[26px] bg-surface/80 px-1.5 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.45),0_0_0_0.5px_rgb(var(--fg)/0.08)] backdrop-blur-2xl backdrop-saturate-150">
           {NAV.filter((n) => n.primary).map(({ to, label, icon: I, center, area }) => (
-            <NavLink key={to} to={to} end={to === '/'} data-tour={`nav-${to}`} className="relative flex flex-1 flex-col items-center justify-center gap-[3px]">
-              {({ isActive }) =>
-                center ? (
-                  <>
-                    <span
-                      className={clsx(
-                        'flex h-10 w-10 items-center justify-center rounded-full transition',
-                        active ? 'animate-pulse-ring bg-accent text-accent-fg' : isActive ? 'bg-accent text-accent-fg' : 'bg-elevated text-fg',
-                      )}
-                    >
-                      <I size={20} strokeWidth={2.2} />
-                    </span>
-                    <span className={clsx('text-[10px] font-medium', isActive || active ? 'text-fg' : 'text-subtle')}>{active ? 'Läuft' : label}</span>
-                  </>
-                ) : (
-                  <>
-                    <I size={22} strokeWidth={isActive ? 2.2 : 1.8} className={clsx('transition', isActive ? (area ? `text-area-${area}` : 'text-fg') : 'text-subtle')} />
-                    <span className={clsx('text-[10px] font-medium transition', isActive ? 'text-fg' : 'text-subtle')}>{label}</span>
-                  </>
-                )
-              }
+            <NavLink key={to} to={to} end={to === '/'} data-tour={`nav-${to}`} className={`chip-${area ?? 'neutral'} relative flex flex-1 flex-col items-center justify-center gap-[3px]`}>
+              {({ isActive }) => (
+                <>
+                  <span className={clsx('nav-ink relative flex h-8 w-14 items-center justify-center rounded-full transition', isActive && 'nav-pill')}>
+                    <I size={21} strokeWidth={isActive ? 2.3 : 1.9} />
+                    {center && active && <span className="nav-dot absolute right-2.5 top-1 h-2 w-2 animate-pulse rounded-full" aria-hidden />}
+                  </span>
+                  <span className={clsx('text-[10px] leading-none transition', isActive ? 'nav-ink font-semibold' : 'font-medium text-subtle')}>{center && active ? 'Läuft' : label}</span>
+                </>
+              )}
             </NavLink>
           ))}
-          <button onClick={() => setMore(true)} data-tour="nav-more" className="flex flex-1 flex-col items-center justify-center gap-[3px]" aria-label="Weitere Bereiche">
-            <MoreHorizontal size={22} strokeWidth={moreActive ? 2.2 : 1.8} className={moreActive ? 'text-fg' : 'text-subtle'} />
-            <span className={clsx('text-[10px] font-medium', moreActive ? 'text-fg' : 'text-subtle')}>Mehr</span>
+          <button onClick={() => setMore(true)} data-tour="nav-more" className={`chip-${moreArea} flex flex-1 flex-col items-center justify-center gap-[3px]`} aria-label="Weitere Bereiche">
+            <span className={clsx('nav-ink flex h-8 w-14 items-center justify-center rounded-full transition', moreActive && 'nav-pill')}>
+              <MoreHorizontal size={21} strokeWidth={moreActive ? 2.3 : 1.9} />
+            </span>
+            <span className={clsx('text-[10px] leading-none', moreActive ? 'nav-ink font-semibold' : 'font-medium text-subtle')}>Mehr</span>
           </button>
         </div>
       </nav>
@@ -123,11 +117,11 @@ export function AppShell() {
                 nav(to);
               }}
               className={clsx(
-                'flex flex-col items-center gap-2 rounded-2xl px-2 py-4 text-[13px] font-medium transition',
-                loc.pathname.startsWith(to) ? 'bg-elevated ring-1 ring-fg/10' : 'hover:bg-elevated',
+                `chip-${area ?? 'neutral'} flex flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-[12.5px] font-medium transition`,
+                loc.pathname.startsWith(to) ? 'nav-pill' : 'hover:bg-elevated',
               )}
             >
-              <span className={clsx('chip h-11 w-11 rounded-2xl', `chip-${area ?? 'train'}`, !area && 'text-fg')}>
+              <span className={clsx('chip h-10 w-10 rounded-2xl', `chip-${area ?? 'neutral'}`)}>
                 <I size={21} />
               </span>
               {label}

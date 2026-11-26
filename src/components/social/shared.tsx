@@ -51,7 +51,7 @@ export function remaining(iso: string, now = Date.now()): string {
 
 export function ErrorNote({ error, onRetry }: { error: string; onRetry?: () => void }) {
   return (
-    <div className="card flex items-center justify-between gap-3 p-4 text-[13px] text-muted">
+    <div className="card flex items-center justify-between gap-3 p-3.5 text-[12.5px] text-muted">
       <span>{error}</span>
       {onRetry && (
         <button onClick={onRetry} className="shrink-0 font-semibold text-fg">

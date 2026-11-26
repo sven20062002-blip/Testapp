@@ -140,15 +140,15 @@
     font-feature-settings: 'tnum', 'cv11';
   }
   .label {
-    @apply text-[11px] font-semibold uppercase tracking-[0.09em] text-subtle;
+    @apply text-[10.5px] font-semibold uppercase tracking-[0.09em] text-subtle;
   }
   .title-xl {
-    @apply text-[30px] font-bold leading-[1.1] tracking-[-0.02em];
+    @apply text-[24px] font-bold leading-[1.1] tracking-[-0.02em];
   }
   .page {
     @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
-    padding-top: calc(var(--safe-top) + 12px);
-    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 110px);
+    padding-top: calc(var(--safe-top) + 10px);
+    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 32px);
   }
   @media (min-width: 1024px) {
     .page {
@@ -156,7 +156,7 @@
     }
   }
   .field {
-    @apply w-full rounded-xl bg-elevated border border-transparent px-3.5 py-3 text-[15px] text-fg placeholder:text-subtle
+    @apply w-full rounded-xl bg-elevated border border-transparent px-3.5 py-3 text-[14px] text-fg placeholder:text-subtle
       outline-none transition focus:border-fg/20 focus:bg-surface focus:ring-4 focus:ring-fg/[0.06];
   }
   .scroll-x {
@@ -204,3 +204,14 @@
 .chip-body { --chip: var(--c-body); }
 .chip-social { --chip: var(--c-social); }
 :root:not(.dark) .chip-train { --chip: 77 124 15; }
+.chip-neutral { --chip: var(--fg); }
+
+/* navigation: icon always in its area colour, selection = tinted pill in the same colour */
+.nav-ink { color: rgb(var(--chip)); }
+.nav-pill { background: rgb(var(--chip) / 0.15); }
+.nav-dot { background: rgb(var(--chip)); }
+
+/* room for the floating "workout running" bar only while it is shown */
+@media (max-width: 1023px) {
+  html[data-workout-bar] .page { padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 100px); }
+}

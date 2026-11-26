@@ -19,12 +19,12 @@ export function ServerSetup() {
   const [key, setKey] = useState('');
   const [err, setErr] = useState('');
   return (
-    <div className="card p-5">
+    <div className="card p-4">
       <span className="chip chip-social h-11 w-11 rounded-2xl">
         <Cloud size={22} />
       </span>
-      <h2 className="mt-4 text-[20px] font-semibold tracking-[-0.01em]">Online-Server verbinden</h2>
-      <p className="mt-1.5 text-[14px] leading-relaxed text-muted">
+      <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em]">Online-Server verbinden</h2>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
         Für Freunde, Duelle und Ranglisten braucht Forge einen Server. Du nutzt dafür dein eigenes, kostenloses Supabase-Projekt – deine Daten liegen bei dir. Die Anleitung steht in
         <span className="font-medium text-fg"> docs/SUPABASE_SETUP.md</span>.
       </p>
@@ -33,9 +33,9 @@ export function ServerSetup() {
           <input id="sb-url" className="field" placeholder="https://abcd1234.supabase.co" value={url} onChange={(e) => (setUrl(e.target.value), setErr(''))} autoComplete="off" />
         </Field>
         <Field label="Öffentlicher Schlüssel (anon / publishable)" htmlFor="sb-key">
-          <input id="sb-key" className="field font-mono text-[12px]" placeholder="eyJhbGciOi… oder sb_publishable_…" value={key} onChange={(e) => (setKey(e.target.value), setErr(''))} autoComplete="off" />
+          <input id="sb-key" className="field font-mono text-[11.5px]" placeholder="eyJhbGciOi… oder sb_publishable_…" value={key} onChange={(e) => (setKey(e.target.value), setErr(''))} autoComplete="off" />
         </Field>
-        {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
+        {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
         <Button
           variant="primary"
           size="lg"
@@ -51,7 +51,7 @@ export function ServerSetup() {
           Verbinden
         </Button>
       </div>
-      <p className="mt-4 flex gap-2 text-[12px] leading-relaxed text-subtle">
+      <p className="mt-4 flex gap-2 text-[11.5px] leading-relaxed text-subtle">
         <ShieldCheck size={14} className="mt-0.5 shrink-0" />
         Der öffentliche Schlüssel darf in der App stehen: Zugriffe sind serverseitig durch Row Level Security geschützt. Den geheimen service_role-Schlüssel niemals eintragen.
       </p>
@@ -90,12 +90,12 @@ export function AuthForm() {
   };
 
   return (
-    <div className="card p-5">
+    <div className="card p-4">
       <span className="chip chip-social h-11 w-11 rounded-2xl">
         <KeyRound size={22} />
       </span>
-      <h2 className="mt-4 text-[20px] font-semibold tracking-[-0.01em]">{mode === 'in' ? 'Anmelden' : 'Konto erstellen'}</h2>
-      <p className="mt-1 text-[14px] text-muted">Trainiere mit Freunden, fordere sie zu Duellen heraus und vergleicht eure Bestleistungen.</p>
+      <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em]">{mode === 'in' ? 'Anmelden' : 'Konto erstellen'}</h2>
+      <p className="mt-1 text-[13px] text-muted">Trainiere mit Freunden, fordere sie zu Duellen heraus und vergleicht eure Bestleistungen.</p>
       <Segmented
         className="mt-5"
         value={mode}
@@ -119,15 +119,15 @@ export function AuthForm() {
         <Field label="Passwort" htmlFor="au-pw">
           <input id="au-pw" type="password" autoComplete={mode === 'in' ? 'current-password' : 'new-password'} className="field" value={pw} onChange={(e) => setPw(e.target.value)} />
         </Field>
-        {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
-        {info && <p className="rounded-xl bg-good/10 px-3 py-2 text-sm text-good">{info}</p>}
+        {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
+        {info && <p className="rounded-xl bg-good/10 px-3 py-2 text-[13px] text-good">{info}</p>}
         <Button type="submit" variant="primary" size="lg" block disabled={busy}>
           {busy ? 'Bitte warten …' : mode === 'in' ? 'Anmelden' : 'Konto erstellen'}
         </Button>
       </form>
       {mode === 'in' && (
         <button
-          className="mt-3 flex w-full items-center justify-center gap-1.5 text-[13px] font-medium text-muted hover:text-fg"
+          className="mt-3 flex w-full items-center justify-center gap-1.5 text-[12.5px] font-medium text-muted hover:text-fg"
           onClick={async () => {
             if (!/^\S+@\S+\.\S+$/.test(email.trim())) return setErr('Gib oben deine E-Mail ein, um das Passwort zurückzusetzen.');
             try {
@@ -230,25 +230,25 @@ export function ProfileForm({
       </Field>
       <div className="flex items-center justify-between gap-3 rounded-2xl bg-elevated/60 px-4 py-3">
         <div>
-          <div className="text-[14px] font-semibold">Workouts mit Freunden teilen</div>
-          <div className="text-[12px] text-muted">Feed und Ranglisten. Challenges & Duelle funktionieren immer.</div>
+          <div className="text-[13px] font-semibold">Workouts mit Freunden teilen</div>
+          <div className="text-[11.5px] text-muted">Feed und Ranglisten. Challenges & Duelle funktionieren immer.</div>
         </div>
         <Toggle checked={share} onChange={setShare} label="Workouts mit Freunden teilen" />
       </div>
       {firstTime && (
         <div className="flex items-center justify-between gap-3 rounded-2xl bg-elevated/60 px-4 py-3">
           <div>
-            <div className="text-[14px] font-semibold">Bisherige Workouts hochladen</div>
-            <div className="text-[12px] text-muted">Damit Ranglisten von Anfang an deine Bestleistungen kennen.</div>
+            <div className="text-[13px] font-semibold">Bisherige Workouts hochladen</div>
+            <div className="text-[11.5px] text-muted">Damit Ranglisten von Anfang an deine Bestleistungen kennen.</div>
           </div>
           <Toggle checked={upload} onChange={setUpload} label="Bisherige Workouts hochladen" />
         </div>
       )}
-      <p className="text-[12px] leading-relaxed text-subtle">
+      <p className="text-[11.5px] leading-relaxed text-subtle">
         Geteilt werden nur Zusammenfassungen: Workout-Name, Datum, Dauer, Volumen, Satzanzahl sowie pro Übung bestes Gewicht, geschätztes 1RM und Volumen. Notizen und einzelne Sätze bleiben
         auf deinem Gerät.
       </p>
-      {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
+      {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
       <Button variant="primary" size="lg" block onClick={save} disabled={busy}>
         {busy ? 'Speichert …' : submitLabel}
       </Button>

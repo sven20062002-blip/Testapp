@@ -125,7 +125,7 @@ export default function ExerciseDetail() {
       />
 
       {ex?.deletedAt && (
-        <div className="mb-4 flex items-center gap-3 rounded-2xl bg-warn/10 px-4 py-3 text-sm">
+        <div className="mb-4 flex items-center gap-3 rounded-2xl bg-warn/10 px-4 py-3 text-[13px]">
           <span className="flex-1">Diese Übung wurde gelöscht. Der Verlauf bleibt erhalten.</span>
           <Button size="sm" onClick={() => restoreExercise(ex.id)} icon={<RotateCcw size={14} />}>
             Wiederherstellen
@@ -133,7 +133,7 @@ export default function ExerciseDetail() {
         </div>
       )}
 
-      <div className="card flex gap-4 p-4">
+      <div className="card flex gap-4 p-3.5">
         <MuscleIcon muscle={meta.muscleGroup} size={56} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap gap-1.5">
@@ -141,8 +141,8 @@ export default function ExerciseDetail() {
             <Badge>{CATEGORY_LABELS[meta.category]}</Badge>
             {ex?.secondaryMuscles.map((m) => <Badge key={m}>{MUSCLE_LABELS[m]}</Badge>)}
           </div>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted">{ex?.description || 'Keine Beschreibung.'}</p>
-          <p className="mt-2 text-[12px] text-subtle">Erfassung: {TRACKING_LABELS[tracking]}</p>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted">{ex?.description || 'Keine Beschreibung.'}</p>
+          <p className="mt-2 text-[11.5px] text-subtle">Erfassung: {TRACKING_LABELS[tracking]}</p>
         </div>
       </div>
 
@@ -163,12 +163,12 @@ export default function ExerciseDetail() {
         {types.map((t) => {
           const r = bests.get(`${id}:${t}`);
           return (
-            <div key={t} className="card p-4">
-              <div className="text-[12px] font-semibold text-muted">
+            <div key={t} className="card p-3.5">
+              <div className="text-[11.5px] font-semibold text-muted">
                 {RECORD_LABELS[t]}
               </div>
-              <div className="num mt-1 text-[20px] font-bold">{r ? describePR(r, settings.unit) : '–'}</div>
-              {r && <div className="text-[12px] text-subtle">{relativeDay(r.achievedAt)}</div>}
+              <div className="num mt-1 text-[18px] font-bold">{r ? describePR(r, settings.unit) : '–'}</div>
+              {r && <div className="text-[11.5px] text-subtle">{relativeDay(r.achievedAt)}</div>}
             </div>
           );
         })}
@@ -176,15 +176,15 @@ export default function ExerciseDetail() {
 
       {/* Chart */}
       <SectionTitle>Entwicklung</SectionTitle>
-      <div className="card p-4">
+      <div className="card p-3.5">
         {metricOpts.length > 1 && <Segmented value={metric} onChange={setMetric} options={metricOpts} size="sm" className="mb-4" label="Kennzahl" />}
         {points.length >= 2 ? (
           <LineTrend data={chartData} fmt={fmtMetric} />
         ) : (
-          <p className="py-10 text-center text-sm text-muted">Nach mindestens zwei Trainings mit dieser Übung siehst du hier deinen Verlauf.</p>
+          <p className="py-10 text-center text-[13px] text-muted">Nach mindestens zwei Trainings mit dieser Übung siehst du hier deinen Verlauf.</p>
         )}
         {metric === 'e1rm' && points.length >= 2 && (
-          <p className="mt-2 text-[11px] text-subtle">Geschätztes 1RM nach Epley, nur aus Sätzen mit 1–12 Wiederholungen. Schätzwert – kein tatsächlich gehobenes Gewicht.</p>
+          <p className="mt-2 text-[10.5px] text-subtle">Geschätztes 1RM nach Epley, nur aus Sätzen mit 1–12 Wiederholungen. Schätzwert – kein tatsächlich gehobenes Gewicht.</p>
         )}
       </div>
 
@@ -197,10 +197,10 @@ export default function ExerciseDetail() {
               <li key={r.id} className="flex items-center gap-3 px-4 py-3">
                 <Trophy size={16} className="shrink-0 text-fg dark:text-accent" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-[13px] font-semibold">{RECORD_LABELS[r.type as RecordType]}</div>
-                  <div className="text-[12px] text-subtle">{fmtDate(r.achievedAt)}</div>
+                  <div className="text-[12.5px] font-semibold">{RECORD_LABELS[r.type as RecordType]}</div>
+                  <div className="text-[11.5px] text-subtle">{fmtDate(r.achievedAt)}</div>
                 </div>
-                <div className="num text-right text-[13px]">
+                <div className="num text-right text-[12.5px]">
                   <span className="text-subtle">{describePR({ type: r.type, value: r.prevValue!, weight: r.prevWeight, reps: r.prevReps }, settings.unit)}</span>
                   <span className="mx-1.5 text-subtle">→</span>
                   <span className="font-bold">{describePR(r, settings.unit)}</span>
@@ -213,18 +213,18 @@ export default function ExerciseDetail() {
 
       {/* Session history */}
       <SectionTitle>Verlauf ({sessions.length})</SectionTitle>
-      {sessions.length === 0 && <p className="text-sm text-muted">Noch nicht trainiert.</p>}
+      {sessions.length === 0 && <p className="text-[13px] text-muted">Noch nicht trainiert.</p>}
       <div className="space-y-2">
         {sessions.slice(0, 30).map(({ w, sets }) => (
-          <Link key={w.id} to={`/history/${w.id}`} className="card block p-4 hover:border-line">
+          <Link key={w.id} to={`/history/${w.id}`} className="card block p-3.5 hover:border-line">
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold">{fmtDate(w.startedAt)}</div>
-                <div className="text-[12px] text-muted">{w.name}</div>
+                <div className="text-[11.5px] text-muted">{w.name}</div>
               </div>
               <ChevronRight size={18} className="text-subtle" />
             </div>
-            <div className="num mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[13px] text-muted">
+            <div className="num mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[12.5px] text-muted">
               {sets.map((s, i) => (
                 <span key={s.id}>
                   <span className="text-subtle">{s.kind === 'warmup' ? 'W' : i + 1}:</span> {prevLabel(s, tracking, settings.unit)}
@@ -232,7 +232,7 @@ export default function ExerciseDetail() {
               ))}
             </div>
             {tracking !== 'duration' && (
-              <div className="num mt-1.5 text-[12px] text-subtle">
+              <div className="num mt-1.5 text-[11.5px] text-subtle">
                 Volumen {fmtVolume(sumVolume(sets), settings.unit)}
                 {sets.some((s) => s.weight) && ` · Top ${fmtWeight(Math.max(...sets.map((s) => s.weight ?? 0)), settings.unit)}`}
               </div>

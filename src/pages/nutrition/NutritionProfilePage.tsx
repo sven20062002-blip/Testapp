@@ -51,7 +51,7 @@ function NumField({
   };
   return (
     <label className="block">
-      <span className="mb-1 block text-[12px] font-semibold text-muted">{label}</span>
+      <span className="mb-1 block text-[11.5px] font-semibold text-muted">{label}</span>
       <div className="relative">
         <input
           className="field num pr-12"
@@ -63,7 +63,7 @@ function NumField({
           onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
           aria-label={label}
         />
-        <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[13px] text-subtle">{unit}</span>
+        <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[12.5px] text-subtle">{unit}</span>
       </div>
     </label>
   );
@@ -80,11 +80,11 @@ export default function NutritionProfilePage() {
     <div className="page">
       <PageHeader back="/nutrition" title="Ernährungsprofil" subtitle="Grundlage für Kalorienbedarf und Makroziele" />
 
-      <section className="card space-y-4 p-4">
+      <section className="card space-y-4 p-3.5">
         <div className="grid grid-cols-2 gap-3">
           <NumField label="Alter" value={p.age} unit="J." min={14} max={100} integer onSave={(v) => save({ age: v })} />
           <div>
-            <span className="mb-1 block text-[12px] font-semibold text-muted">Geschlecht</span>
+            <span className="mb-1 block text-[11.5px] font-semibold text-muted">Geschlecht</span>
             <Segmented<Sex>
               value={(p.sex ?? '') as Sex}
               onChange={(v) => save({ sex: v })}
@@ -100,7 +100,7 @@ export default function NutritionProfilePage() {
         </div>
         <div>
           {w.tracked ? (
-            <div className="flex items-center gap-3 rounded-xl bg-elevated/70 px-3 py-2.5 text-[13px]">
+            <div className="flex items-center gap-3 rounded-xl bg-elevated/70 px-3 py-2.5 text-[12.5px]">
               <Scale size={16} className="text-muted" />
               <span className="flex-1">
                 Aktuelles Gewicht <b className="num">{fmtNumber(w.kg!, 1)} kg</b> aus dem Gewichtsverlauf ({dayLabel(w.date!)})
@@ -116,9 +116,9 @@ export default function NutritionProfilePage() {
       </section>
 
       <SectionTitle>Aktivität & Ziel</SectionTitle>
-      <section className="card space-y-4 p-4">
+      <section className="card space-y-4 p-3.5">
         <div>
-          <span className="mb-1.5 block text-[12px] font-semibold text-muted">Aktivitätslevel (Alltag + Training)</span>
+          <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Aktivitätslevel (Alltag + Training)</span>
           <div className="space-y-1.5" role="radiogroup" aria-label="Aktivitätslevel">
             {ACTIVITY_LEVELS.map((a) => (
               <button
@@ -129,20 +129,20 @@ export default function NutritionProfilePage() {
                 className={clsx('flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-left transition', p.activityLevel === a.value ? 'border-accent bg-accent-soft/50' : 'border-line')}
               >
                 <span>
-                  <span className="block text-[14px] font-semibold">{a.label}</span>
-                  <span className="block text-[12px] text-muted">{a.hint}</span>
+                  <span className="block text-[13px] font-semibold">{a.label}</span>
+                  <span className="block text-[11.5px] text-muted">{a.hint}</span>
                 </span>
-                <span className="num text-[12px] text-subtle">× {String(a.value).replace('.', ',')}</span>
+                <span className="num text-[11.5px] text-subtle">× {String(a.value).replace('.', ',')}</span>
               </button>
             ))}
           </div>
         </div>
         <NumField label="Trainingseinheiten pro Woche" value={p.trainingDaysPerWeek} unit="×" min={0} max={14} integer onSave={(v) => save({ trainingDaysPerWeek: v ?? 0 })} />
         <div>
-          <span className="mb-1.5 block text-[12px] font-semibold text-muted">Ernährungsziel</span>
+          <span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Ernährungsziel</span>
           <div className="grid grid-cols-2 gap-1.5">
             {(Object.keys(GOAL_LABELS) as NutritionGoal[]).map((g) => (
-              <button key={g} onClick={() => save({ goal: g })} className={clsx('rounded-xl py-2.5 text-[13px] font-semibold', p.goal === g ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
+              <button key={g} onClick={() => save({ goal: g })} className={clsx('rounded-xl py-2.5 text-[12.5px] font-semibold', p.goal === g ? 'bg-fg text-bg' : 'bg-elevated text-muted')}>
                 {GOAL_LABELS[g]}
               </button>
             ))}
@@ -151,7 +151,7 @@ export default function NutritionProfilePage() {
       </section>
 
       <SectionTitle>Kalorienbedarf</SectionTitle>
-      <section className="card p-4">
+      <section className="card p-3.5">
         {plan ? (
           <>
             <div className="grid grid-cols-3 gap-2 text-center">
@@ -161,43 +161,43 @@ export default function NutritionProfilePage() {
                 ['Kalorienziel', plan.target],
               ].map(([l, v]) => (
                 <div key={l as string} className="rounded-xl bg-elevated/70 p-2.5">
-                  <div className="num text-[18px] font-bold">{fmtNumber(v as number, 0)}</div>
-                  <div className="text-[11px] text-muted">{l} (kcal)</div>
+                  <div className="num text-[16.5px] font-bold">{fmtNumber(v as number, 0)}</div>
+                  <div className="text-[10.5px] text-muted">{l} (kcal)</div>
                 </div>
               ))}
             </div>
-            <ul className="mt-3 space-y-1 text-[12px] text-muted">
+            <ul className="mt-3 space-y-1 text-[11.5px] text-muted">
               {plan.explanation.map((e) => (
                 <li key={e} className="flex gap-1.5">
                   <Calculator size={12} className="mt-0.5 shrink-0" /> {e}
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-[11px] text-subtle">
+            <p className="mt-2 text-[10.5px] text-subtle">
               Schätzwerte nach der Mifflin-St-Jeor-Formel. Der tatsächliche Bedarf kann individuell abweichen – beobachte deinen Gewichtsverlauf und passe die Ziele an.
             </p>
           </>
         ) : (
-          <p className="text-sm text-muted">Gib Alter, Geschlecht, Größe und Gewicht ein, um deinen Bedarf zu berechnen.</p>
+          <p className="text-[13px] text-muted">Gib Alter, Geschlecht, Größe und Gewicht ein, um deinen Bedarf zu berechnen.</p>
         )}
       </section>
 
       <SectionTitle>Tagesziele</SectionTitle>
-      <section className="card space-y-3 p-4">
+      <section className="card space-y-3 p-3.5">
         <TargetRow label="Kalorien" unit="kcal" manual={p.kcalTarget} calc={plan?.target ?? null} onSave={(v) => save({ kcalTarget: v })} max={8000} />
         <TargetRow label="Protein" unit="g" manual={p.proteinTarget} calc={plan?.protein ?? null} onSave={(v) => save({ proteinTarget: v })} max={500} />
         <TargetRow label="Kohlenhydrate" unit="g" manual={p.carbsTarget} calc={plan?.carbs ?? null} onSave={(v) => save({ carbsTarget: v })} max={1000} />
         <TargetRow label="Fett" unit="g" manual={p.fatTarget} calc={plan?.fat ?? null} onSave={(v) => save({ fatTarget: v })} max={400} />
         <TargetRow label="Ballaststoffe" unit="g" manual={p.fiberTarget} calc={plan?.fiber ?? null} onSave={(v) => save({ fiberTarget: v })} max={150} />
         {targets.kcal != null && targets.protein != null && targets.carbs != null && targets.fat != null && (
-          <p className="num text-[12px] text-subtle">
+          <p className="num text-[11.5px] text-subtle">
             Makros ergeben {fmtNumber(targets.protein * 4 + targets.carbs * 4 + targets.fat * 9, 0)} kcal (Ziel {fmtNumber(targets.kcal, 0)} kcal).
           </p>
         )}
       </section>
 
       <SectionTitle>Kalorienbudget</SectionTitle>
-      <section className="card space-y-3 p-4">
+      <section className="card space-y-3 p-3.5">
         <Segmented
           value={p.budgetMode}
           onChange={(v) => save({ budgetMode: v })}
@@ -207,16 +207,16 @@ export default function NutritionProfilePage() {
           ]}
           label="Kalorienbudget"
         />
-        <p className="text-[12px] leading-relaxed text-muted">
+        <p className="text-[11.5px] leading-relaxed text-muted">
           {p.budgetMode === 'static'
             ? 'Das Ziel basiert auf deinem Aktivitätslevel. Gemessene Aktivitätskalorien werden NICHT zusätzlich addiert – sie sind im Aktivitätsfaktor bereits enthalten (keine Doppelzählung).'
-            : 'Das Ziel = Grundumsatz × 1,2 (ohne Sport) + am Tag gemessene Aktivitätskalorien (z. B. von Fitbit) ± Zielanpassung. Ruheenergie und Gesamtverbrauch werden dabei nicht zusätzlich gezählt.'}
+            : 'Das Ziel = Grundumsatz × 1,2 (ohne Sport) + am Tag gemessene Aktivitätskalorien (z. B. aus Apple Health) ± Zielanpassung. Ruheenergie und Gesamtverbrauch werden dabei nicht zusätzlich gezählt.'}
         </p>
-        {p.budgetMode === 'dynamic' && p.kcalTarget != null && <p className="text-[12px] text-warn">Hinweis: Ein manuelles Kalorienziel ist gesetzt und hat Vorrang vor dem dynamischen Budget.</p>}
+        {p.budgetMode === 'dynamic' && p.kcalTarget != null && <p className="text-[11.5px] text-warn">Hinweis: Ein manuelles Kalorienziel ist gesetzt und hat Vorrang vor dem dynamischen Budget.</p>}
       </section>
 
       <SectionTitle>Weitere Ziele</SectionTitle>
-      <section className="card p-4">
+      <section className="card p-3.5">
         <NumField label="Schrittziel" value={p.stepGoal} unit="Schritte" min={1000} max={50000} integer onSave={(v) => save({ stepGoal: v ?? 10000 })} />
       </section>
     </div>

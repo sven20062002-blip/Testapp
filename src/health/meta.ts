@@ -23,7 +23,7 @@ export const METRIC_META: Record<MetricKey, MetricMeta> = {
 };
 
 export const SOURCE_META: Record<HealthSourceId, { label: string; short: string }> = {
-  google: { label: 'Google Health (Fitbit)', short: 'Google Health' },
+  google: { label: 'Google Health (früher)', short: 'Google Health' },
   apple: { label: 'Apple Health (Export-Import)', short: 'Apple Health' },
   bridge: { label: 'Native App-Brücke (Health Connect / HealthKit)', short: 'Native Brücke' },
   manual: { label: 'Manuelle Eingabe', short: 'Manuell' },

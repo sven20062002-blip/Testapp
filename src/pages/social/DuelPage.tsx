@@ -51,22 +51,22 @@ export default function DuelPage() {
     <div className="page">
       <PageHeader back="/social" title="Live-Duell" area="social" subtitle={`${d.exercise_name ?? 'Alle Übungen'} · ${d.metric === 'volume' ? 'Volumen' : 'Wiederholungen'} · ${d.duration_min} min`} />
 
-      <div className="card relative overflow-hidden p-5">
+      <div className="card relative overflow-hidden p-4">
         <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-area-train/15 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full bg-area-social/20 blur-3xl" />
         <div className="relative text-center">
           {live && (
-            <div className="inline-flex items-center gap-2 rounded-full bg-area-social/15 px-3 py-1 text-[12px] font-semibold text-area-social">
+            <div className="inline-flex items-center gap-2 rounded-full bg-area-social/15 px-3 py-1 text-[11.5px] font-semibold text-area-social">
               <span className="h-2 w-2 animate-pulse rounded-full bg-area-social" /> LIVE · noch {d.ends_at ? remaining(d.ends_at, now) : ''}
             </div>
           )}
-          {d.status === 'pending' && <div className="text-[13px] font-medium text-muted">Wartet auf Annahme durch {d.i_am_challenger ? d.opponent_display_name : 'dich'}</div>}
+          {d.status === 'pending' && <div className="text-[12.5px] font-medium text-muted">Wartet auf Annahme durch {d.i_am_challenger ? d.opponent_display_name : 'dich'}</div>}
           {finished && (
-            <div className={clsx('inline-flex items-center gap-2 rounded-full px-3 py-1 text-[13px] font-semibold', outcome === 'win' ? 'bg-good/15 text-good' : outcome === 'loss' ? 'bg-elevated text-muted' : 'bg-elevated')}>
+            <div className={clsx('inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12.5px] font-semibold', outcome === 'win' ? 'bg-good/15 text-good' : outcome === 'loss' ? 'bg-elevated text-muted' : 'bg-elevated')}>
               {outcome === 'win' ? <><Trophy size={14} /> Du hast gewonnen!</> : outcome === 'loss' ? `${d.opponent_display_name} hat gewonnen` : 'Unentschieden'}
             </div>
           )}
-          {(d.status === 'cancelled' || d.status === 'declined') && <div className="text-[13px] text-muted">{d.status === 'cancelled' ? 'Abgebrochen' : 'Abgelehnt'}</div>}
+          {(d.status === 'cancelled' || d.status === 'declined') && <div className="text-[12.5px] text-muted">{d.status === 'cancelled' ? 'Abgebrochen' : 'Abgelehnt'}</div>}
 
           <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
             <Side name="Du" display={me?.display_name ?? 'Du'} color={me?.color ?? '#CDFF40'} score={fmtScore(d.metric, myScore, unit)} sets={me?.sets ?? 0} lead={myScore > opScore} />
@@ -91,7 +91,7 @@ export default function DuelPage() {
               Workout starten & mitmachen
             </Button>
           )}
-          <p className="mt-2 text-center text-[12px] text-subtle">
+          <p className="mt-2 text-center text-[11.5px] text-subtle">
             Jeder abgeschlossene Satz {d.exercise_name ? `bei ${d.exercise_name} ` : ''}wird sofort übertragen. Aufwärmsätze zählen nicht.
           </p>
         </div>
@@ -119,9 +119,9 @@ function Side({ name, display, color, score, sets, lead }: { name: string; displ
   return (
     <div className="min-w-0">
       <Avatar name={display} color={color} size={56} className={clsx('mx-auto', lead && 'ring-2 ring-offset-2 ring-offset-surface')} />
-      <div className="mt-2 truncate text-[14px] font-semibold">{name}</div>
-      <div className="num mt-1 text-[22px] font-bold tracking-[-0.02em]">{score}</div>
-      <div className="text-[12px] text-muted">{sets} Sätze</div>
+      <div className="mt-2 truncate text-[13px] font-semibold">{name}</div>
+      <div className="num mt-1 text-[20px] font-bold tracking-[-0.02em]">{score}</div>
+      <div className="text-[11.5px] text-muted">{sets} Sätze</div>
     </div>
   );
 }

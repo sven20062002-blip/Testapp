@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ChevronRight, Dumbbell, Flame, Footprints, Link2, RefreshCw, Scale } from 'lucide-react';
+import { ChevronRight, Dumbbell, Footprints, Link2, RefreshCw, Scale } from 'lucide-react';
 import { db } from '@/db/db';
 import { useHealthContext, useProfile, useSources } from '@/hooks/useHealth';
 import { useSettings } from '@/hooks/useData';
@@ -61,25 +61,25 @@ export function TodayOverview() {
   return (
     <div className="grid gap-2.5 sm:grid-cols-2">
       {/* TRAINING */}
-      <Link to="/workout" className="card block p-4">
-        <Head area="train" icon={<Dumbbell size={16} />} title="Training" />
+      <Link to="/workout" className="card block p-3.5">
+        <Head area="train" icon={<Dumbbell size={15} />} title="Training" />
         {training.last ? (
           <>
-            <div className="mt-3 truncate text-[16px] font-semibold">{training.last.name}</div>
-            <div className="num text-[12px] text-muted">
+            <div className="mt-2 truncate text-[14px] font-semibold">{training.last.name}</div>
+            <div className="num text-[11.5px] text-muted">
               Letztes Workout {relativeDay(training.last.startedAt).toLowerCase()} · {formatDuration(training.last.durationSec)} · {fmtVolume(training.last.totalVolume, settings.unit, true)}
             </div>
           </>
         ) : (
-          <div className="mt-1.5 text-[14px] text-muted">Noch kein Workout absolviert</div>
+          <div className="mt-1.5 text-[12.5px] text-muted">Noch kein Workout absolviert</div>
         )}
-        <div className="mt-3 grid grid-cols-3 gap-2">
+        <div className="mt-2.5 grid grid-cols-3 gap-2">
           <Mini k="Diese Woche" v={`${training.weekCount}/${settings.weeklyGoal}`} />
           <Mini k="Dauer" v={formatDuration(training.weekDur)} />
           <Mini k="Volumen" v={fmtVolume(training.weekVol, settings.unit, true)} />
         </div>
         {training.next && (
-          <div className="mt-2.5 flex items-center justify-between rounded-xl bg-elevated/70 px-3 py-2 text-[12px]">
+          <div className="mt-2.5 flex items-center justify-between rounded-xl bg-elevated/70 px-3 py-2 text-[11.5px]">
             <span className="text-muted">Als Nächstes (Rotation)</span>
             <span className="flex items-center gap-1.5 font-semibold">
               <span className="h-2 w-2 rounded-full" style={{ background: training.next.color }} /> {training.next.name}
@@ -92,7 +92,7 @@ export function TodayOverview() {
       <div className="flex flex-col">
         <NutritionTodayCard className="flex-1" />
         {(measuredTotal || plan) && (
-          <div className="mt-[-10px] rounded-b-2xl border border-t-0 border-line/70 bg-surface px-4 pb-3 pt-4 text-[12px] text-muted">
+          <div className="mt-[-10px] rounded-b-2xl border border-t-0 border-line/70 bg-surface px-4 pb-3 pt-4 text-[11.5px] text-muted">
             {measuredTotal ? (
               <span>
                 Verbrauch heute bisher: <b className="num text-fg">{fmtNumber(measuredTotal.value)} kcal</b> (gemessen, Ruhe + Aktivität)
@@ -106,39 +106,38 @@ export function TodayOverview() {
         )}
       </div>
 
-      {/* AKTIVITÄT */}
-      <Link to="/activity" className="card block p-4">
-        <Head area="move" icon={<Footprints size={16} />} title="Aktivität" />
-        <div className="label mt-2">Schritte heute</div>
-        <div className="num text-[28px] font-bold leading-tight tracking-[-0.02em]">
-          {steps != null ? fmtNumber(steps) : '–'}
-          <span className="text-[14px] font-semibold text-subtle"> / {fmtNumber(profile.stepGoal)}</span>
-        </div>
-        <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          <Mini k="Distanz" v={fmtMetric('distance_m', v('distance_m')?.value)} />
-          <Mini k="Aktive Min" v={fmtMetric('active_min', v('active_min')?.value, false)} />
-          <Mini k="Aktiv-kcal" v={fmtMetric('active_kcal', v('active_kcal')?.value, false)} icon={<Flame size={10} />} />
-        </div>
-      </Link>
-      {/* KÖRPER */}
-      <Link to="/body" className="card block p-4">
-        <Head area="body" icon={<Scale size={16} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[11px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
-        <div className="label mt-2">Aktuelles Gewicht</div>
-        <div className="num text-[28px] font-bold leading-tight tracking-[-0.02em]">
-          {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
-          <span className="text-[14px] font-semibold text-subtle"> kg</span>
-        </div>
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          <Mini k="30 Tage" v={weight30 != null && weight != null ? `${weight - weight30 > 0 ? '+' : weight - weight30 < 0 ? '−' : '±'}${fmtNumber(Math.abs(weight - weight30), 1)}` : '–'} />
-          <Mini k="Ziel" v={profile.goalWeightKg != null ? fmtNumber(profile.goalWeightKg, 1) : '–'} />
-          <Mini k="Gemessen" v={weightDay ? relativeDay(new Date(`${weightDay}T12:00:00`).getTime()) : '–'} />
-        </div>
-      </Link>
+      {/* AKTIVITÄT + KÖRPER side by side (half width each on phones) */}
+      <div className="grid grid-cols-2 gap-2.5 sm:col-span-2">
+        <Link to="/activity" className="card block p-3.5">
+          <Head area="move" icon={<Footprints size={15} />} title="Aktivität" />
+          <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">{steps != null ? fmtNumber(steps) : '–'}</div>
+          <div className="text-[10.5px] text-muted">von {fmtNumber(profile.stepGoal)} Schritten</div>
+          <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
+          <div className="num mt-2 truncate text-[10.5px] text-muted">
+            {[v('distance_m') && fmtMetric('distance_m', v('distance_m')?.value), v('active_kcal') && `${fmtMetric('active_kcal', v('active_kcal')?.value, false)} kcal aktiv`].filter(Boolean).join(' · ') || 'Noch keine Aktivitätsdaten'}
+          </div>
+        </Link>
+        <Link to="/body" className="card block p-3.5">
+          <Head area="body" icon={<Scale size={15} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[10px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
+          <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
+            {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
+            <span className="text-[12px] font-semibold text-subtle"> kg</span>
+          </div>
+          <div className="text-[10.5px] text-muted">{weightDay ? `gewogen ${relativeDay(new Date(`${weightDay}T12:00:00`).getTime()).toLowerCase()}` : 'Aktuelles Gewicht'}</div>
+          <div className="num mt-3.5 truncate text-[10.5px] text-muted">
+            {[
+              profile.goalWeightKg != null && `Ziel ${fmtNumber(profile.goalWeightKg, 1)} kg`,
+              weight30 != null && weight != null && `${weight - weight30 > 0 ? '+' : weight - weight30 < 0 ? '−' : '±'}${fmtNumber(Math.abs(weight - weight30), 1)} in 30 T.`,
+            ]
+              .filter(Boolean)
+              .join(' · ') || 'Noch kein Verlauf'}
+          </div>
+        </Link>
+      </div>
       {!steps && !weightDay && (
-        <Link to="/health/sources" className="flex items-center justify-between rounded-2xl border border-dashed border-line px-4 py-3 text-[13px] text-muted sm:col-span-2">
+        <Link to="/health/sources" className="flex items-center justify-between rounded-2xl border border-dashed border-line px-3.5 py-2.5 text-[11.5px] text-muted sm:col-span-2">
           <span className="flex items-center gap-2">
-            <Link2 size={16} /> Fitbit / Google Health oder Apple Health verbinden, um Schritte und Gewicht automatisch zu übernehmen
+            <Link2 size={16} /> Apple Health importieren oder Werte eintragen, um Schritte und Gewicht zu sehen
           </span>
           <ChevronRight size={16} />
         </Link>
@@ -150,8 +149,8 @@ export function TodayOverview() {
 function Head({ icon, title, extra, area }: { icon: React.ReactNode; title: string; extra?: React.ReactNode; area: 'train' | 'food' | 'move' | 'body' }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="flex items-center gap-2 text-[14px] font-semibold">
-        <span className={`chip chip-${area} h-8 w-8 rounded-[10px]`}>{icon}</span> {title}
+      <span className="flex items-center gap-2 text-[13px] font-semibold">
+        <span className={`chip chip-${area} h-7 w-7 rounded-[9px]`}>{icon}</span> {title}
       </span>
       {extra ?? <ChevronRight size={16} className="text-subtle" />}
     </div>
@@ -160,9 +159,9 @@ function Head({ icon, title, extra, area }: { icon: React.ReactNode; title: stri
 
 function Mini({ k, v, icon }: { k: string; v: string; icon?: React.ReactNode }) {
   return (
-    <div className="min-w-0 rounded-xl bg-elevated/60 px-2.5 py-2">
-      <div className="num truncate text-[14px] font-semibold">{v}</div>
-      <div className="flex items-center gap-1 truncate text-[10.5px] text-muted">
+    <div className="min-w-0 rounded-xl bg-elevated/60 px-2.5 py-1.5">
+      <div className="num truncate text-[13px] font-semibold">{v}</div>
+      <div className="flex items-center gap-1 truncate text-[10px] text-muted">
         {icon}
         {k}
       </div>

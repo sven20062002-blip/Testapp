@@ -160,7 +160,7 @@ export default function PlanEditor() {
       <PageHeader title={id ? 'Plan bearbeiten' : 'Neuer Plan'} back="/plans" />
 
       {restored && (
-        <div className="mb-4 flex items-center gap-3 rounded-2xl bg-area-train/10 px-4 py-3 text-[13px]">
+        <div className="mb-4 flex items-center gap-3 rounded-2xl bg-area-train/10 px-4 py-3 text-[12.5px]">
           <span className="flex-1">Ungespeicherte Änderungen wiederhergestellt.</span>
           <button className="font-semibold text-muted hover:text-fg" onClick={discardDraft}>
             Verwerfen
@@ -168,11 +168,11 @@ export default function PlanEditor() {
         </div>
       )}
 
-      <div className="card space-y-4 p-4">
+      <div className="card space-y-4 p-3.5">
         <Field label="Name" htmlFor="plan-name">
           <input
             id="plan-name"
-            className="field text-[17px] font-semibold"
+            className="field text-[15.5px] font-semibold"
             placeholder="z. B. Push Day"
             value={name}
             maxLength={50}
@@ -208,10 +208,10 @@ export default function PlanEditor() {
       </div>
 
       <div className="mb-2.5 mt-6 flex items-center justify-between px-0.5">
-        <h2 className="text-[17px] font-bold">
+        <h2 className="text-[15.5px] font-bold">
           Übungen <span className="num text-muted">({items.length})</span>
         </h2>
-        {items.length > 1 && <span className="text-[12px] text-subtle">Zum Sortieren ziehen</span>}
+        {items.length > 1 && <span className="text-[11.5px] text-subtle">Zum Sortieren ziehen</span>}
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} modifiers={[restrictToVerticalAxis]}>
@@ -235,7 +235,7 @@ export default function PlanEditor() {
         Übungen hinzufügen
       </Button>
 
-      {error && <p className="mt-4 animate-shake text-center text-sm font-semibold text-bad">{error}</p>}
+      {error && <p className="mt-4 animate-shake text-center text-[13px] font-semibold text-bad">{error}</p>}
 
       <div className="mt-6 grid grid-cols-2 gap-2">
         <Button size="lg" onClick={() => save(true)} disabled={!!active} icon={<Play size={16} fill="currentColor" />}>
@@ -300,7 +300,7 @@ function SortableRow({
         {ex && <MuscleIcon muscle={ex.muscleGroup} size={36} />}
         <div className="min-w-0 flex-1">
           <div className="truncate font-semibold">{name(ex)}</div>
-          <div className="text-[12px] text-muted">{ex ? MUSCLE_LABELS[ex.muscleGroup] : 'Gelöschte Übung'}</div>
+          <div className="text-[11.5px] text-muted">{ex ? MUSCLE_LABELS[ex.muscleGroup] : 'Gelöschte Übung'}</div>
         </div>
         <IconButton label="Aus Plan entfernen" variant="danger" onClick={onRemove}>
           <Trash2 size={18} />
@@ -311,31 +311,31 @@ function SortableRow({
           <button aria-label="Weniger Sätze" className="flex h-9 w-9 items-center justify-center text-muted hover:text-fg" onClick={() => onChange({ targetSets: Math.max(1, item.targetSets - 1) })}>
             <Minus size={15} />
           </button>
-          <span className="num min-w-[4.5rem] text-center text-[13px] font-bold">{item.targetSets} Sätze</span>
+          <span className="num min-w-[4.5rem] text-center text-[12.5px] font-bold">{item.targetSets} Sätze</span>
           <button aria-label="Mehr Sätze" className="flex h-9 w-9 items-center justify-center text-muted hover:text-fg" onClick={() => onChange({ targetSets: Math.min(20, item.targetSets + 1) })}>
             <Plus size={15} />
           </button>
         </div>
         <input
-          className="num h-9 w-24 rounded-xl bg-elevated px-3 text-center text-[13px] font-semibold outline-none placeholder:text-subtle focus:ring-1 focus:ring-accent"
+          className="num h-9 w-24 rounded-xl bg-elevated px-3 text-center text-[12.5px] font-semibold outline-none placeholder:text-subtle focus:ring-1 focus:ring-accent"
           placeholder="Wdh-Ziel"
           aria-label="Ziel-Wiederholungen"
           value={item.targetReps}
           maxLength={12}
           onChange={(e) => onChange({ targetReps: e.target.value })}
         />
-        <button onClick={onRest} className="flex h-9 items-center gap-1.5 rounded-xl bg-elevated px-3 text-[13px] font-semibold text-muted hover:text-fg">
+        <button onClick={onRest} className="flex h-9 items-center gap-1.5 rounded-xl bg-elevated px-3 text-[12.5px] font-semibold text-muted hover:text-fg">
           <Hourglass size={13} />
           {item.restSec != null ? formatClock(item.restSec * 1000) : 'Pause: Std.'}
         </button>
         {item.restSec != null && (
-          <button onClick={() => onChange({ restSec: null })} className="text-[12px] font-semibold text-subtle hover:text-fg">
+          <button onClick={() => onChange({ restSec: null })} className="text-[11.5px] font-semibold text-subtle hover:text-fg">
             zurücksetzen
           </button>
         )}
       </div>
       {note && (
-        <div className="ml-10 mt-2 flex gap-1.5 rounded-lg bg-accent-soft/60 px-2.5 py-1.5 text-[12px]">
+        <div className="ml-10 mt-2 flex gap-1.5 rounded-lg bg-accent-soft/60 px-2.5 py-1.5 text-[11.5px]">
           <Pin size={12} className="mt-0.5 shrink-0" /> <span className="line-clamp-2">{note}</span>
         </div>
       )}

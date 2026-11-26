@@ -10,7 +10,6 @@ import { useActiveWorkout, useExerciseMap, useExerciseName, useNow, useSettings 
 import { totals, weekStreak } from '@/lib/stats';
 import { clockElapsedMs, formatDuration, formatHMS, greeting, relativeDay, startOfWeek, fmtLong } from '@/lib/time';
 import { fmtVolume, fmtNumber } from '@/lib/units';
-import { Stat } from '@/components/ui/Stat';
 import { SectionTitle } from '@/components/ui/PageHeader';
 import { describePR } from '@/components/workout/PRCelebration';
 import { RECORD_LABELS } from '@/lib/labels';
@@ -80,54 +79,54 @@ export default function Dashboard() {
   return (
     <div className="page">
       {/* Header */}
-      <header className="mb-6 flex items-center justify-between pt-3">
+      <header className="mb-4 flex items-center justify-between pt-1">
         <div>
-          <p className="text-[13px] font-medium text-muted">{fmtLong(Date.now())}</p>
+          <p className="text-[12.5px] font-medium text-muted">{fmtLong(Date.now())}</p>
           <h1 className="title-xl mt-0.5">
             {greeting()}
             {settings.userName ? `, ${settings.userName}` : ''}
           </h1>
         </div>
         <div className="flex gap-1.5 lg:hidden">
-          <Link to="/exercises" aria-label="Übungen" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
-            <BookOpen size={18} />
+          <Link to="/exercises" aria-label="Übungen" className="flex h-9 w-9 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
+            <BookOpen size={17} />
           </Link>
-          <Link to="/settings" aria-label="Einstellungen" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
-            <Settings size={18} />
+          <Link to="/settings" aria-label="Einstellungen" className="flex h-9 w-9 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
+            <Settings size={17} />
           </Link>
         </div>
       </header>
 
       {/* Hero */}
       {active ? (
-        <Link to="/workout" className="relative block overflow-hidden rounded-3xl bg-accent p-6 text-accent-fg animate-rise">
+        <Link to="/workout" className="relative block overflow-hidden rounded-3xl bg-accent p-5 text-accent-fg animate-rise">
           <div aria-hidden className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/25 blur-3xl" />
           <div className="relative flex items-center justify-between">
-            <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] opacity-70">
+            <span className="flex items-center gap-2 text-[11.5px] font-semibold uppercase tracking-[0.1em] opacity-70">
               <span className="h-2 w-2 animate-pulse rounded-full bg-current" />
               {active.pausedAt ? 'Pausiert' : 'Training läuft'}
             </span>
             <ChevronRight />
           </div>
-          <div className="num relative mt-5 text-[52px] font-bold leading-none tracking-[-0.03em]">{formatHMS(clockElapsedMs(active, now))}</div>
-          <div className="relative mt-2 text-[15px] font-medium opacity-75">{active.name}</div>
+          <div className="num relative mt-3 text-[40px] font-bold leading-none tracking-[-0.03em]">{formatHMS(clockElapsedMs(active, now))}</div>
+          <div className="relative mt-2 text-[14px] font-medium opacity-75">{active.name}</div>
         </Link>
       ) : (
-        <div className="relative overflow-hidden rounded-3xl bg-surface p-6 animate-rise" style={{ boxShadow: 'var(--shadow)' }}>
+        <div className="relative overflow-hidden rounded-3xl bg-surface p-5 animate-rise" style={{ boxShadow: 'var(--shadow)' }}>
           <div aria-hidden className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-area-train/20 blur-3xl" />
           <div aria-hidden className="pointer-events-none absolute -bottom-28 -left-16 h-56 w-56 rounded-full bg-area-social/10 blur-3xl" />
           <div className="relative">
             <div className="label">Bereit?</div>
-            <div className="mt-1.5 text-[22px] font-semibold leading-snug tracking-[-0.02em]">
+            <div className="mt-1 text-[17px] font-semibold leading-snug tracking-[-0.02em]">
               {data.last ? `Letztes Training ${relativeDay(data.last.startedAt).toLowerCase()}` : 'Dein erstes Workout wartet'}
             </div>
             <button
               onClick={() => start()}
-              className="mt-5 flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-accent text-[16px] font-semibold text-accent-fg transition active:scale-[.98]"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2.5 rounded-full bg-accent text-[14px] font-semibold text-accent-fg transition active:scale-[.98]"
             >
-              <Play size={19} fill="currentColor" /> Workout starten
+              <Play size={17} fill="currentColor" /> Workout starten
             </button>
-            <div className="mt-4 grid grid-cols-4 gap-2">
+            <div className="mt-3 grid grid-cols-4 gap-2">
               <QuickAction to="/workout" icon={<Layers size={19} />} title="Pläne" />
               <QuickAction to="/plans/new" icon={<ListPlus size={19} />} title="Neuer Plan" />
               <QuickAction to="/history" icon={<History size={19} />} title="Verlauf" />
@@ -143,21 +142,20 @@ export default function Dashboard() {
       <SectionTitle>Heute</SectionTitle>
       <TodayOverview />
 
-      {/* Totals */}
+      {/* Totals + weekly activity in one card */}
       <SectionTitle>Dein Trainingsfortschritt</SectionTitle>
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-        <Stat icon={<Dumbbell size={14} />} label="Workouts" value={fmtNumber(data.t.workouts)} sub={`${data.streak} ${data.streak === 1 ? 'Woche' : 'Wochen'} in Folge`} />
-        <Stat icon={<Clock size={14} />} label="Trainingszeit" value={formatDuration(data.t.durationSec)} />
-        <Stat icon={<Flame size={14} />} label="Sätze" value={fmtNumber(data.t.sets)} sub={`${fmtNumber(data.t.reps)} Wiederholungen`} />
-        <Stat icon={<Weight size={14} />} label="Volumen" value={fmtVolume(data.t.volume, settings.unit, true)} />
-      </div>
-
       {/* Weekly activity */}
-      <div className="card mt-2.5 p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="card p-3.5">
+        <div className="grid grid-cols-4 gap-1.5 border-b border-line/60 pb-3">
+          <Total icon={<Dumbbell size={12} />} label="Workouts" value={fmtNumber(data.t.workouts)} />
+          <Total icon={<Clock size={12} />} label="Zeit" value={formatDuration(data.t.durationSec)} />
+          <Total icon={<Flame size={12} />} label="Sätze" value={fmtNumber(data.t.sets)} />
+          <Total icon={<Weight size={12} />} label="Volumen" value={fmtVolume(data.t.volume, settings.unit, true)} />
+        </div>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <div className="text-[15px] font-semibold">Diese Woche</div>
-            <div className="text-[13px] text-muted">
+            <div className="text-[14px] font-semibold">Diese Woche</div>
+            <div className="text-[12.5px] text-muted">
               {weekCount} von {settings.weeklyGoal} Workouts
             </div>
           </div>
@@ -166,7 +164,7 @@ export default function Dashboard() {
               <span
                 key={i}
                 className={clsx(
-                  'flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold',
+                  'flex h-7 w-7 items-center justify-center rounded-full text-[10.5px] font-bold',
                   data.days.has(i) ? 'bg-accent text-accent-fg' : 'bg-elevated text-subtle',
                 )}
               >
@@ -175,17 +173,17 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="mt-4 flex h-24 items-end gap-2" role="img" aria-label="Workouts der letzten 8 Wochen">
+        <div className="mt-3 flex h-[4.5rem] items-end gap-2" role="img" aria-label="Workouts der letzten 8 Wochen">
           {data.weeks.map((w, i) => (
             <div key={w.start} className="group relative flex flex-1 flex-col items-center gap-1.5">
-              <div className="flex h-20 w-full items-end">
+              <div className="flex h-14 w-full items-end">
                 <div
                   className={clsx('w-full rounded-t-[4px] transition-all', i === data.weeks.length - 1 ? 'bg-accent' : 'bg-accent/45', w.count === 0 && 'bg-elevated')}
                   style={{ height: w.count ? `${(w.count / maxWeek) * 100}%` : '4px' }}
                 />
               </div>
               <span className="num text-[10px] text-subtle">{new Date(w.start).getDate()}.</span>
-              <span className="pointer-events-none absolute -top-7 hidden whitespace-nowrap rounded-lg bg-fg px-2 py-0.5 text-[11px] font-semibold text-bg group-hover:block">
+              <span className="pointer-events-none absolute -top-7 hidden whitespace-nowrap rounded-lg bg-fg px-2 py-0.5 text-[10.5px] font-semibold text-bg group-hover:block">
                 {w.count} · {Math.round(w.minutes)} Min
               </span>
             </div>
@@ -196,22 +194,22 @@ export default function Dashboard() {
       {/* Last workout */}
       {data.last && (
         <>
-          <SectionTitle action={<Link to="/history" className="text-[13px] font-semibold text-muted hover:text-fg">Alle</Link>}>Letztes Workout</SectionTitle>
-          <Link to={`/history/${data.last.id}`} className="card flex items-center gap-4 p-4 transition hover:border-line">
-            <div className="flex h-12 w-12 flex-col items-center justify-center rounded-2xl bg-elevated">
-              <span className="num text-[17px] font-bold leading-none">{new Date(data.last.startedAt).getDate()}</span>
+          <SectionTitle action={<Link to="/history" className="text-[12.5px] font-semibold text-muted hover:text-fg">Alle</Link>}>Letztes Workout</SectionTitle>
+          <Link to={`/history/${data.last.id}`} className="card flex items-center gap-3 p-3.5 transition hover:border-line">
+            <div className="flex h-11 w-11 flex-col items-center justify-center rounded-2xl bg-elevated">
+              <span className="num text-[15.5px] font-bold leading-none">{new Date(data.last.startedAt).getDate()}</span>
               <span className="text-[10px] font-semibold uppercase text-muted">
                 {new Intl.DateTimeFormat('de-DE', { month: 'short' }).format(data.last.startedAt)}
               </span>
             </div>
             <div className="min-w-0 flex-1">
               <div className="truncate font-semibold">{data.last.name}</div>
-              <div className="num text-[13px] text-muted">
+              <div className="num text-[12.5px] text-muted">
                 {relativeDay(data.last.startedAt)} · {formatDuration(data.last.durationSec)} · {data.last.totalSets} Sätze · {fmtVolume(data.last.totalVolume, settings.unit, true)}
               </div>
             </div>
             {data.last.prCount > 0 && (
-              <span className="chip-train flex items-center gap-1 rounded-full bg-[rgb(var(--chip)/0.14)] px-2 py-1 text-[12px] font-semibold text-[rgb(var(--chip))]">
+              <span className="chip-train flex items-center gap-1 rounded-full bg-[rgb(var(--chip)/0.14)] px-2 py-1 text-[11.5px] font-semibold text-[rgb(var(--chip))]">
                 <Trophy size={13} /> {data.last.prCount}
               </span>
             )}
@@ -221,15 +219,15 @@ export default function Dashboard() {
       )}
 
       {/* Plans */}
-      <SectionTitle action={<Link to="/plans" className="text-[13px] font-semibold text-muted hover:text-fg">Alle Pläne</Link>}>Trainingspläne</SectionTitle>
+      <SectionTitle action={<Link to="/plans" className="text-[12.5px] font-semibold text-muted hover:text-fg">Alle Pläne</Link>}>Trainingspläne</SectionTitle>
       <div className="scroll-x -mx-4 px-4 pb-1 sm:-mx-6 sm:px-6">
         {quickPlans.map((p) => (
-          <div key={p.id} className="card flex w-[220px] shrink-0 flex-col p-4">
+          <div key={p.id} className="card flex w-[200px] shrink-0 flex-col p-3.5">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full" style={{ background: p.color }} />
               <span className="truncate font-bold">{p.name}</span>
             </div>
-            <div className="mt-1 line-clamp-2 min-h-[2.5em] text-[12px] text-muted">
+            <div className="mt-1 line-clamp-2 min-h-[2.5em] text-[11.5px] text-muted">
               {p.exercises
                 .slice(0, 4)
                 .map((e) => name(exMap.get(e.exerciseId)))
@@ -238,38 +236,38 @@ export default function Dashboard() {
             <button
               onClick={() => start(p.id)}
               disabled={!!active}
-              className="mt-3 flex h-10 items-center justify-center gap-1.5 rounded-xl bg-elevated text-[13px] font-bold transition hover:bg-line disabled:opacity-40"
+              className="mt-2.5 flex h-9 items-center justify-center gap-1.5 rounded-xl bg-elevated text-[12.5px] font-bold transition hover:bg-line disabled:opacity-40"
             >
               <Play size={14} fill="currentColor" /> Starten
             </button>
           </div>
         ))}
-        <Link to="/plans/new" className="flex w-[140px] shrink-0 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line text-[13px] font-semibold text-muted hover:text-fg">
+        <Link to="/plans/new" className="flex w-[140px] shrink-0 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line text-[12.5px] font-semibold text-muted hover:text-fg">
           <ListPlus size={22} /> Neuer Plan
         </Link>
       </div>
 
       {/* PRs */}
-      <SectionTitle action={<Link to="/records" className="text-[13px] font-semibold text-muted hover:text-fg">Alle Rekorde</Link>}>Bestleistungen</SectionTitle>
+      <SectionTitle action={<Link to="/records" className="text-[12.5px] font-semibold text-muted hover:text-fg">Alle Rekorde</Link>}>Bestleistungen</SectionTitle>
       {recentPRs.length === 0 ? (
-        <div className="card p-5 text-center text-sm text-muted">
-          <Trophy className="mx-auto mb-2 text-subtle" size={22} />
+        <div className="card flex items-center gap-3 p-3.5 text-[12px] text-muted">
+          <Trophy className="shrink-0 text-subtle" size={18} />
           Deine persönlichen Rekorde erscheinen hier, sobald du Workouts absolvierst.
         </div>
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2">
           {recentPRs.map((r) => (
-            <Link key={r.id} to={`/exercises/${r.exerciseId}`} className="card flex items-center gap-3 p-4 hover:border-line">
+            <Link key={r.id} to={`/exercises/${r.exerciseId}`} className="card flex items-center gap-3 p-3.5 hover:border-line">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-soft text-fg dark:text-accent">
                 <Trophy size={18} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="truncate font-semibold">{name(exMap.get(r.exerciseId))}</div>
-                <div className="text-[12px] text-muted">
+                <div className="text-[11.5px] text-muted">
                   {RECORD_LABELS[r.type]} · {relativeDay(r.achievedAt)}
                 </div>
               </div>
-              <div className="num text-right text-[15px] font-bold">{describePR(r, settings.unit)}</div>
+              <div className="num text-right text-[14px] font-bold">{describePR(r, settings.unit)}</div>
             </Link>
           ))}
         </div>
@@ -280,9 +278,21 @@ export default function Dashboard() {
 
 function QuickAction({ to, icon, title }: { to: string; icon: React.ReactNode; title: string }) {
   return (
-    <Link to={to} className="flex flex-col items-center gap-1.5 rounded-2xl py-1.5 text-[12px] font-medium text-muted transition hover:text-fg active:scale-95">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-elevated text-fg">{icon}</span>
+    <Link to={to} className="flex flex-col items-center gap-1 rounded-2xl py-1 text-[11px] font-medium text-muted transition hover:text-fg active:scale-95">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated text-fg">{icon}</span>
       {title}
     </Link>
+  );
+}
+
+function Total({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="min-w-0">
+      <div className="flex items-center gap-1 text-[10px] font-medium text-muted">
+        <span className="chip chip-train h-4 w-4 rounded-[5px]">{icon}</span>
+        {label}
+      </div>
+      <div className="num mt-1 truncate text-[15px] font-bold tracking-[-0.01em]">{value}</div>
+    </div>
   );
 }

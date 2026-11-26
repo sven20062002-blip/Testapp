@@ -57,7 +57,7 @@ export function LeaderboardTab() {
           ))}
         </select>
       )}
-      <p className="mt-2 px-1 text-[12px] text-subtle">
+      <p className="mt-2 px-1 text-[11.5px] text-subtle">
         {mode === 'week' ? 'Trainingsvolumen seit Montag' : mode === 'month' ? 'Trainingsvolumen in diesem Monat' : mode === 'e1rm' ? 'Bestes geschätztes 1RM (Epley) – aller Zeiten' : 'Höchstes bewegtes Gewicht – aller Zeiten'}
         {' · '}du und deine Freunde
       </p>
@@ -71,7 +71,7 @@ export function LeaderboardTab() {
               <li key={r.user_id} className={clsx('flex items-center gap-3 px-4 py-3', r.is_me && 'bg-area-social/[0.06]')}>
                 <span
                   className={clsx(
-                    'num flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-bold',
+                    'num flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-bold',
                     i === 0 && r.value > 0 ? 'bg-[#FACC15] text-black' : i === 1 && r.value > 0 ? 'bg-[#CBD5E1] text-black' : i === 2 && r.value > 0 ? 'bg-[#D97706] text-white' : 'bg-elevated text-muted',
                   )}
                 >
@@ -79,10 +79,10 @@ export function LeaderboardTab() {
                 </span>
                 <Avatar name={r.display_name} color={r.color} size={36} />
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-[15px] font-semibold">{r.is_me ? 'Du' : r.display_name}</div>
-                  <div className="truncate text-[12px] text-muted">{r.sub}</div>
+                  <div className="truncate text-[14px] font-semibold">{r.is_me ? 'Du' : r.display_name}</div>
+                  <div className="truncate text-[11.5px] text-muted">{r.sub}</div>
                 </div>
-                <div className="num shrink-0 text-[16px] font-semibold">{r.main}</div>
+                <div className="num shrink-0 text-[15px] font-semibold">{r.main}</div>
               </li>
             ))}
           </ol>

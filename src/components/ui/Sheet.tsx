@@ -63,7 +63,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
         <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-line sm:hidden" />
         {title != null && (
           <div className="flex items-center justify-between gap-3 px-5 pb-2 pt-3 sm:pt-5">
-            <h2 className="text-[18px] font-semibold tracking-[-0.01em]">{title}</h2>
+            <h2 className="text-[16.5px] font-semibold tracking-[-0.01em]">{title}</h2>
             <button
               onClick={onClose}
               aria-label="Schließen"

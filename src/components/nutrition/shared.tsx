@@ -65,7 +65,7 @@ export function MacroBar({
   const remaining = target != null ? target - value : null;
   return (
     <div>
-      <div className={clsx('flex items-baseline justify-between', compact ? 'text-[12px]' : 'text-[13px]')}>
+      <div className={clsx('flex items-baseline justify-between', compact ? 'text-[11.5px]' : 'text-[12.5px]')}>
         <span className="font-semibold">{label}</span>
         <span className="num text-muted">
           {incomplete && <span className="text-subtle">mind. </span>}
@@ -77,7 +77,7 @@ export function MacroBar({
         <div className={clsx('h-full rounded-full transition-all duration-500', over ? 'bg-warn' : 'bg-area-food')} style={{ width: `${target ? pct : 0}%` }} />
       </div>
       {!compact && remaining != null && (
-        <div className="num mt-0.5 text-right text-[11px] text-subtle">
+        <div className="num mt-0.5 text-right text-[10.5px] text-subtle">
           {remaining >= 0 ? `noch ${fmtNumber(remaining, 0)} ${unit}` : `${fmtNumber(-remaining, 0)} ${unit} über Ziel`}
         </div>
       )}
@@ -120,7 +120,7 @@ export function KcalRing({ value, target, size = 132 }: { value: number; target:
 export function NutrientTable({ n, keys }: { n: Nutrients; keys?: (keyof Nutrients)[] }) {
   const ks = keys ?? (Object.keys(NUTRIENT_LABELS) as (keyof Nutrients)[]);
   return (
-    <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[13px]">
+    <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[12.5px]">
       {ks.map((k) => (
         <div key={k} className="flex justify-between gap-2 border-b border-line/50 pb-1">
           <dt className="text-muted">{NUTRIENT_LABELS[k]}</dt>

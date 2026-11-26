@@ -26,7 +26,7 @@ export function Segmented<T extends string>({
           onClick={() => onChange(o.value)}
           className={clsx(
             'flex-1 whitespace-nowrap rounded-full font-medium transition',
-            size === 'sm' ? 'px-2 py-1.5 text-xs' : 'px-3 py-2 text-[13px]',
+            size === 'sm' ? 'px-2 py-1.5 text-[11.5px]' : 'px-3 py-2 text-[12.5px]',
             value === o.value ? 'bg-surface text-fg shadow-[0_1px_3px_rgb(0_0_0/0.12)] dark:bg-line' : 'text-muted hover:text-fg',
           )}
         >

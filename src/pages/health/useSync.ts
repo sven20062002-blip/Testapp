@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { db } from '@/db/db';
-import { syncSource, NeedsAuthError } from '@/health/sync';
+import { syncSource } from '@/health/sync';
 import { useFeedback } from '@/components/ui/Feedback';
 
-/** Manual "sync now" for all connected sources (user gesture → may refresh Google login). */
+/** Manual "sync now" for all connected sources. */
 export function useSync() {
   const { toast } = useFeedback();
   const [busy, setBusy] = useState(false);
@@ -15,7 +15,7 @@ export function useSync() {
     }
     setBusy(true);
     try {
-      const sources = (await db.healthSources.toArray()).filter((s) => s.connected && (s.id === 'google' || s.id === 'bridge'));
+      const sources = (await db.healthSources.toArray()).filter((s) => s.connected && s.id === 'bridge');
       if (!sources.length) {
         toast('Keine automatisch synchronisierbare Quelle verbunden.', 'info');
         return;
@@ -25,7 +25,7 @@ export function useSync() {
           await syncSource(s.id, true);
           toast('Synchronisiert', 'success');
         } catch (e) {
-          toast(e instanceof NeedsAuthError ? e.message : `Sync fehlgeschlagen: ${(e as Error).message}`, 'error');
+          toast(`Sync fehlgeschlagen: ${(e as Error).message}`, 'error');
         }
       }
     } finally {

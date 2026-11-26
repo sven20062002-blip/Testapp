@@ -107,7 +107,7 @@ export function ExercisePicker({
                   <MuscleIcon muscle={e.muscleGroup} />
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-semibold">{name(e)}</div>
-                    <div className="truncate text-[13px] text-muted">
+                    <div className="truncate text-[12.5px] text-muted">
                       {MUSCLE_LABELS[e.muscleGroup]} · {CATEGORY_LABELS[e.category]}
                       {e.isCustom ? ' · Eigene' : ''}
                     </div>
@@ -125,7 +125,7 @@ export function ExercisePicker({
             );
           })}
         </ul>
-        {!list.length && <p className="py-10 text-center text-sm text-muted">Keine Übung gefunden.</p>}
+        {!list.length && <p className="py-10 text-center text-[13px] text-muted">Keine Übung gefunden.</p>}
       </Sheet>
       <ExerciseForm open={creating} onClose={() => setCreating(false)} onSaved={(id) => setSel((s) => [...s, id])} />
     </>

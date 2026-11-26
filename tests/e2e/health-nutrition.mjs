@@ -67,13 +67,9 @@ await chooser.setFiles(zipPath);
 await page.getByText(/Import abgeschlossen/).waitFor({ timeout: 30000 });
 log('Apple Health export.zip imported via UI');
 
-// Google: client-id validation (no network calls needed)
-await page.getByLabel('OAuth-Client-ID').fill('not-a-client-id');
-await page.getByRole('button', { name: 'Verbinden …' }).click();
-await page.getByRole('button', { name: /Zustimmen & bei Google anmelden/ }).click();
-await page.getByText(/keine gültige OAuth-Client-ID/).waitFor();
-await page.keyboard.press('Escape');
-log('Google Health: invalid client id rejected before any request');
+// Google Health / Fitbit connection was removed
+if (await page.getByText(/OAuth-Client-ID|Fitbit/).count()) fail('Google/Fitbit connection still visible');
+log('Google Health / Fitbit connection removed from data sources');
 
 await page.goto(BASE + '/activity');
 await until(async () => /9\.[0-9]{3}|8\.[0-9]{3}|10\.[0-9]{3}/.test(await page.locator('.card').first().innerText()), 'steps not shown');

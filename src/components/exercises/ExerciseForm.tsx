@@ -114,7 +114,7 @@ export function ExerciseForm({
         <Field label="Beschreibung" htmlFor="ex-desc">
           <textarea id="ex-desc" className="field min-h-[90px] resize-y" value={v.description} onChange={(e) => set('description', e.target.value)} placeholder="Ausführung, Hinweise …" />
         </Field>
-        {error && <p className="animate-shake text-sm font-medium text-bad">{error}</p>}
+        {error && <p className="animate-shake text-[13px] font-medium text-bad">{error}</p>}
       </form>
     </Sheet>
   );

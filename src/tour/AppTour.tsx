@@ -132,23 +132,23 @@ function TourOverlay() {
             <span className={clsx('chip h-11 w-11', `chip-${step.area ?? 'train'}`)}>{ICONS[step.icon]}</span>
             <button
               onClick={close}
-              className="-mr-1.5 -mt-1 flex h-9 items-center gap-1 rounded-full px-2.5 text-[13px] font-medium text-subtle hover:bg-elevated hover:text-fg"
+              className="-mr-1.5 -mt-1 flex h-9 items-center gap-1 rounded-full px-2.5 text-[12.5px] font-medium text-subtle hover:bg-elevated hover:text-fg"
               aria-label="Tour beenden"
             >
               Beenden <X size={15} />
             </button>
           </div>
-          <div className="mt-3 text-[12px] font-semibold text-muted">
+          <div className="mt-3 text-[11.5px] font-semibold text-muted">
             {i + 1} / {TOUR.length}
           </div>
           <h2 id="tour-title" className="mt-0.5 text-[21px] font-bold tracking-tight">
             {step.title}
           </h2>
-          <p className="mt-1 text-[14px] leading-relaxed text-muted">{step.text}</p>
+          <p className="mt-1 text-[13px] leading-relaxed text-muted">{step.text}</p>
           {step.bullets && (
             <ul className="mt-3 space-y-1.5">
               {step.bullets.map((b) => (
-                <li key={b} className="flex gap-2.5 text-[14px] leading-snug">
+                <li key={b} className="flex gap-2.5 text-[13px] leading-snug">
                   <span className={clsx('mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full', `bg-area-${step.area ?? 'train'}`)} />
                   {b}
                 </li>

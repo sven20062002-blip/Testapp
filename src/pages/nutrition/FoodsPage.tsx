@@ -130,14 +130,14 @@ export default function FoodsPage() {
             {recipes?.map((r) => {
               const pp = recipePerPortion(r);
               return (
-                <div key={r.id} className="card flex items-center gap-3 p-4">
+                <div key={r.id} className="card flex items-center gap-3 p-3.5">
                   <ChefHat size={20} className="text-subtle" />
                   <button className="min-w-0 flex-1 text-left" onClick={() => setRecipeEdit(r)}>
                     <div className="truncate font-bold">{r.name}</div>
-                    <div className="text-[12px] text-muted">
+                    <div className="text-[11.5px] text-muted">
                       {r.items.length} Zutaten · {r.portions} {r.portions === 1 ? 'Portion' : 'Portionen'} · {fmtNumber(pp.kcal ?? 0, 0)} kcal/Portion
                     </div>
-                    <div className="text-[12px] text-subtle">
+                    <div className="text-[11.5px] text-subtle">
                       pro Portion: <MacroLine n={pp} />
                     </div>
                   </button>
@@ -156,12 +156,12 @@ export default function FoodsPage() {
       <Sheet open={!!detail} onClose={() => setDetail(null)} title={detail?.name}>
         {detail && (
           <div className="space-y-3">
-            <div className="text-sm text-muted">
+            <div className="text-[13px] text-muted">
               {[detail.brand, detail.barcode && `EAN ${detail.barcode}`, detail.source === 'off' ? 'Quelle: Open Food Facts' : 'Eigenes Lebensmittel'].filter(Boolean).join(' · ')}
             </div>
             <div className="label">Pro 100 {detail.unit}</div>
             <NutrientTable n={detail.per100} />
-            {detail.incomplete && <p className="text-[12px] text-warn">Unvollständige Angaben – fehlende Werte werden nicht mitgezählt.</p>}
+            {detail.incomplete && <p className="text-[11.5px] text-warn">Unvollständige Angaben – fehlende Werte werden nicht mitgezählt.</p>}
           </div>
         )}
       </Sheet>
@@ -317,8 +317,8 @@ function RecipeEditor({ recipe, onClose, foods }: { recipe: Recipe | 'new' | nul
               {items.map((it, i) => (
                 <li key={`${it.foodId}-${i}`} className="flex items-center gap-2 rounded-xl bg-elevated/60 px-3 py-2">
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-[14px] font-semibold">{it.name}</div>
-                    <div className="num text-[11px] text-muted">{fmtNumber(scale(it.per100, parsed[i].amount).kcal ?? 0, 0)} kcal</div>
+                    <div className="truncate text-[13px] font-semibold">{it.name}</div>
+                    <div className="num text-[10.5px] text-muted">{fmtNumber(scale(it.per100, parsed[i].amount).kcal ?? 0, 0)} kcal</div>
                   </div>
                   <input
                     className="num h-10 w-20 rounded-lg bg-surface text-center font-bold outline-none focus:ring-1 focus:ring-accent"
@@ -327,7 +327,7 @@ function RecipeEditor({ recipe, onClose, foods }: { recipe: Recipe | 'new' | nul
                     value={amounts[i] ?? ''}
                     onChange={(e) => setAmounts((a) => a.map((x, j) => (j === i ? e.target.value.replace(/[^\d.,]/g, '') : x)))}
                   />
-                  <span className="w-6 text-[12px] text-muted">{it.unit}</span>
+                  <span className="w-6 text-[11.5px] text-muted">{it.unit}</span>
                   <IconButton label={`${it.name} entfernen`} variant="danger" onClick={() => (setItems((xs) => xs.filter((_, j) => j !== i)), setAmounts((xs) => xs.filter((_, j) => j !== i)))}>
                     <X size={16} />
                   </IconButton>
@@ -337,7 +337,7 @@ function RecipeEditor({ recipe, onClose, foods }: { recipe: Recipe | 'new' | nul
             <Button block className="mt-2 border border-dashed border-line" onClick={() => setPicker(true)} icon={<Plus size={17} />}>
               Zutat hinzufügen
             </Button>
-            {foods.length === 0 && <p className="mt-2 text-[12px] text-subtle">Zutaten stammen aus deiner Lebensmittel-Bibliothek. Scanne oder lege zuerst Lebensmittel an.</p>}
+            {foods.length === 0 && <p className="mt-2 text-[11.5px] text-subtle">Zutaten stammen aus deiner Lebensmittel-Bibliothek. Scanne oder lege zuerst Lebensmittel an.</p>}
           </div>
           {items.length > 0 && (
             <div className="rounded-2xl bg-elevated/60 p-3">
@@ -345,7 +345,7 @@ function RecipeEditor({ recipe, onClose, foods }: { recipe: Recipe | 'new' | nul
               <NutrientTable n={perPortion} keys={['kcal', 'protein', 'carbs', 'fat', 'fiber', 'sugar']} />
             </div>
           )}
-          {err && <p className="text-sm text-bad">{err}</p>}
+          {err && <p className="text-[13px] text-bad">{err}</p>}
         </div>
       </Sheet>
       <Sheet open={picker} onClose={() => setPicker(false)} title="Zutat wählen" tall>
@@ -366,7 +366,7 @@ function RecipeEditor({ recipe, onClose, foods }: { recipe: Recipe | 'new' | nul
             />
           ))}
         </ul>
-        {!candidates.length && <p className="py-6 text-center text-sm text-muted">Keine Lebensmittel gefunden.</p>}
+        {!candidates.length && <p className="py-6 text-center text-[13px] text-muted">Keine Lebensmittel gefunden.</p>}
       </Sheet>
     </>
   );

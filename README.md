@@ -31,6 +31,11 @@ Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App brau
 - Die App startet standardmäßig im **hellen Modus**. Installationen, die noch auf dem alten Standard „Dunkel“ standen, werden einmalig umgestellt; „System“ bleibt erhalten.
 - App-weit gilt: Ein Feld, in dem beim Verlassen der App noch getippt wird, wird gespeichert. Der Plan-Editor stellt ungespeicherte Pläne wieder her.
 
+## Gestaltung
+
+- Jeder Bereich hat eine feste Farbe (Training Grün, Ernährung Orange, Aktivität Cyan, Körper Violett, Freunde Pink). Im Menü tragen die Symbole immer ihre Bereichsfarbe; der ausgewählte Bereich wird einheitlich mit einer getönten Fläche in derselben Farbe hervorgehoben. „Mehr“ übernimmt die Farbe des geöffneten Unterbereichs.
+- Kompakte Darstellung: etwas kleinere Schrift, engere Abstände, zusammengefasste Kacheln – im Schnitt rund 17 % weniger Scrollen, auf der Startseite rund ein Drittel.
+
 ## Architektur
 
 ```
@@ -68,17 +73,11 @@ Datenbank-Migration v3 entfernt eventuell früher importierte Werte.
 
 | Quelle | Weg | Voraussetzung | Status in Forge |
 |---|---|---|---|
-| **Fitbit / Fitbit Air** | Google Health API (REST, OAuth im Browser) | Eigene OAuth-Client-ID (Google Cloud, Testmodus genügt für private Nutzung) | live, manuell + automatisch synchronisiert |
 | **Apple Health** | Export der Health-App (Export.zip) | – | Datei-Import, Streaming im Web Worker |
 | **Google Health Connect / HealthKit live** | Native Brücke `window.ForgeHealthBridge` | Native App-Hülle (Capacitor), siehe docs/NATIVE_BRIDGE.md | Schnittstelle fertig, native Hülle nicht enthalten |
 | **Manuell** | Eingabe in der App | – | immer verfügbar |
 
-**Kompatibilität Fitbit Air:** Die Fitbit Air synchronisiert in die Google-Health-App (die frühere Fitbit-App). Die alte
-Fitbit Web API wurde von Google im Herbst 2026 abgeschaltet; ihr offizieller Nachfolger ist die Google Health API
-(`https://health.googleapis.com/v4/users/me/dataTypes/{type}/dataPoints`), die Forge nutzt. Einrichtung: Google Cloud
-Projekt → Google Health API aktivieren → OAuth-Zustimmungsbildschirm im Testmodus mit dem eigenen Konto als Testnutzer →
-OAuth-Client „Webanwendung“ mit der App-URL als JavaScript-Quelle → Client-ID in Forge (Mehr → Datenquellen) eintragen.
-Google-Tokens im Browser gelten ca. 1 Stunde; danach genügt ein Tipp auf „Synchronisieren“.
+Die frühere Anbindung an Google Health / Fitbit wurde entfernt (Migration v6 trennt die Verbindung und löscht den gespeicherten Login). Früher übernommene Werte bleiben erhalten und lassen sich unter Datenquellen löschen.
 
 **Ehrlicher Hinweis:** Die Google-Health-Anbindung wurde gegen Googles veröffentlichte Referenz implementiert und mit
 nachgebildeten Antworten getestet, konnte aber in der Entwicklungsumgebung nicht gegen ein echtes Konto laufen

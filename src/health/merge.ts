@@ -3,8 +3,8 @@ import type { HealthMetric, HealthSourceId, MetricKey } from '@/db/types';
 export const DEFAULT_PRIORITY: HealthSourceId[] = ['google', 'bridge', 'apple', 'manual'];
 
 /**
- * Several sources may report the same metric for the same day (e.g. Fitbit via Google
- * and an Apple Health export). We never add them – one source wins per metric and day,
+ * Several sources may report the same metric for the same day (e.g. the native bridge and an Apple Health
+ * export). We never add them – one source wins per metric and day,
  * chosen by the user's priority order. This prevents double counting of steps/calories.
  */
 export function mergeDaily(rows: HealthMetric[], priority: HealthSourceId[] = DEFAULT_PRIORITY): Map<string, HealthMetric> {

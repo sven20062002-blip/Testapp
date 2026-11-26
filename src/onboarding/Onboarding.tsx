@@ -127,7 +127,7 @@ export default function Onboarding() {
               finishing.current = true;
               void skipOnboarding(d).catch(() => (finishing.current = false));
             }}
-            className="text-[13px] font-medium text-subtle hover:text-fg">
+            className="text-[12.5px] font-medium text-subtle hover:text-fg">
             Überspringen
           </button>
         )}
@@ -136,13 +136,13 @@ export default function Onboarding() {
       <main key={stepId} className="flex-1 animate-rise pb-6 pt-8">
         <span className={`chip chip-${meta.area} mb-4 h-11 w-11`}>{meta.icon}</span>
         <h1 className="title-xl">{meta.title}</h1>
-        <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{meta.text}</p>
+        <p className="mt-1.5 text-[14px] leading-relaxed text-muted">{meta.text}</p>
 
         <div className="mt-7 space-y-6">
           {stepId === 'welcome' && (
             <>
               <Field label="Wie dürfen wir dich nennen?" error={err('name')} optional>
-                <input className="field text-[17px]" value={d.name} maxLength={24} placeholder="Vorname" autoComplete="given-name" onChange={(e) => set({ name: e.target.value })} aria-label="Name" />
+                <input className="field text-[15.5px]" value={d.name} maxLength={24} placeholder="Vorname" autoComplete="given-name" onChange={(e) => set({ name: e.target.value })} aria-label="Name" />
               </Field>
               <Field label="Gewichtseinheit">
                 <Segmented<WeightUnit>
@@ -155,7 +155,7 @@ export default function Onboarding() {
                   label="Gewichtseinheit"
                 />
               </Field>
-              <p className="flex gap-2 rounded-2xl bg-elevated/70 dark:bg-surface p-3.5 text-[13px] leading-relaxed text-muted">
+              <p className="flex gap-2 rounded-2xl bg-elevated/70 dark:bg-surface p-3.5 text-[12.5px] leading-relaxed text-muted">
                 <User size={16} className="mt-0.5 shrink-0 text-area-train" />
                 Deine Angaben bleiben auf diesem Gerät und werden automatisch gespeichert – auch wenn du die App zwischendurch verlässt.
               </p>
@@ -195,8 +195,8 @@ export default function Onboarding() {
                     className={clsx('rounded-2xl p-3.5 text-left ring-2 transition', d.goal === g ? 'bg-area-food/10 ring-area-food' : 'bg-elevated/70 dark:bg-surface ring-transparent')}
                   >
                     <span className={clsx('mb-2 block', d.goal === g ? 'text-area-food' : 'text-muted')}>{GOAL_ICONS[g]}</span>
-                    <span className="block text-[15px] font-semibold">{GOAL_LABELS[g]}</span>
-                    <span className="block text-[12px] leading-snug text-muted">{GOAL_HINTS[g]}</span>
+                    <span className="block text-[14px] font-semibold">{GOAL_LABELS[g]}</span>
+                    <span className="block text-[11.5px] leading-snug text-muted">{GOAL_HINTS[g]}</span>
                   </button>
                 ))}
               </div>
@@ -212,8 +212,8 @@ export default function Onboarding() {
                     −
                   </RoundBtn>
                   <span className="text-center">
-                    <span className="num block text-[32px] font-bold leading-none text-area-train">{d.trainingDays}</span>
-                    <span className="text-[12px] text-muted">Workouts / Woche</span>
+                    <span className="num block text-[28px] font-bold leading-none text-area-train">{d.trainingDays}</span>
+                    <span className="text-[11.5px] text-muted">Workouts / Woche</span>
                   </span>
                   <RoundBtn label="Mehr" onClick={() => set({ trainingDays: Math.min(14, d.trainingDays + 1) })}>
                     +
@@ -231,8 +231,8 @@ export default function Onboarding() {
                       className={clsx('flex w-full items-center justify-between rounded-2xl px-3.5 py-3 text-left ring-2 transition', d.activityLevel === a.value ? 'bg-area-train/10 ring-area-train' : 'bg-elevated/70 dark:bg-surface ring-transparent')}
                     >
                       <span>
-                        <span className="block text-[14px] font-semibold">{a.label}</span>
-                        <span className="block text-[12px] text-muted">{a.hint}</span>
+                        <span className="block text-[13px] font-semibold">{a.label}</span>
+                        <span className="block text-[11.5px] text-muted">{a.hint}</span>
                       </span>
                       {d.activityLevel === a.value && <Check size={16} className="text-area-train" />}
                     </button>
@@ -247,7 +247,7 @@ export default function Onboarding() {
                       role="radio"
                       aria-checked={d.restSec === s}
                       onClick={() => set({ restSec: s })}
-                      className={clsx('num flex h-10 items-center gap-1.5 rounded-full px-4 text-[14px] font-semibold transition', d.restSec === s ? 'bg-fg text-bg' : 'bg-elevated/70 dark:bg-surface text-muted')}
+                      className={clsx('num flex h-10 items-center gap-1.5 rounded-full px-4 text-[13px] font-semibold transition', d.restSec === s ? 'bg-fg text-bg' : 'bg-elevated/70 dark:bg-surface text-muted')}
                     >
                       <Timer size={14} /> {formatClock(s * 1000)}
                     </button>
@@ -267,7 +267,7 @@ export default function Onboarding() {
                       role="radio"
                       aria-checked={d.stepGoal === s}
                       onClick={() => set({ stepGoal: s })}
-                      className={clsx('num h-10 rounded-full px-4 text-[14px] font-semibold transition', d.stepGoal === s ? 'bg-area-move text-black' : 'bg-elevated/70 dark:bg-surface text-muted')}
+                      className={clsx('num h-10 rounded-full px-4 text-[13px] font-semibold transition', d.stepGoal === s ? 'bg-area-move text-black' : 'bg-elevated/70 dark:bg-surface text-muted')}
                     >
                       {fmtNumber(s)}
                     </button>
@@ -289,8 +289,8 @@ export default function Onboarding() {
                   label="Darstellung"
                 />
               </Field>
-              <p className="rounded-2xl bg-elevated/70 dark:bg-surface p-3.5 text-[13px] leading-relaxed text-muted">
-                Schritte und Aktivitätskalorien kannst du später unter <b className="text-fg">Mehr → Datenquellen</b> aus Google Health, Health Connect oder Apple Health übernehmen.
+              <p className="rounded-2xl bg-elevated/70 dark:bg-surface p-3.5 text-[12.5px] leading-relaxed text-muted">
+                Schritte und Aktivitätskalorien kannst du später unter <b className="text-fg">Mehr → Datenquellen</b> aus Apple Health übernehmen oder selbst eintragen.
               </p>
             </>
           )}
@@ -304,7 +304,7 @@ export default function Onboarding() {
           {stepId === 'welcome' ? "Los geht's" : stepId === 'summary' ? 'Training starten' : 'Weiter'}
           {stepId !== 'summary' && <ArrowRight size={18} />}
         </Button>
-        {showErrors && Object.keys(errors).length > 0 && <p className="mt-2 text-center text-[13px] text-bad">Bitte ergänze die markierten Angaben.</p>}
+        {showErrors && Object.keys(errors).length > 0 && <p className="mt-2 text-center text-[12.5px] text-bad">Bitte ergänze die markierten Angaben.</p>}
       </footer>
     </div>
   );
@@ -335,9 +335,9 @@ function Summary({ d, onEdit }: { d: OnboardingDraft; onEdit: (step: number) => 
     <>
       {plan && (
         <section className="rounded-3xl bg-elevated/70 dark:bg-surface p-5">
-          <div className="text-[12px] font-semibold uppercase tracking-wider text-muted">Kalorienziel pro Tag</div>
-          <div className="num mt-1 text-[44px] font-bold leading-none text-area-food">
-            {fmtNumber(plan.target)} <span className="text-[17px] font-semibold text-muted">kcal</span>
+          <div className="text-[11.5px] font-semibold uppercase tracking-wider text-muted">Kalorienziel pro Tag</div>
+          <div className="num mt-1 text-[34px] font-bold leading-none text-area-food">
+            {fmtNumber(plan.target)} <span className="text-[15.5px] font-semibold text-muted">kcal</span>
           </div>
           <div className="mt-4 grid grid-cols-3 gap-2 text-center">
             {[
@@ -346,24 +346,24 @@ function Summary({ d, onEdit }: { d: OnboardingDraft; onEdit: (step: number) => 
               ['Fett', plan.fat],
             ].map(([l, v]) => (
               <div key={l} className="rounded-xl bg-surface py-2.5 dark:bg-elevated/70">
-                <div className="num text-[17px] font-bold">{v} g</div>
-                <div className="text-[11px] text-muted">{l}</div>
+                <div className="num text-[15.5px] font-bold">{v} g</div>
+                <div className="text-[10.5px] text-muted">{l}</div>
               </div>
             ))}
           </div>
-          <p className="mt-3 text-[11px] leading-relaxed text-subtle">Schätzung nach Mifflin-St Jeor · Grundumsatz {fmtNumber(plan.bmr)} kcal · Gesamtbedarf {fmtNumber(plan.tdee)} kcal.</p>
+          <p className="mt-3 text-[10.5px] leading-relaxed text-subtle">Schätzung nach Mifflin-St Jeor · Grundumsatz {fmtNumber(plan.bmr)} kcal · Gesamtbedarf {fmtNumber(plan.tdee)} kcal.</p>
         </section>
       )}
       <section className="divide-y divide-line/60 rounded-3xl bg-elevated/70 dark:bg-surface">
         {rows.map(([l, v, step]) => (
           <button key={l} onClick={() => onEdit(step)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left" aria-label={`${l} ändern`}>
-            <span className="w-20 shrink-0 text-[13px] text-muted">{l}</span>
-            <span className="min-w-0 flex-1 truncate text-[14px] font-medium">{v}</span>
+            <span className="w-20 shrink-0 text-[12.5px] text-muted">{l}</span>
+            <span className="min-w-0 flex-1 truncate text-[13px] font-medium">{v}</span>
             <Pencil size={14} className="shrink-0 text-subtle" />
           </button>
         ))}
       </section>
-      <p className="text-[12px] leading-relaxed text-subtle">Alles lässt sich später unter Einstellungen und im Ernährungsprofil ändern.</p>
+      <p className="text-[11.5px] leading-relaxed text-subtle">Alles lässt sich später unter Einstellungen und im Ernährungsprofil ändern.</p>
     </>
   );
 }
@@ -372,11 +372,11 @@ function Field({ label, children, error, hint, optional }: { label: string; chil
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between gap-2">
-        <span className="text-[13px] font-semibold text-muted">{label}</span>
-        {optional && <span className="text-[12px] text-subtle">optional</span>}
+        <span className="text-[12.5px] font-semibold text-muted">{label}</span>
+        {optional && <span className="text-[11.5px] text-subtle">optional</span>}
       </div>
       {children}
-      {error ? <p className="mt-1.5 text-[12px] font-medium text-bad">{error}</p> : hint ? <p className="mt-1.5 text-[12px] text-subtle">{hint}</p> : null}
+      {error ? <p className="mt-1.5 text-[11.5px] font-medium text-bad">{error}</p> : hint ? <p className="mt-1.5 text-[11.5px] text-subtle">{hint}</p> : null}
     </div>
   );
 }
@@ -386,7 +386,7 @@ function NumInput({ label, unit, value, onChange, error, hint, integer, optional
     <Field label={label} error={error} hint={hint} optional={optional}>
       <div className="relative">
         <input
-          className={clsx('field num pr-16 text-[17px]', error && 'ring-2 ring-bad/60')}
+          className={clsx('field num pr-16 text-[15.5px]', error && 'ring-2 ring-bad/60')}
           inputMode={integer ? 'numeric' : 'decimal'}
           enterKeyHint="next"
           value={value}
@@ -394,7 +394,7 @@ function NumInput({ label, unit, value, onChange, error, hint, integer, optional
           aria-invalid={!!error}
           onChange={(e) => onChange(integer ? e.target.value.replace(/\D/g, '') : e.target.value.replace(/[^\d.,]/g, ''))}
         />
-        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[14px] text-subtle">{unit}</span>
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[13px] text-subtle">{unit}</span>
       </div>
     </Field>
   );
@@ -402,7 +402,7 @@ function NumInput({ label, unit, value, onChange, error, hint, integer, optional
 
 function RoundBtn({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
-    <button onClick={onClick} aria-label={label} className="grid h-12 w-12 place-items-center rounded-full bg-elevated text-[22px] font-semibold text-fg active:scale-95">
+    <button onClick={onClick} aria-label={label} className="grid h-12 w-12 place-items-center rounded-full bg-elevated text-[20px] font-semibold text-fg active:scale-95">
       {children}
     </button>
   );

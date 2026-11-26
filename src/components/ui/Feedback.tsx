@@ -74,7 +74,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
                 key={t.id}
                 role="status"
                 className={clsx(
-                  'flex max-w-md items-center gap-2.5 rounded-2xl border border-line bg-surface/95 px-4 py-3 text-sm font-medium shadow-2xl backdrop-blur animate-rise',
+                  'flex max-w-md items-center gap-2.5 rounded-2xl border border-line bg-surface/95 px-4 py-3 text-[13px] font-medium shadow-2xl backdrop-blur animate-rise',
                   t.action ? 'pointer-events-auto' : 'pointer-events-none',
                 )}
               >
@@ -121,7 +121,7 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
           </div>
         }
       >
-        {confirmState?.text && <p className="text-[15px] text-muted">{confirmState.text}</p>}
+        {confirmState?.text && <p className="text-[14px] text-muted">{confirmState.text}</p>}
       </Sheet>
     </FeedbackCtx.Provider>
   );

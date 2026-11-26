@@ -61,15 +61,15 @@ function SetTimerCard({
 
   return (
     <div className={clsx('card relative overflow-hidden p-3.5', running && 'ring-1 ring-accent/50')}>
-      <div className="flex items-center gap-1.5 text-[12px] font-semibold text-muted">
+      <div className="flex items-center gap-1.5 text-[11.5px] font-semibold text-muted">
         <Timer size={14} /> Satz-Timer
       </div>
       {running && we ? (
         <>
-          <div className="num mt-1 text-[28px] font-bold leading-none tracking-tight text-fg">
+          <div className="num mt-1 text-[24px] font-bold leading-none tracking-tight text-fg">
             {formatClock(setTimerElapsedMs(running, workout.pausedAt, now))}
           </div>
-          <div className="mt-1 truncate text-[12px] text-muted">
+          <div className="mt-1 truncate text-[11.5px] text-muted">
             {name(we.snapshot)} · Satz {running.order + 1}
           </div>
           <Button variant="primary" size="sm" block className="mt-2.5" onClick={() => onCompleteSet(running)} icon={<Square size={13} fill="currentColor" />}>
@@ -78,8 +78,8 @@ function SetTimerCard({
         </>
       ) : (
         <>
-          <div className="num mt-1 text-[28px] font-bold leading-none tracking-tight text-subtle">0:00</div>
-          <div className="mt-1 truncate text-[12px] text-muted">
+          <div className="num mt-1 text-[24px] font-bold leading-none tracking-tight text-subtle">0:00</div>
+          <div className="mt-1 truncate text-[11.5px] text-muted">
             {lastDone ? `Letzter Satz: ${formatClock(lastDone.durationSec! * 1000)}` : 'Misst die Dauer jedes Satzes'}
           </div>
           <Button size="sm" block className="mt-2.5" disabled={!hasOpen || !!workout.pausedAt} onClick={startNext} icon={<Play size={13} fill="currentColor" />}>
@@ -112,7 +112,7 @@ function RestTimerCard({ workout }: { workout: Workout }) {
         />
       )}
       <div className="relative">
-        <div className="flex items-center justify-between text-[12px] font-semibold text-muted">
+        <div className="flex items-center justify-between text-[11.5px] font-semibold text-muted">
           <span className="flex items-center gap-1.5">
             <Hourglass size={14} /> Pause
           </span>
@@ -121,13 +121,13 @@ function RestTimerCard({ workout }: { workout: Workout }) {
         {active ? (
           <>
             <div
-              className={clsx('num mt-1 text-[28px] font-bold leading-none tracking-tight', rest.status === 'paused' ? 'text-warn' : 'text-fg')}
+              className={clsx('num mt-1 text-[24px] font-bold leading-none tracking-tight', rest.status === 'paused' ? 'text-warn' : 'text-fg')}
               role="timer"
               aria-live="off"
             >
               {formatClock(remaining, true)}
             </div>
-            <div className="mt-1 text-[12px] text-muted">{rest.status === 'paused' ? 'Pausiert' : `von ${formatClock(rest.totalSec * 1000)}`}</div>
+            <div className="mt-1 text-[11.5px] text-muted">{rest.status === 'paused' ? 'Pausiert' : `von ${formatClock(rest.totalSec * 1000)}`}</div>
             <div className="mt-2.5 grid grid-cols-4 gap-1">
               <MiniBtn label="15 Sekunden weniger" onClick={() => adjustRest(-15)}>
                 <Minus size={15} />
@@ -145,10 +145,10 @@ function RestTimerCard({ workout }: { workout: Workout }) {
           </>
         ) : (
           <>
-            <div className={clsx('num mt-1 text-[28px] font-bold leading-none tracking-tight', done ? 'text-good' : 'text-subtle')}>
+            <div className={clsx('num mt-1 text-[24px] font-bold leading-none tracking-tight', done ? 'text-good' : 'text-subtle')}>
               {done ? 'Los!' : formatClock(settings.defaultRestSec * 1000)}
             </div>
-            <div className="mt-1 text-[12px] text-muted">{done ? 'Pause vorbei' : 'Standard-Pause'}</div>
+            <div className="mt-1 text-[11.5px] text-muted">{done ? 'Pause vorbei' : 'Standard-Pause'}</div>
             <Button size="sm" block className="mt-2.5" onClick={() => setPicker(true)} icon={<Play size={13} fill="currentColor" />}>
               Pause starten
             </Button>
@@ -214,7 +214,7 @@ export function RestPicker({
     <Sheet open={open} onClose={onClose} title={title}>
       <div className="grid grid-cols-3 gap-2">
         {REST_PRESETS.map((s) => (
-          <button key={s} onClick={() => pick(s)} className="num h-16 rounded-2xl bg-elevated text-lg font-bold transition hover:bg-line active:scale-95">
+          <button key={s} onClick={() => pick(s)} className="num h-16 rounded-2xl bg-elevated text-[16.5px] font-bold transition hover:bg-line active:scale-95">
             {formatClock(s * 1000)}
           </button>
         ))}

@@ -36,10 +36,10 @@ export function ChallengesTab() {
         {loading && !data && <Skeleton rows={2} />}
         {error && !data && <ErrorNote error={error} onRetry={refresh} />}
         {invites.map((c) => (
-          <div key={c.id} className="card p-4 ring-1 ring-area-social/40">
+          <div key={c.id} className="card p-3.5 ring-1 ring-area-social/40">
             <div className="label text-area-social">Einladung</div>
-            <div className="mt-1 text-[16px] font-semibold">{c.title}</div>
-            <div className="text-[13px] text-muted">
+            <div className="mt-1 text-[15px] font-semibold">{c.title}</div>
+            <div className="text-[12.5px] text-muted">
               {METRIC_LABELS[c.metric]}
               {c.exercise_name ? ` · ${c.exercise_name}` : ''} · {c.members} Teilnehmer
             </div>
@@ -85,11 +85,11 @@ export function ChallengesTab() {
 function ChallengeCard({ c, unit, finished }: { c: import('@/social/types').ChallengeSummary; unit: import('@/db/types').WeightUnit; finished?: boolean }) {
   const lead = c.my_rank === 1;
   return (
-    <Link to={`/social/challenge/${c.id}`} className={clsx('card block p-4', finished && 'opacity-80')}>
+    <Link to={`/social/challenge/${c.id}`} className={clsx('card block p-3.5', finished && 'opacity-80')}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate text-[16px] font-semibold">{c.title}</div>
-          <div className="truncate text-[13px] text-muted">
+          <div className="truncate text-[15px] font-semibold">{c.title}</div>
+          <div className="truncate text-[12.5px] text-muted">
             {METRIC_LABELS[c.metric]}
             {c.exercise_name ? ` · ${c.exercise_name}` : ''}
           </div>
@@ -98,20 +98,20 @@ function ChallengeCard({ c, unit, finished }: { c: import('@/social/types').Chal
       </div>
       <div className="mt-3 grid grid-cols-3 gap-2">
         <div className="rounded-xl bg-elevated/60 px-2.5 py-2">
-          <div className="num text-[15px] font-semibold">{c.my_rank ? `#${c.my_rank}` : '–'}</div>
-          <div className="text-[11px] text-muted">Dein Platz</div>
+          <div className="num text-[14px] font-semibold">{c.my_rank ? `#${c.my_rank}` : '–'}</div>
+          <div className="text-[10.5px] text-muted">Dein Platz</div>
         </div>
         <div className="rounded-xl bg-elevated/60 px-2.5 py-2">
-          <div className="num truncate text-[15px] font-semibold">{fmtScore(c.metric, c.my_score, unit)}</div>
-          <div className="text-[11px] text-muted">Dein Wert</div>
+          <div className="num truncate text-[14px] font-semibold">{fmtScore(c.metric, c.my_score, unit)}</div>
+          <div className="text-[10.5px] text-muted">Dein Wert</div>
         </div>
         <div className="rounded-xl bg-elevated/60 px-2.5 py-2">
-          <div className="num truncate text-[15px] font-semibold">{finished ? 'beendet' : remaining(c.ends_at)}</div>
-          <div className="text-[11px] text-muted">{finished ? `${c.members} Teilnehmer` : 'verbleibend'}</div>
+          <div className="num truncate text-[14px] font-semibold">{finished ? 'beendet' : remaining(c.ends_at)}</div>
+          <div className="text-[10.5px] text-muted">{finished ? `${c.members} Teilnehmer` : 'verbleibend'}</div>
         </div>
       </div>
       {c.leader_username && (
-        <div className="mt-2.5 text-[12px] text-muted">
+        <div className="mt-2.5 text-[11.5px] text-muted">
           {lead ? '🏆 Du führst' : `Führung: @${c.leader_username} mit ${fmtScore(c.metric, c.leader_score, unit)}`}
         </div>
       )}
@@ -216,7 +216,7 @@ export function NewChallengeSheet({ open, onClose, onCreated, preselect }: { ope
         </Field>
         <div>
           <span className="label mb-2 block">Freunde einladen</span>
-          {!fr.length && <p className="text-[13px] text-muted">Füge zuerst Freunde hinzu (Tab „Freunde“).</p>}
+          {!fr.length && <p className="text-[12.5px] text-muted">Füge zuerst Freunde hinzu (Tab „Freunde“).</p>}
           <div className="space-y-1.5">
             {fr.map((f) => {
               const on = invitees.includes(f.user_id);
@@ -228,15 +228,15 @@ export function NewChallengeSheet({ open, onClose, onCreated, preselect }: { ope
                   className={clsx('flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition', on ? 'bg-area-social/15 ring-1 ring-area-social/50' : 'bg-elevated/60')}
                 >
                   <Avatar name={f.display_name} color={f.color} size={34} />
-                  <span className="flex-1 text-[14px] font-medium">{f.display_name}</span>
+                  <span className="flex-1 text-[13px] font-medium">{f.display_name}</span>
                   <span className={clsx('h-5 w-5 rounded-full border-2', on ? 'border-area-social bg-area-social' : 'border-line')} />
                 </button>
               );
             })}
           </div>
         </div>
-        <p className="text-[12px] text-subtle">Gewertet werden automatisch alle Workouts im Zeitraum, die ihr in Forge beendet. Ergebnisse basieren auf euren eigenen Eingaben.</p>
-        {err && <p className="animate-shake text-sm font-medium text-bad">{err}</p>}
+        <p className="text-[11.5px] text-subtle">Gewertet werden automatisch alle Workouts im Zeitraum, die ihr in Forge beendet. Ergebnisse basieren auf euren eigenen Eingaben.</p>
+        {err && <p className="animate-shake text-[13px] font-medium text-bad">{err}</p>}
       </div>
     </Sheet>
   );

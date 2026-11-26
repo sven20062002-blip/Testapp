@@ -38,25 +38,25 @@ function FeedCard({ it, onChange }: { it: FeedItem; onChange: () => void }) {
     }
   };
   return (
-    <article className="card p-4 animate-rise">
+    <article className="card p-3.5 animate-rise">
       <header className="flex items-center gap-3">
         <Avatar name={it.display_name} color={it.color} size={40} />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[15px] font-semibold">
+          <div className="truncate text-[14px] font-semibold">
             {it.is_me ? 'Du' : it.display_name} <span className="font-normal text-muted">hat trainiert</span>
           </div>
-          <div className="text-[12px] text-subtle">
+          <div className="text-[11.5px] text-subtle">
             @{it.username} · {ago(it.ended_at)}
           </div>
         </div>
         {it.pr_count > 0 && (
-          <span className="chip chip-social gap-1 rounded-full px-2.5 py-1 text-[12px] font-semibold">
+          <span className="chip chip-social gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-semibold">
             <Trophy size={12} /> {it.pr_count} PR
           </span>
         )}
       </header>
-      <h3 className="mt-3 text-[17px] font-semibold tracking-[-0.01em]">{it.name}</h3>
-      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-muted">
+      <h3 className="mt-3 text-[15.5px] font-semibold tracking-[-0.01em]">{it.name}</h3>
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12.5px] text-muted">
         <span className="flex items-center gap-1.5">
           <Clock size={13} /> {formatDuration(it.duration_sec)}
         </span>
@@ -70,7 +70,7 @@ function FeedCard({ it, onChange }: { it: FeedItem; onChange: () => void }) {
       {!!it.top_exercises?.length && (
         <ul className="mt-3 space-y-1.5 rounded-2xl bg-elevated/60 p-3">
           {it.top_exercises.map((e) => (
-            <li key={e.name} className="flex justify-between gap-3 text-[13px]">
+            <li key={e.name} className="flex justify-between gap-3 text-[12.5px]">
               <span className="truncate">{e.name}</span>
               <span className="num shrink-0 text-muted">{e.top_weight ? `${fmtWeight(e.top_weight, unit)} × ${e.top_weight_reps}` : fmtVolume(e.volume, unit)}</span>
             </li>
@@ -88,12 +88,12 @@ function FeedCard({ it, onChange }: { it: FeedItem; onChange: () => void }) {
               aria-pressed={mine}
               aria-label={`Reaktion ${e}${n ? ` (${n})` : ''}`}
               className={clsx(
-                'flex h-9 items-center gap-1 rounded-full px-3 text-[14px] transition active:scale-95',
+                'flex h-9 items-center gap-1 rounded-full px-3 text-[13px] transition active:scale-95',
                 mine ? 'bg-area-social/20 ring-1 ring-area-social/60' : 'bg-elevated hover:bg-line',
               )}
             >
               <span>{e}</span>
-              {n > 0 && <span className="num text-[12px] font-semibold text-muted">{n}</span>}
+              {n > 0 && <span className="num text-[11.5px] font-semibold text-muted">{n}</span>}
             </button>
           );
         })}

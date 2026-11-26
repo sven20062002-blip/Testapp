@@ -77,21 +77,21 @@ function StartWorkout() {
           <Play size={28} fill="currentColor" />
         </div>
         <div className="flex-1">
-          <div className="text-xl font-bold tracking-tight">Leeres Workout starten</div>
-          <div className="text-sm font-medium opacity-75">Übungen frei hinzufügen</div>
+          <div className="text-[18px] font-bold tracking-tight">Leeres Workout starten</div>
+          <div className="text-[13px] font-medium opacity-75">Übungen frei hinzufügen</div>
         </div>
         <ChevronRight className="opacity-60 transition group-hover:translate-x-1" />
       </button>
 
       <SectionTitle>Trainingspläne</SectionTitle>
-      {sortedPlans.length === 0 && <p className="text-sm text-muted">Noch keine Pläne – erstelle einen unter „Pläne“.</p>}
+      {sortedPlans.length === 0 && <p className="text-[13px] text-muted">Noch keine Pläne – erstelle einen unter „Pläne“.</p>}
       <div className="grid gap-2.5 sm:grid-cols-2">
         {sortedPlans.map((p) => (
-          <button key={p.id} onClick={() => start({ planId: p.id })} className="card flex items-center gap-3 p-4 text-left transition hover:border-line active:scale-[.99]">
+          <button key={p.id} onClick={() => start({ planId: p.id })} className="card flex items-center gap-3 p-3.5 text-left transition hover:border-line active:scale-[.99]">
             <span className="h-10 w-1.5 rounded-full" style={{ background: p.color }} />
             <div className="min-w-0 flex-1">
               <div className="truncate font-bold">{p.name}</div>
-              <div className="truncate text-[13px] text-muted">
+              <div className="truncate text-[12.5px] text-muted">
                 {p.exercises.length} Übungen · {p.exercises.reduce((a, e) => a + e.targetSets, 0)} Sätze
                 {p.lastUsedAt ? ` · ${relativeDay(p.lastUsedAt)}` : ''}
               </div>
@@ -112,11 +112,11 @@ function StartWorkout() {
                 <Dumbbell size={18} className="text-subtle" />
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-semibold">{w.name}</div>
-                  <div className="text-[13px] text-muted">
+                  <div className="text-[12.5px] text-muted">
                     {relativeDay(w.startedAt)} · {formatDuration(w.durationSec)}
                   </div>
                 </div>
-                <span className="text-[13px] font-semibold text-muted">Als Vorlage</span>
+                <span className="text-[12.5px] font-semibold text-muted">Als Vorlage</span>
                 <ChevronRight size={18} className="text-subtle" />
               </button>
             ))}
@@ -223,11 +223,11 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
       <div className="sticky top-0 z-30 border-b border-line/60 bg-bg/85 px-4 pb-3 backdrop-blur-xl sm:px-6" style={{ paddingTop: 'calc(var(--safe-top) + 10px)' }}>
         <div className="flex items-center gap-2">
           <button onClick={() => setRenaming(true)} className="min-w-0 flex-1 text-left" aria-label="Workout umbenennen">
-            <div className="flex items-center gap-1.5 truncate text-[15px] font-bold">
+            <div className="flex items-center gap-1.5 truncate text-[14px] font-bold">
               <span className="truncate">{workout.name}</span>
               <PencilLine size={13} className="shrink-0 text-subtle" />
             </div>
-            <div className="text-[12px] text-muted">Gestartet {fmtTime(workout.startedAt)}</div>
+            <div className="text-[11.5px] text-muted">Gestartet {fmtTime(workout.startedAt)}</div>
           </button>
           <IconButton label="Workout-Optionen" onClick={() => setMenu(true)}>
             <MoreHorizontal size={20} />
@@ -238,7 +238,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
         </div>
         <div className="mt-2 flex items-center gap-3">
           <div
-            className={clsx('num text-[40px] font-bold leading-none tracking-tight', workout.pausedAt ? 'text-warn' : 'text-fg')}
+            className={clsx('num text-[34px] font-bold leading-none tracking-tight', workout.pausedAt ? 'text-warn' : 'text-fg')}
             role="timer"
             aria-label="Gesamtdauer"
             data-testid="workout-clock"
@@ -248,7 +248,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
           <button
             onClick={() => (workout.pausedAt ? resumeWorkout(workout.id) : pauseWorkout(workout.id))}
             className={clsx(
-              'flex h-10 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold transition active:scale-95',
+              'flex h-10 items-center gap-1.5 rounded-full px-3.5 text-[12.5px] font-bold transition active:scale-95',
               workout.pausedAt ? 'bg-warn text-black' : 'bg-elevated text-fg',
             )}
             aria-label={workout.pausedAt ? 'Workout fortsetzen' : 'Workout pausieren'}
@@ -256,7 +256,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
             {workout.pausedAt ? <Play size={15} fill="currentColor" /> : <Pause size={15} fill="currentColor" />}
             {workout.pausedAt ? 'Weiter' : 'Pause'}
           </button>
-          <div className="ml-auto hidden text-right text-[12px] text-muted sm:block">
+          <div className="ml-auto hidden text-right text-[11.5px] text-muted sm:block">
             <div className="num font-semibold text-fg">{done} Sätze</div>
             <div className="num">{fmtVolume(volume, settings.unit)}</div>
           </div>
@@ -272,7 +272,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
                   key={we.id}
                   onClick={() => scrollTo(we.id)}
                   className={clsx(
-                    'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition',
+                    'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11.5px] font-semibold transition',
                     complete ? 'border-good/40 bg-good/10 text-good' : nextOpen?.id === we.id ? 'border-accent bg-accent/10 text-fg' : 'border-line text-muted',
                   )}
                 >
@@ -289,7 +289,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
 
       <div className="px-4 pt-4 sm:px-6" style={{ paddingBottom: 'calc(var(--nav-h) + var(--safe-bottom) + 40px)' }}>
         {workout.pausedAt && (
-          <div className="mb-3 flex items-center gap-3 rounded-2xl border border-warn/30 bg-warn/10 px-4 py-3 text-sm font-medium">
+          <div className="mb-3 flex items-center gap-3 rounded-2xl border border-warn/30 bg-warn/10 px-4 py-3 text-[13px] font-medium">
             <Pause size={18} className="text-warn" />
             <span className="flex-1">Workout pausiert – alle Timer stehen.</span>
             <Button size="sm" onClick={() => resumeWorkout(workout.id)}>
@@ -304,14 +304,14 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
         {nextOpen && (exercises?.length ?? 0) > 1 && (
           <button
             onClick={() => scrollTo(nextOpen.id)}
-            className="mt-2.5 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[13px] font-semibold text-muted hover:bg-elevated"
+            className="mt-2.5 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[12.5px] font-semibold text-muted hover:bg-elevated"
           >
             <ArrowRightCircle size={16} className="text-fg dark:text-accent" />
             Nächste Übung: <span className="truncate text-fg">{name(nextOpen.snapshot)}</span>
           </button>
         )}
 
-        <div className="mt-3 space-y-3">
+        <div className="mt-2.5 space-y-2.5">
           {exercises?.map((we, i) => (
             <ExerciseCard
               key={we.id}
@@ -330,7 +330,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
           <div className="mt-6 rounded-3xl border border-dashed border-line px-6 py-10 text-center">
             <Dumbbell className="mx-auto text-subtle" size={32} />
             <p className="mt-3 font-semibold">Noch keine Übungen</p>
-            <p className="mt-1 text-sm text-muted">Füge die erste Übung hinzu, um Sätze zu erfassen.</p>
+            <p className="mt-1 text-[13px] text-muted">Füge die erste Übung hinzu, um Sätze zu erfassen.</p>
           </div>
         )}
 
@@ -389,9 +389,9 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
           <MiniStat label="Sätze" value={String(done)} />
           <MiniStat label="Volumen" value={fmtVolume(volume, settings.unit, true)} />
         </div>
-        {done === 0 && <p className="mt-4 text-sm font-medium text-warn">Schließe mindestens einen Satz ab, um das Workout zu speichern – oder verwirf es.</p>}
+        {done === 0 && <p className="mt-4 text-[13px] font-medium text-warn">Schließe mindestens einen Satz ab, um das Workout zu speichern – oder verwirf es.</p>}
         {done > 0 && open > 0 && (
-          <p className="mt-4 text-sm text-muted">
+          <p className="mt-4 text-[13px] text-muted">
             <span className="font-semibold text-warn">{open} offene Sätze</span> werden nicht gespeichert.
           </p>
         )}
@@ -430,8 +430,8 @@ export function WorkoutClock({ workout }: { workout: Workout }) {
 function MiniStat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="rounded-2xl bg-elevated p-3 text-center">
-      <div className="num text-lg font-bold">{value}</div>
-      <div className="text-[12px] text-muted">{label}</div>
+      <div className="num text-[16.5px] font-bold">{value}</div>
+      <div className="text-[11.5px] text-muted">{label}</div>
     </div>
   );
 }
@@ -465,7 +465,7 @@ export function RenameSheet({ open, onClose, value, onSave, title = 'Umbenennen'
       }
     >
       <input className="field" value={v} maxLength={60} autoFocus onChange={(e) => setV(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && save()} aria-label="Name" />
-      {err && <p className="mt-2 text-sm text-bad">{err}</p>}
+      {err && <p className="mt-2 text-[13px] text-bad">{err}</p>}
     </Sheet>
   );
 }

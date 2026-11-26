@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import Dexie from 'dexie';
 import { AppleHealthParser, parseAppleDate } from '@/health/apple';
-import * as G from '@/health/google';
 import { mergeDaily } from '@/health/merge';
 import type { HealthMetric } from '@/db/types';
 import { ForgeDB, db } from '@/db/db';
@@ -40,35 +39,6 @@ describe('Apple Health export parser', () => {
   });
 });
 
-describe('Google Health API parsing', () => {
-  it('extracts day and values from rollup/list shapes', () => {
-    const rollup = { civilStartTime: { date: { year: 2026, month: 11, day: 20 } }, steps: { countSum: '8450' } };
-    expect(G.extractDay(rollup)).toBe('2026-11-20');
-    expect(G.pickValue('steps', G.payloadOf(rollup))!.value).toBe(8450);
-    const dist = { startTime: '2026-11-20T00:00:00Z', distance: { millimetersSum: '6200000' } };
-    expect(G.pickValue('distance_m', G.payloadOf(dist))!.value).toBe(6200);
-    const w = { weight: { sampleTime: { physicalTime: '2026-11-21T06:00:00Z' }, weightGrams: 81500 } };
-    expect(G.pickValue('weight_kg', G.payloadOf(w))!.value).toBe(81.5);
-    expect(G.pickValue('body_fat_pct', { bodyFat: { percentage: 0.18 } })!.value).toBeCloseTo(18);
-  });
-
-  it('only requests activity & body scopes', () => {
-    expect(G.scopesFor(['activity', 'body'])).toEqual([
-      'https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly',
-      'https://www.googleapis.com/auth/googlehealth.health_metrics_and_measurements.readonly',
-    ]);
-    expect(G.DAILY_SPECS.every((s) => s.category === 'activity' || s.category === 'body')).toBe(true);
-  });
-
-  it('chunks ranges', () => {
-    expect(G.chunks('2026-11-01', '2026-11-30', 14)).toEqual([
-      ['2026-11-01', '2026-11-14'],
-      ['2026-11-15', '2026-11-28'],
-      ['2026-11-29', '2026-11-30'],
-    ]);
-  });
-});
-
 const M = (source: HealthMetric['source'], metric: HealthMetric['metric'], date: string, value: number): HealthMetric => ({
   id: `${source}:${metric}:${date}`,
   source,
@@ -78,7 +48,6 @@ const M = (source: HealthMetric['source'], metric: HealthMetric['metric'], date:
   kind: 'measured',
   importedAt: 0,
 });
-
 describe('merge', () => {
   it('one source wins per day – no double counting', () => {
     const m = mergeDaily([M('apple', 'steps', '2026-11-20', 9000), M('google', 'steps', '2026-11-20', 8400), M('manual', 'steps', '2026-11-21', 100)]);

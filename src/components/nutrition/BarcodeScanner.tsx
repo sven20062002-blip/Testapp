@@ -195,7 +195,7 @@ export function BarcodeScanner({
         <button onClick={onClose} aria-label="Scanner schließen" className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15">
           <X size={20} />
         </button>
-        <span className="text-[15px] font-bold">Barcode scannen</span>
+        <span className="text-[14px] font-bold">Barcode scannen</span>
         {torch != null ? (
           <button onClick={toggleTorch} aria-label="Taschenlampe" aria-pressed={torch} className={clsx('flex h-10 w-10 items-center justify-center rounded-full', torch ? 'bg-accent text-accent-fg' : 'bg-white/15')}>
             <Flashlight size={18} />
@@ -216,21 +216,21 @@ export function BarcodeScanner({
         )}
         <div className="absolute inset-x-0 bottom-0 p-4 text-center">
           {phase === 'starting' && (
-            <p className="flex items-center justify-center gap-2 text-sm">
+            <p className="flex items-center justify-center gap-2 text-[13px]">
               <Loader2 size={16} className="animate-spin" /> Kamera wird gestartet …
             </p>
           )}
           {phase === 'scanning' && (
-            <p className="flex items-center justify-center gap-2 text-sm text-white/80">
+            <p className="flex items-center justify-center gap-2 text-[13px] text-white/80">
               <ScanLine size={16} /> Barcode in den Rahmen halten{engine === 'zxing' ? '' : ''}
             </p>
           )}
           {phase === 'lookup' && (
-            <p className="flex items-center justify-center gap-2 text-sm">
+            <p className="flex items-center justify-center gap-2 text-[13px]">
               <Loader2 size={16} className="animate-spin" /> Produkt wird gesucht …
             </p>
           )}
-          {error && <p className="mx-auto mt-2 max-w-sm rounded-xl bg-white/10 p-3 text-sm">{error}</p>}
+          {error && <p className="mx-auto mt-2 max-w-sm rounded-xl bg-white/10 p-3 text-[13px]">{error}</p>}
           {phase === 'error' && (
             <Button className="mt-3" onClick={() => void start()}>
               Erneut scannen
