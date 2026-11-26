@@ -27,6 +27,8 @@ Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App brau
 
 - Jede Eingabe wird sofort als Entwurf gesichert. Beim Verlassen der App (App-Wechsel, Bildschirm aus, Tab schließen) landen alle gültigen Angaben zusätzlich in der Datenbank. Beim nächsten Öffnen geht es am selben Schritt weiter.
 - Bestehende Daten werden vorausgefüllt. Einstellungen → „Einrichtung erneut durchlaufen“ startet das Onboarding neu.
+- Danach startet eine **App-Tour** (8 Stationen). Sie hebt den jeweiligen Menüpunkt hervor, öffnet die passende Seite und erklärt Heute, Training, Pläne, Ernährung, Freunde, Aktivität/Körper und das Speichern. Man kann sie jederzeit beenden. Wird die App mittendrin verlassen, geht es an derselben Station weiter. Unter Einstellungen → „App-Tour“ lässt sie sich erneut starten. Am Ende kehrt die App zur Ausgangsseite zurück, damit z. B. ein Einladungslink nicht verloren geht.
+- Die App startet standardmäßig im **hellen Modus**. Installationen, die noch auf dem alten Standard „Dunkel“ standen, werden einmalig umgestellt; „System“ bleibt erhalten.
 - App-weit gilt: Ein Feld, in dem beim Verlassen der App noch getippt wird, wird gespeichert. Der Plan-Editor stellt ungespeicherte Pläne wieder her.
 
 ## Architektur

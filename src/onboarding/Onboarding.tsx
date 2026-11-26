@@ -282,8 +282,8 @@ export default function Onboarding() {
                     void updateSettings({ theme: t }); // preview right away
                   }}
                   options={[
-                    { value: 'dark', label: 'Dunkel' },
                     { value: 'light', label: 'Hell' },
+                    { value: 'dark', label: 'Dunkel' },
                     { value: 'system', label: 'System' },
                   ]}
                   label="Darstellung"

@@ -125,3 +125,60 @@ describe('onboarding', () => {
     expect(await initialDraft()).toMatchObject({ step: 5, unit: 'kg', name: '', restSec: 90 });
   });
 });
+
+describe('app tour & defaults', () => {
+  it('new installs start in light mode', async () => {
+    expect((await getSettings()).theme).toBe('light');
+    expect((await initialDraft()).theme).toBe('light');
+  });
+
+  it('tour: resume station, finish, restart, return to the page it started on', async () => {
+    const { loadTourStep, saveTourStep, finishTour, restartTour, rememberTourOrigin, tourOrigin } = await import('@/tour/state');
+    const { TOUR } = await import('@/tour/steps');
+    expect((await getSettings()).tourSeenAt).toBeNull();
+    expect(loadTourStep()).toBe(0);
+    saveTourStep(3);
+    expect(loadTourStep()).toBe(3);
+    saveTourStep(99);
+    expect(loadTourStep()).toBe(TOUR.length - 1);
+    // origin is remembered once (an invite link survives navigating through the tour)
+    expect(rememberTourOrigin('/social?sb=x&from=anna')).toBe('/social?sb=x&from=anna');
+    expect(rememberTourOrigin('/plans')).toBe('/social?sb=x&from=anna');
+    expect(tourOrigin()).toBe('/social?sb=x&from=anna');
+    await finishTour();
+    expect((await getSettings()).tourSeenAt).toBe(Date.now());
+    expect(loadTourStep()).toBe(0);
+    expect(tourOrigin()).toBe('/');
+    await restartTour();
+    expect((await getSettings()).tourSeenAt).toBeNull();
+  });
+
+  it('every tour station has a route and text', async () => {
+    const { TOUR } = await import('@/tour/steps');
+    for (const s of TOUR) {
+      expect(s.route.startsWith('/')).toBe(true);
+      expect(s.title.length).toBeGreaterThan(2);
+    }
+    expect(new Set(TOUR.map((s) => s.id)).size).toBe(TOUR.length);
+  });
+});
+
+describe('migration v5', () => {
+  it('installs still on the old dark default switch to light once, other choices stay', async () => {
+    const { ForgeDB } = await import('@/db/db');
+    for (const [before, after] of [['dark', 'light'], ['system', 'system'], ['light', 'light']]) {
+      const name = `forge-mig-${before}`;
+      // an old database (Dexie version 4 → IndexedDB version 40) with only the settings store
+      await new Promise<void>((res, rej) => {
+        const r = indexedDB.open(name, 40);
+        r.onupgradeneeded = () => r.result.createObjectStore('settings', { keyPath: 'id' }).put({ id: 'settings', theme: before });
+        r.onsuccess = () => (r.result.close(), res());
+        r.onerror = () => rej(r.error);
+      });
+      const d = new ForgeDB(name);
+      await d.open();
+      expect((await d.settings.get('settings'))?.theme).toBe(after);
+      d.close();
+    }
+  });
+});

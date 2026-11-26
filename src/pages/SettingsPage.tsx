@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Database, HeartPulse, Download, FileJson, FileSpreadsheet, Info, Moon, RotateCcw, Smartphone, Timer, Trash2, Upload, User } from 'lucide-react';
+import { Bell, Compass, Database, HeartPulse, Download, FileJson, FileSpreadsheet, Info, Moon, RotateCcw, Smartphone, Timer, Trash2, Upload, User } from 'lucide-react';
 import { updateSettings } from '@/db/repo/settings';
 import { downloadText, exportCSV, exportJSON, exportNutritionCSV, importJSON, wipeAllData } from '@/db/repo/backup';
 import { restoreStandardExercises } from '@/db/init';
 import { restartOnboarding } from '@/onboarding/model';
+import { restartTour } from '@/tour/state';
 import { useSettings } from '@/hooks/useData';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Segmented } from '@/components/ui/Segmented';
@@ -55,6 +56,18 @@ export default function SettingsPage() {
         </Row>
         <Row label="Wochenziel" hint="Workouts pro Woche">
           <Stepper value={s.weeklyGoal} min={1} max={14} onChange={(v) => updateSettings({ weeklyGoal: v })} />
+        </Row>
+        <Row label="App-Tour" hint="Kurze Erklärung aller Bereiche">
+          <Button
+            size="sm"
+            icon={<Compass size={15} />}
+            onClick={async () => {
+              await restartTour();
+              nav('/');
+            }}
+          >
+            Tour starten
+          </Button>
         </Row>
         <Row label="Einrichtung erneut durchlaufen" hint="Körperdaten, Ziel & Training neu angeben">
           <Button size="sm" icon={<RotateCcw size={15} />} onClick={() => void restartOnboarding()}>

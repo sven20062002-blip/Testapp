@@ -21,12 +21,29 @@ import { DuelsTab } from '@/components/social/DuelsTab';
 type Tab = 'feed' | 'duels' | 'challenges' | 'ranks' | 'friends';
 const TAB_KEY = 'forge-social-tab';
 
+const INVITE_KEY = 'forge-invited-by';
+
 export default function SocialPage() {
   const s = useSocial();
   const online = useOnline();
   const { toast } = useFeedback();
   const [params, setParams] = useSearchParams();
-  const [invitedBy, setInvitedBy] = useState<string | null>(null);
+  // kept for the browser session: a new user first goes through onboarding and tour before signing up
+  const [invitedBy, setInvitedByState] = useState<string | null>(() => {
+    try {
+      return sessionStorage.getItem(INVITE_KEY);
+    } catch {
+      return null;
+    }
+  });
+  const setInvitedBy = (u: string) => {
+    setInvitedByState(u);
+    try {
+      sessionStorage.setItem(INVITE_KEY, u);
+    } catch {
+      /* ignore */
+    }
+  };
 
   // invite link: /social?sb=…&key=…&from=username
   useEffect(() => {

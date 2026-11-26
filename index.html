@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="de" class="dark">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Forge – Workout Tracker</title>
     <meta name="description" content="Premium Workout- und Fitness-Tracker: Timer, Trainingspläne, Bestleistungen, Statistiken – offline nutzbar." />
-    <meta name="theme-color" content="#0A0A0B" />
+    <meta name="theme-color" content="#F6F6F8" />
     <meta name="color-scheme" content="dark light" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -17,7 +17,7 @@
     <script>
       // Apply stored theme before first paint (prevents flash).
       try {
-        var t = localStorage.getItem('forge-theme') || 'dark';
+        var t = localStorage.getItem('forge-theme') || 'light';
         var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', dark);
       } catch (e) {}

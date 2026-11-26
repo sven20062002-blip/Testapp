@@ -3,7 +3,7 @@ import type { Settings } from '../types';
 
 export const DEFAULT_SETTINGS: Settings = {
   id: 'settings',
-  theme: 'dark',
+  theme: 'light',
   unit: 'kg',
   exerciseLang: 'de',
   defaultRestSec: 90,
@@ -18,6 +18,7 @@ export const DEFAULT_SETTINGS: Settings = {
   userName: '',
   weeklyGoal: 3,
   onboardedAt: null,
+  tourSeenAt: null,
   updatedAt: 0,
 };
 

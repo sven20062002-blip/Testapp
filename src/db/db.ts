@@ -77,6 +77,14 @@ export class ForgeDB extends Dexie {
       });
     // v4: outbox for online features (uploads queued while offline)
     this.version(4).stores({ socialOutbox: 'id, kind, ref, createdAt' });
+    // v5: light mode is the new default – installs still on the old default (dark) switch once
+    this.version(5)
+      .stores({})
+      .upgrade(async (tx) => {
+        await tx.table('settings').toCollection().modify((s: { theme?: string }) => {
+          if (!s.theme || s.theme === 'dark') s.theme = 'light';
+        });
+      });
   }
 }
 

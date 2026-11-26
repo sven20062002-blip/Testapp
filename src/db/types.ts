@@ -205,6 +205,8 @@ export interface Settings {
   weeklyGoal: number;
   /** set when the onboarding was completed (or skipped); null → onboarding is shown */
   onboardedAt: number | null;
+  /** set when the app tour was finished or closed; null → tour is shown after the onboarding */
+  tourSeenAt: number | null;
   updatedAt: number;
 }
 

@@ -7,6 +7,7 @@ import { NAV } from './nav';
 import { ActiveWorkoutBar } from './ActiveWorkoutBar';
 import { useActiveWorkout, useOnline } from '@/hooks/useData';
 import { Logo } from './Logo';
+import { AppTour } from '@/tour/AppTour';
 
 export function AppShell() {
   const active = useActiveWorkout();
@@ -38,6 +39,7 @@ export function AppShell() {
                   key={to}
                   to={to}
                   end={to === '/'}
+                  data-tour={`nav-${to}`}
                   className={({ isActive }) =>
                     clsx(
                       'flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-semibold transition',
@@ -79,7 +81,7 @@ export function AppShell() {
       >
         <div className="mx-auto flex h-[var(--nav-h)] max-w-md items-stretch justify-around rounded-[26px] bg-surface/80 px-1.5 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.45),0_0_0_0.5px_rgb(var(--fg)/0.08)] backdrop-blur-2xl backdrop-saturate-150">
           {NAV.filter((n) => n.primary).map(({ to, label, icon: I, center, area }) => (
-            <NavLink key={to} to={to} end={to === '/'} className="relative flex flex-1 flex-col items-center justify-center gap-[3px]">
+            <NavLink key={to} to={to} end={to === '/'} data-tour={`nav-${to}`} className="relative flex flex-1 flex-col items-center justify-center gap-[3px]">
               {({ isActive }) =>
                 center ? (
                   <>
@@ -102,12 +104,14 @@ export function AppShell() {
               }
             </NavLink>
           ))}
-          <button onClick={() => setMore(true)} className="flex flex-1 flex-col items-center justify-center gap-[3px]" aria-label="Weitere Bereiche">
+          <button onClick={() => setMore(true)} data-tour="nav-more" className="flex flex-1 flex-col items-center justify-center gap-[3px]" aria-label="Weitere Bereiche">
             <MoreHorizontal size={22} strokeWidth={moreActive ? 2.2 : 1.8} className={moreActive ? 'text-fg' : 'text-subtle'} />
             <span className={clsx('text-[10px] font-medium', moreActive ? 'text-fg' : 'text-subtle')}>Mehr</span>
           </button>
         </div>
       </nav>
+
+      <AppTour />
 
       <Sheet open={more} onClose={() => setMore(false)} title="Weitere Bereiche">
         <div className="grid grid-cols-3 gap-2">

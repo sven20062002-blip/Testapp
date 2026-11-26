@@ -89,10 +89,50 @@ await shot('o6-summary');
 log('summary shows calculated target', kcal.replace(/\s+/g, ' ').slice(0, 60));
 
 await page.getByRole('button', { name: 'Training starten' }).click();
+
+if (await page.evaluate(() => document.documentElement.classList.contains('dark'))) fail('app did not start in light mode');
+log('app starts in light mode');
+
+// ---------- app tour starts right after the onboarding ----------
+const tour = page.getByTestId('app-tour');
+const tourTitle = () => tour.getByRole('heading').textContent();
+const tourAt = async (title, path) => {
+  await tour.getByRole('heading', { name: title }).waitFor();
+  if (path) await page.waitForURL((u) => u.pathname === path);
+};
+await tourAt('Kurze Tour durch Forge', '/');
+await shot('t1-intro');
+await tour.getByRole('button', { name: 'Tour starten' }).click();
+await tourAt('Heute', '/');
+await shot('t2-today');
+await tour.getByRole('button', { name: 'Weiter' }).click();
+await tourAt('Training', '/workout');
+await shot('t3-training');
+await tour.getByRole('button', { name: 'Weiter' }).click();
+await tourAt('Pläne & mehr', '/plans');
+log('tour walks through the areas and shows the matching pages');
+
+await hide();
+await page.reload();
+await tourAt('Pläne & mehr', '/plans');
+log('leaving the app mid-tour resumes at the same station');
+
+for (const [t, p] of [['Ernährung', '/nutrition'], ['Freunde', '/social'], ['Aktivität & Körper', '/activity'], ['Alles wird gespeichert', '/']]) {
+  await tour.getByRole('button', { name: 'Weiter' }).click();
+  await tourAt(t, p);
+  if (t === 'Ernährung') await shot('t4-nutrition');
+}
+await tour.getByRole('button', { name: "Los geht's" }).click();
+await tour.waitFor({ state: 'detached' });
+await page.reload();
 await page.getByRole('button', { name: /Workout starten/ }).waitFor();
+await page.waitForTimeout(400);
+if (await tour.count()) fail('tour shown again after finishing');
+log('tour finished → not shown again');
+
 await page.getByText(/Sven/).first().waitFor();
 await shot('o7-dashboard');
-log('finish → dashboard greets by name');
+log('dashboard greets by name');
 
 // stored values visible in the app
 await page.goto(BASE + '/nutrition/profile');
@@ -142,16 +182,24 @@ log('plan editor restores an unsaved plan after leaving the app');
 
 // restart from settings: prefilled
 await page.goto(BASE + '/settings');
-await page.getByRole('button', { name: 'Starten' }).click();
+await page.getByRole('button', { name: 'Starten', exact: true }).click();
 await page.getByRole('heading', { name: 'Willkommen bei Forge' }).waitFor();
 await valueIs('Name', 'Sven', 'restart not prefilled');
 await page.getByRole('button', { name: 'Überspringen' }).click();
 await page.getByRole('heading', { name: 'Einstellungen' }).waitFor();
 log('restart from settings is prefilled; skip returns to the app');
 
+// tour can be restarted from settings and returns to the start page when closed
+await page.goto(BASE + '/settings');
+await page.getByRole('button', { name: 'Tour starten' }).click();
+await tourAt('Kurze Tour durch Forge', '/');
+await tour.getByRole('button', { name: 'Tour beenden' }).click();
+await tour.waitFor({ state: 'detached' });
+log('tour restartable from settings, closable at any time');
+
 // finish and leave the app in the same moment → onboarding must stay completed
 await page.goto(BASE + '/settings');
-await page.getByRole('button', { name: 'Starten' }).click();
+await page.getByRole('button', { name: 'Starten', exact: true }).click();
 await page.getByRole('heading', { name: 'Willkommen bei Forge' }).waitFor();
 for (const h of ['Über dich', 'Dein Ziel', 'Training', 'Alltag & Darstellung', 'Alles bereit']) {
   await next();
