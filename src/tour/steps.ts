@@ -1,6 +1,6 @@
 import type { Area } from '@/components/ui/PageHeader';
 
-export type TourIcon = 'sparkles' | 'home' | 'train' | 'plans' | 'food' | 'social' | 'move' | 'done';
+export type TourIcon = 'home' | 'train' | 'food' | 'social' | 'more';
 
 export interface TourStep {
   id: string;
@@ -8,7 +8,8 @@ export interface TourStep {
   route: string;
   /** candidate selectors, the first *visible* one is highlighted (bottom bar on phones, sidebar on desktop) */
   target?: string[];
-  area?: Area;
+  /** colour of the station – the same as the menu item */
+  area: Area | 'neutral';
   icon: TourIcon;
   title: string;
   text: string;
@@ -16,24 +17,17 @@ export interface TourStep {
   note?: string;
 }
 
+/** One station per menu entry, in the order of the bottom bar (left → right). */
 export const TOUR: TourStep[] = [
-  {
-    id: 'intro',
-    route: '/',
-    icon: 'sparkles',
-    area: 'train',
-    title: 'Kurze Tour durch Forge',
-    text: 'In wenigen Stationen zeigen wir dir, wo du was findest. Du kannst die Tour jederzeit beenden und später unter Einstellungen erneut starten.',
-  },
   {
     id: 'today',
     route: '/',
     target: ['[data-tour="nav-/"]'],
     icon: 'home',
-    area: 'train',
+    area: 'neutral',
     title: 'Heute',
-    text: 'Dein Startpunkt für jeden Tag.',
-    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Schnellzugriffe zu Plänen, Verlauf und Statistik'],
+    text: 'Willkommen bei Forge! Hier startest du jeden Tag.',
+    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Schnellzugriff auf Pläne, Verlauf und Statistik'],
   },
   {
     id: 'workout',
@@ -43,22 +37,7 @@ export const TOUR: TourStep[] = [
     area: 'train',
     title: 'Training',
     text: 'Hier läuft dein Workout – leer oder nach Plan.',
-    bullets: [
-      'Gewicht und Wiederholungen eintragen, Satz mit ✓ abhaken',
-      'Der Pausentimer startet automatisch und läuft auch weiter, wenn du die App verlässt',
-      'Neue Bestleistungen (PRs) werden sofort erkannt',
-      'Notizen pro Übung bleiben fürs nächste Mal gespeichert',
-    ],
-  },
-  {
-    id: 'plans',
-    route: '/plans',
-    target: ['[data-tour="nav-more"]', '[data-tour="nav-/plans"]'],
-    icon: 'plans',
-    area: 'train',
-    title: 'Pläne & mehr',
-    text: 'Weitere Trainingsbereiche – auf dem Handy findest du sie unter „Mehr“.',
-    bullets: ['Pläne mit Übungen, Sätzen und Pausen anlegen', 'Verlauf aller Workouts und Statistik zu Volumen und Kraft', 'Übungsbibliothek – eigene Übungen ergänzen'],
+    bullets: ['Gewicht und Wiederholungen eintragen, Satz mit ✓ abhaken', 'Pausentimer startet automatisch und läuft auch im Hintergrund weiter', 'Neue Bestleistungen werden sofort erkannt'],
   },
   {
     id: 'nutrition',
@@ -67,7 +46,7 @@ export const TOUR: TourStep[] = [
     icon: 'food',
     area: 'food',
     title: 'Ernährung',
-    text: 'Behalte Kalorien und Makros im Blick.',
+    text: 'Kalorien und Makros im Blick.',
     bullets: ['Lebensmittel per Barcode-Scanner oder Suche erfassen', 'Tagesziel aus deinem Profil berechnet', 'Eigene Lebensmittel, Rezepte und Favoriten'],
   },
   {
@@ -78,26 +57,18 @@ export const TOUR: TourStep[] = [
     area: 'social',
     title: 'Freunde',
     text: 'Hebe gegen deine Freunde.',
-    bullets: ['Feed mit den Workouts deiner Freunde', 'Ranglisten und Challenges über einen Zeitraum', 'Live-Duell: gleichzeitig trainieren, jeder Satz zählt sofort'],
-    note: 'Für die Online-Funktionen brauchst du einmalig ein Konto. Geteilt werden nur Zusammenfassungen, keine Notizen.',
+    bullets: ['Feed mit den Workouts deiner Freunde', 'Ranglisten und Challenges über einen Zeitraum', 'Live-Duell: gleichzeitig trainieren, jeder Satz zählt'],
+    note: 'Dafür brauchst du einmalig ein Konto. Geteilt werden nur Zusammenfassungen.',
   },
   {
-    id: 'body',
-    route: '/activity',
-    target: ['[data-tour="nav-more"]', '[data-tour="nav-/activity"]'],
-    icon: 'move',
-    area: 'move',
-    title: 'Aktivität & Körper',
-    text: 'Deine Werte außerhalb des Studios – auf dem Handy ebenfalls unter „Mehr“.',
-    bullets: ['Schritte und Aktivitätskalorien', 'Gewichtsverlauf mit Trend', 'Datenquellen: Apple Health importieren oder Werte selbst eintragen'],
-  },
-  {
-    id: 'done',
+    id: 'more',
     route: '/',
-    icon: 'done',
-    area: 'body',
-    title: 'Alles wird gespeichert',
-    text: 'Deine Daten bleiben auf diesem Gerät und werden automatisch gesichert – auch offline und wenn du die App verlässt.',
-    note: 'Tipp: Unter Einstellungen kannst du ein Backup exportieren, die Darstellung ändern und diese Tour erneut starten.',
+    // phones: the "Mehr" button; desktop has no such button → the sidebar entries below the main areas
+    target: ['[data-tour="nav-more"]', '[data-tour="nav-/plans"]'],
+    icon: 'more',
+    area: 'neutral',
+    title: 'Mehr',
+    text: 'Alles Weitere an einem Ort: Pläne, Verlauf, Statistik, Übungen, Aktivität, Körpergewicht, Datenquellen und Einstellungen.',
+    note: 'Alles wird automatisch auf deinem Gerät gespeichert – auch offline. Die Tour findest du jederzeit unter Einstellungen.',
   },
 ];

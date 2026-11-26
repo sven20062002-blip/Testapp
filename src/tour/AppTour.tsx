@@ -2,21 +2,18 @@ import { useCallback, useEffect, useLayoutEffect, useState, type CSSProperties, 
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { Apple, ArrowLeft, ArrowRight, Footprints, Home, ListChecks, ShieldCheck, Sparkles, Timer, Users, X } from 'lucide-react';
+import { Apple, ArrowLeft, ArrowRight, Home, MoreHorizontal, Timer, Users, X } from 'lucide-react';
 import { db } from '@/db/db';
 import { Button } from '@/components/ui/Button';
 import { TOUR, type TourIcon } from './steps';
 import { finishTour, loadTourStep, rememberTourOrigin, saveTourStep, tourOrigin } from './state';
 
 const ICONS: Record<TourIcon, ReactNode> = {
-  sparkles: <Sparkles size={20} />,
   home: <Home size={20} />,
   train: <Timer size={20} />,
-  plans: <ListChecks size={20} />,
   food: <Apple size={20} />,
   social: <Users size={20} />,
-  move: <Footprints size={20} />,
-  done: <ShieldCheck size={20} />,
+  more: <MoreHorizontal size={20} />,
 };
 
 /** first target that is actually rendered and visible (phone bottom bar vs. desktop sidebar) */
@@ -125,11 +122,11 @@ function TourOverlay() {
       <div className={clsx(!card && 'absolute inset-0 flex items-center justify-center p-4')}>
         <section
           key={step.id}
-          className={clsx('mx-auto max-w-sm animate-rise rounded-3xl bg-surface p-5 text-fg shadow-[0_20px_60px_-15px_rgb(0_0_0/0.5)]', card ? 'absolute' : 'w-full')}
+          className={clsx(`chip-${step.area} mx-auto max-w-sm animate-rise rounded-3xl bg-surface p-5 text-fg shadow-[0_20px_60px_-15px_rgb(0_0_0/0.5)]`, card ? 'absolute' : 'w-full')}
           style={card ?? undefined}
         >
           <div className="flex items-start justify-between gap-3">
-            <span className={clsx('chip h-11 w-11', `chip-${step.area ?? 'train'}`)}>{ICONS[step.icon]}</span>
+            <span className={clsx('chip h-11 w-11', `chip-${step.area}`)}>{ICONS[step.icon]}</span>
             <button
               onClick={close}
               className="-mr-1.5 -mt-1 flex h-9 items-center gap-1 rounded-full px-2.5 text-[12.5px] font-medium text-subtle hover:bg-elevated hover:text-fg"
@@ -149,7 +146,7 @@ function TourOverlay() {
             <ul className="mt-3 space-y-1.5">
               {step.bullets.map((b) => (
                 <li key={b} className="flex gap-2.5 text-[13px] leading-snug">
-                  <span className={clsx('mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full', `bg-area-${step.area ?? 'train'}`)} />
+                  <span className={clsx('nav-dot mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full')} />
                   {b}
                 </li>
               ))}
@@ -167,11 +164,11 @@ function TourOverlay() {
             )}
             <div className="flex flex-1 justify-center gap-1.5" aria-hidden>
               {TOUR.map((s, k) => (
-                <span key={s.id} className={clsx('h-1.5 rounded-full transition-all', k === i ? `w-5 bg-area-${step.area ?? 'train'}` : 'w-1.5 bg-line')} />
+                <span key={s.id} className={clsx('h-1.5 rounded-full transition-all', k === i ? 'nav-dot w-5' : 'w-1.5 bg-line')} />
               ))}
             </div>
             <Button variant="primary" size="md" onClick={next}>
-              {last ? "Los geht's" : i === 0 ? 'Tour starten' : 'Weiter'}
+              {last ? "Los geht's" : 'Weiter'}
               {!last && <ArrowRight size={16} />}
             </Button>
           </div>

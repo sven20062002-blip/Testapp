@@ -95,33 +95,37 @@ log('app starts in light mode');
 
 // ---------- app tour starts right after the onboarding ----------
 const tour = page.getByTestId('app-tour');
-const tourTitle = () => tour.getByRole('heading').textContent();
 const tourAt = async (title, path) => {
   await tour.getByRole('heading', { name: title }).waitFor();
   if (path) await page.waitForURL((u) => u.pathname === path);
 };
-await tourAt('Kurze Tour durch Forge', '/');
-await shot('t1-intro');
-await tour.getByRole('button', { name: 'Tour starten' }).click();
+// 5 stations, one per menu entry, in bottom-bar order (left → right)
+const spotX = async () => (await tour.locator('div.ring-2').first().boundingBox())?.x ?? -1;
+const xs = [];
 await tourAt('Heute', '/');
-await shot('t2-today');
+if (!(await tour.getByText('1 / 5').count())) fail('tour should have exactly 5 stations');
+await shot('t1-today');
+xs.push(await spotX());
 await tour.getByRole('button', { name: 'Weiter' }).click();
 await tourAt('Training', '/workout');
-await shot('t3-training');
-await tour.getByRole('button', { name: 'Weiter' }).click();
-await tourAt('Pläne & mehr', '/plans');
-log('tour walks through the areas and shows the matching pages');
+await page.waitForTimeout(400);
+xs.push(await spotX());
+await shot('t2-training');
 
 await hide();
 await page.reload();
-await tourAt('Pläne & mehr', '/plans');
+await tourAt('Training', '/workout');
 log('leaving the app mid-tour resumes at the same station');
 
-for (const [t, p] of [['Ernährung', '/nutrition'], ['Freunde', '/social'], ['Aktivität & Körper', '/activity'], ['Alles wird gespeichert', '/']]) {
-  await tour.getByRole('button', { name: 'Weiter' }).click();
+for (const [t, p] of [['Ernährung', '/nutrition'], ['Freunde', '/social'], ['Mehr', '/']]) {
+  await tour.getByRole('button', { name: /^(Weiter|Los geht's)/ }).click();
   await tourAt(t, p);
-  if (t === 'Ernährung') await shot('t4-nutrition');
+  await page.waitForTimeout(400);
+  xs.push(await spotX());
+  if (t === 'Mehr') await shot('t5-more');
 }
+if (!xs.every((x, k) => x >= 0 && (k === 0 || x > xs[k - 1]))) fail('tour order is not left → right: ' + xs.join(', '));
+log('tour: 5 stations, highlighted from left to right', xs.map(Math.round).join(' → '));
 await tour.getByRole('button', { name: "Los geht's" }).click();
 await tour.waitFor({ state: 'detached' });
 await page.reload();
@@ -192,7 +196,7 @@ log('restart from settings is prefilled; skip returns to the app');
 // tour can be restarted from settings and returns to the start page when closed
 await page.goto(BASE + '/settings');
 await page.getByRole('button', { name: 'Tour starten' }).click();
-await tourAt('Kurze Tour durch Forge', '/');
+await tourAt('Heute', '/');
 await tour.getByRole('button', { name: 'Tour beenden' }).click();
 await tour.waitFor({ state: 'detached' });
 log('tour restartable from settings, closable at any time');
