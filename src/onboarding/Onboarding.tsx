@@ -12,6 +12,8 @@ import { Logo } from '@/components/layout/Logo';
 import { onAppLeave } from '@/lib/leave';
 import { formatClock } from '@/lib/time';
 import { fmtNumber, parseDecimal, unitToKg, weightInputValue } from '@/lib/units';
+import { getBridge } from '@/health/bridge';
+import { connectBridge, syncSource } from '@/health/sync';
 import { STEPS, applyDraft, firstIncompleteStep, initialDraft, parsed, saveDraft, skipOnboarding, stepErrors, type OnboardingDraft, type StepId } from './model';
 
 const STEP_META: Record<StepId, { area: Area; icon: ReactNode; title: string; text: string }> = {
@@ -289,9 +291,7 @@ export default function Onboarding() {
                   label="Darstellung"
                 />
               </Field>
-              <p className="rounded-2xl bg-elevated/70 dark:bg-surface p-3.5 text-[12.5px] leading-relaxed text-muted">
-                Schritte und Aktivitätskalorien kannst du später unter <b className="text-fg">Mehr → Datenquellen</b> aus Apple Health übernehmen oder selbst eintragen.
-              </p>
+              <HealthConnectOffer />
             </>
           )}
 
@@ -405,5 +405,53 @@ function RoundBtn({ label, onClick, children }: { label: string; onClick: () => 
     <button onClick={onClick} aria-label={label} className="grid h-12 w-12 place-items-center rounded-full bg-elevated text-[20px] font-semibold text-fg active:scale-95">
       {children}
     </button>
+  );
+}
+
+/** In the iOS/Android app: connect Apple Health / Health Connect right here. In the browser: a hint. */
+function HealthConnectOffer() {
+  const bridge = getBridge();
+  const [state, setState] = useState<'idle' | 'busy' | 'done' | 'error'>('idle');
+  const [msg, setMsg] = useState('');
+  if (!bridge)
+    return (
+      <p className="rounded-2xl bg-elevated/70 p-3.5 text-[12.5px] leading-relaxed text-muted dark:bg-surface">
+        Schritte und Aktivitätskalorien kannst du später unter <b className="text-fg">Mehr → Datenquellen</b> aus Apple Health übernehmen oder selbst eintragen.
+      </p>
+    );
+  const name = bridge.platform === 'healthkit' ? 'Apple Health' : 'Health Connect';
+  return (
+    <div className="chip-move rounded-2xl bg-elevated/70 p-3.5 dark:bg-surface">
+      <div className="text-[13.5px] font-semibold">Schritte automatisch übernehmen</div>
+      <p className="mt-0.5 text-[12px] leading-relaxed text-muted">
+        heben liest Schritte, Kalorien und Gewicht aus {name} – nur lesend, die Daten bleiben auf deinem Gerät.
+      </p>
+      {state === 'done' ? (
+        <p className="nav-ink mt-2 flex items-center gap-1.5 text-[13px] font-semibold">
+          <Check size={15} /> Verbunden – {msg}
+        </p>
+      ) : (
+        <Button
+          size="sm"
+          className="mt-2.5"
+          disabled={state === 'busy'}
+          icon={<Footprints size={15} />}
+          onClick={async () => {
+            setState('busy');
+            try {
+              await connectBridge(['activity', 'body']);
+              setMsg(await syncSource('bridge', true));
+              setState('done');
+            } catch (e) {
+              setMsg((e as Error).message);
+              setState('error');
+            }
+          }}
+        >
+          {state === 'busy' ? 'Verbinde …' : `Mit ${name} verbinden`}
+        </Button>
+      )}
+      {state === 'error' && <p className="mt-2 text-[12px] text-bad">{msg}</p>}
+    </div>
   );
 }
