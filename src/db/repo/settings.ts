@@ -19,6 +19,7 @@ export const DEFAULT_SETTINGS: Settings = {
   weeklyGoal: 3,
   onboardedAt: null,
   tourSeenAt: null,
+  homeWidgets: null,
   updatedAt: 0,
 };
 

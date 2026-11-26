@@ -163,7 +163,7 @@ await ctx.setOffline(false);
 await shot('n-barcode');
 
 await page.goto(BASE + '/');
-await page.getByRole('heading', { name: 'Heute' }).waitFor();
+await page.locator('[data-widget="nutrition"]').waitFor();
 await page.waitForTimeout(500);
 await shot('d-dashboard');
 

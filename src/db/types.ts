@@ -207,6 +207,8 @@ export interface Settings {
   onboardedAt: number | null;
   /** set when the app tour was finished or closed; null → tour is shown after the onboarding */
   tourSeenAt: number | null;
+  /** home screen widgets in display order (null → default layout) */
+  homeWidgets: string[] | null;
   updatedAt: number;
 }
 

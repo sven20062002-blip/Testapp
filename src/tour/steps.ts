@@ -27,7 +27,7 @@ export const TOUR: TourStep[] = [
     area: 'neutral',
     title: 'Heute',
     text: 'Willkommen bei Forge! Hier startest du jeden Tag.',
-    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Schnellzugriff auf Pläne, Verlauf und Statistik'],
+    bullets: ['Workout mit einem Tipp starten', 'Wochenziel, Kalorien, Schritte und Gewicht auf einen Blick', 'Über „Anpassen“ ordnest du die Startseite selbst: verschieben, entfernen, hinzufügen'],
   },
   {
     id: 'workout',
@@ -36,8 +36,8 @@ export const TOUR: TourStep[] = [
     icon: 'train',
     area: 'train',
     title: 'Training',
-    text: 'Hier läuft dein Workout – leer oder nach Plan.',
-    bullets: ['Gewicht und Wiederholungen eintragen, Satz mit ✓ abhaken', 'Pausentimer startet automatisch und läuft auch im Hintergrund weiter', 'Neue Bestleistungen werden sofort erkannt'],
+    text: 'Hier startest du dein Workout – leer oder mit einem deiner Trainingspläne.',
+    bullets: ['Trainingspläne direkt starten, neue Pläne anlegen', 'Gewicht und Wiederholungen eintragen, Satz mit ✓ abhaken', 'Pausentimer startet automatisch und läuft auch im Hintergrund weiter', 'Neue Bestleistungen werden sofort erkannt'],
   },
   {
     id: 'nutrition',

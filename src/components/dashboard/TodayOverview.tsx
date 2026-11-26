@@ -18,7 +18,8 @@ import { NutritionTodayCard } from '@/components/nutrition/NutritionTodayCard';
  * Central daily overview: TRAINING · ERNÄHRUNG · AKTIVITÄT · KÖRPER.
  * Everything links to the detailed area; missing data is shown as "–", never invented.
  */
-export function TodayOverview() {
+/** Shared data of the daily widgets (training, activity, body, energy). Missing data stays null – never invented. */
+function useToday() {
   const ctx = useHealthContext();
   const profile = useProfile();
   const settings = useSettings();
@@ -58,8 +59,16 @@ export function TodayOverview() {
   const measuredTotal = v('total_kcal');
   const lastSync = (sources ?? []).filter((s) => s.connected && s.id !== 'manual').reduce<number | null>((m, s) => (s.lastSyncAt && (!m || s.lastSyncAt > m) ? s.lastSyncAt : m), null);
 
+  return { training, settings, profile, steps, v, weight, weightDay, weight30, plan, measuredTotal, lastSync };
+}
+
+/** Last workout, this week and the next plan in rotation. */
+export function TrainingWidget() {
+  const d = useToday();
+  if (!d) return null;
+  const { training, settings } = d;
   return (
-    <div className="grid gap-2.5 sm:grid-cols-2">
+    <>
       {/* TRAINING */}
       <Link to="/workout" className="card block p-3.5">
         <Head area="train" icon={<Dumbbell size={15} />} title="Training" />
@@ -88,6 +97,17 @@ export function TodayOverview() {
         )}
       </Link>
 
+    </>
+  );
+}
+
+/** Today's calories and macros (+ measured or estimated energy need). */
+export function NutritionWidget() {
+  const d = useToday();
+  if (!d) return null;
+  const { measuredTotal, plan } = d;
+  return (
+    <>
       {/* ERNÄHRUNG */}
       <div className="flex flex-col">
         <NutritionTodayCard className="flex-1" />
@@ -106,43 +126,73 @@ export function TodayOverview() {
         )}
       </div>
 
-      {/* AKTIVITÄT + KÖRPER side by side (half width each on phones) */}
-      <div className="grid grid-cols-2 gap-2.5 sm:col-span-2">
-        <Link to="/activity" className="card block p-3.5">
-          <Head area="move" icon={<Footprints size={15} />} title="Aktivität" />
-          <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">{steps != null ? fmtNumber(steps) : '–'}</div>
-          <div className="text-[10.5px] text-muted">von {fmtNumber(profile.stepGoal)} Schritten</div>
-          <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
-          <div className="num mt-2 truncate text-[10.5px] text-muted">
-            {[v('distance_m') && fmtMetric('distance_m', v('distance_m')?.value), v('active_kcal') && `${fmtMetric('active_kcal', v('active_kcal')?.value, false)} kcal aktiv`].filter(Boolean).join(' · ') || 'Noch keine Aktivitätsdaten'}
-          </div>
-        </Link>
-        <Link to="/body" className="card block p-3.5">
-          <Head area="body" icon={<Scale size={15} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[10px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
-          <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
-            {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
-            <span className="text-[12px] font-semibold text-subtle"> kg</span>
-          </div>
-          <div className="text-[10.5px] text-muted">{weightDay ? `gewogen ${relativeDay(new Date(`${weightDay}T12:00:00`).getTime()).toLowerCase()}` : 'Aktuelles Gewicht'}</div>
-          <div className="num mt-3.5 truncate text-[10.5px] text-muted">
-            {[
-              profile.goalWeightKg != null && `Ziel ${fmtNumber(profile.goalWeightKg, 1)} kg`,
-              weight30 != null && weight != null && `${weight - weight30 > 0 ? '+' : weight - weight30 < 0 ? '−' : '±'}${fmtNumber(Math.abs(weight - weight30), 1)} in 30 T.`,
-            ]
-              .filter(Boolean)
-              .join(' · ') || 'Noch kein Verlauf'}
-          </div>
-        </Link>
-      </div>
+    </>
+  );
+}
+
+/** Steps today vs. goal (half width). */
+export function ActivityWidget() {
+  const d = useToday();
+  if (!d) return null;
+  const { steps, profile, v } = d;
+  return (
+    <>
+        <Link to="/activity" className="card block h-full p-3.5">
+        <Head area="move" icon={<Footprints size={15} />} title="Aktivität" />
+        <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">{steps != null ? fmtNumber(steps) : '–'}</div>
+        <div className="text-[10.5px] text-muted">von {fmtNumber(profile.stepGoal)} Schritten</div>
+        <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
+        <div className="num mt-2 truncate text-[10.5px] text-muted">
+          {[v('distance_m') && fmtMetric('distance_m', v('distance_m')?.value), v('active_kcal') && `${fmtMetric('active_kcal', v('active_kcal')?.value, false)} kcal aktiv`].filter(Boolean).join(' · ') || 'Noch keine Aktivitätsdaten'}
+        </div>
+      </Link>
+    </>
+  );
+}
+
+/** Current weight, goal and 30-day change (half width). */
+export function BodyWidget() {
+  const d = useToday();
+  if (!d) return null;
+  const { weight, weightDay, weight30, profile, lastSync } = d;
+  return (
+    <>
+        <Link to="/body" className="card block h-full p-3.5">
+        <Head area="body" icon={<Scale size={15} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[10px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
+        <div className="num mt-2.5 text-[21px] font-bold leading-tight tracking-[-0.02em]">
+          {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
+          <span className="text-[12px] font-semibold text-subtle"> kg</span>
+        </div>
+        <div className="text-[10.5px] text-muted">{weightDay ? `gewogen ${relativeDay(new Date(`${weightDay}T12:00:00`).getTime()).toLowerCase()}` : 'Aktuelles Gewicht'}</div>
+        <div className="num mt-3.5 truncate text-[10.5px] text-muted">
+          {[
+            profile.goalWeightKg != null && `Ziel ${fmtNumber(profile.goalWeightKg, 1)} kg`,
+            weight30 != null && weight != null && `${weight - weight30 > 0 ? '+' : weight - weight30 < 0 ? '−' : '±'}${fmtNumber(Math.abs(weight - weight30), 1)} in 30 T.`,
+          ]
+            .filter(Boolean)
+            .join(' · ') || 'Noch kein Verlauf'}
+        </div>
+      </Link>
+    </>
+  );
+}
+
+/** Hint to connect a data source when neither steps nor weight exist (shown below the activity/body widgets). */
+export function HealthHint() {
+  const d = useToday();
+  if (!d) return null;
+  const { steps, weightDay } = d;
+  return (
+    <>
       {!steps && !weightDay && (
-        <Link to="/health/sources" className="flex items-center justify-between rounded-2xl border border-dashed border-line px-3.5 py-2.5 text-[11.5px] text-muted sm:col-span-2">
+        <Link to="/health/sources" className="flex items-center justify-between rounded-2xl border border-dashed border-line px-3.5 py-2.5 text-[11.5px] text-muted">
           <span className="flex items-center gap-2">
             <Link2 size={16} /> Apple Health importieren oder Werte eintragen, um Schritte und Gewicht zu sehen
           </span>
           <ChevronRight size={16} />
         </Link>
       )}
-    </div>
+    </>
   );
 }
 

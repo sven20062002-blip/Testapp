@@ -36,6 +36,10 @@ Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App brau
 - Jeder Bereich hat eine feste Farbe (Training Grün, Ernährung Orange, Aktivität Cyan, Körper Violett, Freunde Pink). Im Menü tragen die Symbole immer ihre Bereichsfarbe; der ausgewählte Bereich wird einheitlich mit einer getönten Fläche in derselben Farbe hervorgehoben. „Mehr“ übernimmt die Farbe des geöffneten Unterbereichs.
 - Kompakte Darstellung: etwas kleinere Schrift, engere Abstände, zusammengefasste Kacheln – im Schnitt rund 17 % weniger Scrollen, auf der Startseite rund ein Drittel.
 
+## Startseite anpassen
+
+Die Startseite besteht aus Widgets: Workout starten, Schnellzugriffe, Training, Ernährung, Aktivität, Körper, Trainingsfortschritt, Letztes Workout und Bestleistungen. Über das Regler-Symbol oben rechts („Startseite anpassen“) lassen sie sich per Ziehen oder mit den Pfeilen verschieben, mit ✕ entfernen und über „Widget hinzufügen“ wieder einfügen. „Standard wiederherstellen“ setzt die Startseite zurück. Jede Änderung wird sofort gespeichert. Die Trainingspläne stehen nicht mehr auf der Startseite, sondern auf der Seite **Training**, mit Vorschau der Übungen, „Neuer Plan“ und „Verwalten“.
+
 ## Architektur
 
 ```

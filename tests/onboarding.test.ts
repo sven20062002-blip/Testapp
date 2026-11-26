@@ -205,3 +205,20 @@ describe('migration v6', () => {
     d.close();
   });
 });
+
+describe('home screen layout', () => {
+  it('default, move, remove, add, normalize', async () => {
+    const L = await import('@/components/dashboard/layout');
+    expect(L.normalizeLayout(null)).toEqual(L.DEFAULT_LAYOUT);
+    expect(L.DEFAULT_LAYOUT).not.toContain('plans'); // plans live on the training page now
+    expect(L.normalizeLayout(['records', 'unknown', 'records', 'start'])).toEqual(['records', 'start']);
+    expect(L.normalizeLayout([])).toEqual([]); // an empty home screen is a valid choice
+    const l = ['start', 'training', 'nutrition'] as const;
+    expect(L.moveWidget([...l], 'nutrition', 0)).toEqual(['nutrition', 'start', 'training']);
+    expect(L.moveWidget([...l], 'start', 99)).toEqual(['training', 'nutrition', 'start']);
+    expect(L.removeWidget([...l], 'training')).toEqual(['start', 'nutrition']);
+    expect(L.addWidget([...l], 'records')).toEqual(['start', 'training', 'nutrition', 'records']);
+    expect(L.addWidget([...l], 'start')).toEqual([...l]);
+    expect(L.hiddenWidgets(L.DEFAULT_LAYOUT).map((w) => w.id)).toEqual(['lastWorkout']);
+  });
+});

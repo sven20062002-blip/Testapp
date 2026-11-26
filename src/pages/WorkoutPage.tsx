@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import clsx from 'clsx';
-import { ChevronRight, Dumbbell, Flag, MoreHorizontal, NotebookPen, Pause, Play, Plus, Trash2, PencilLine, ArrowRightCircle } from 'lucide-react';
+import { ChevronRight, Dumbbell, Flag, ListPlus, MoreHorizontal, NotebookPen, Pause, Play, Plus, Trash2, PencilLine, ArrowRightCircle } from 'lucide-react';
 import { db } from '@/db/db';
 import type { Workout, WorkoutSet } from '@/db/types';
 import {
@@ -18,7 +18,7 @@ import {
   startWorkout,
   uncompleteSet,
 } from '@/db/repo/workouts';
-import { useActiveWorkout, useExerciseName, useNow, useSettings } from '@/hooks/useData';
+import { useActiveWorkout, useExerciseMap, useExerciseName, useNow, useSettings } from '@/hooks/useData';
 import { clockElapsedMs, fmtTime, formatHMS, relativeDay, formatDuration } from '@/lib/time';
 import { countCompleted, sumVolume, type LivePR } from '@/lib/metrics';
 import { fmtVolume } from '@/lib/units';
@@ -54,6 +54,8 @@ export default function WorkoutPage() {
 /* ------------------------------------------------------------------ */
 
 function StartWorkout() {
+  const exMap = useExerciseMap();
+  const exName = useExerciseName();
   const plans = useLiveQuery(() => db.plans.orderBy('updatedAt').reverse().toArray(), []);
   const recent = useLiveQuery(() => db.workouts.where('status').equals('completed').reverse().sortBy('startedAt').then((w) => w.slice(0, 4)), []);
   const start = async (o: Parameters<typeof startWorkout>[0] = {}) => {
@@ -83,17 +85,31 @@ function StartWorkout() {
         <ChevronRight className="opacity-60 transition group-hover:translate-x-1" />
       </button>
 
-      <SectionTitle>Trainingspläne</SectionTitle>
-      {sortedPlans.length === 0 && <p className="text-[13px] text-muted">Noch keine Pläne – erstelle einen unter „Pläne“.</p>}
-      <div className="grid gap-2.5 sm:grid-cols-2">
+      <SectionTitle
+        area="train"
+        action={
+          <Link to="/plans" className="text-[12px] font-semibold text-muted hover:text-fg">
+            Verwalten
+          </Link>
+        }
+      >
+        Trainingspläne
+      </SectionTitle>
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {sortedPlans.map((p) => (
-          <button key={p.id} onClick={() => start({ planId: p.id })} className="card flex items-center gap-3 p-3.5 text-left transition hover:border-line active:scale-[.99]">
-            <span className="h-10 w-1.5 rounded-full" style={{ background: p.color }} />
+          <button key={p.id} onClick={() => start({ planId: p.id })} className="card flex w-full min-w-0 items-center gap-3 p-3.5 text-left transition hover:border-line active:scale-[.99]" aria-label={`${p.name} starten`}>
+            <span className="h-10 w-1.5 shrink-0 rounded-full" style={{ background: p.color }} />
             <div className="min-w-0 flex-1">
               <div className="truncate font-bold">{p.name}</div>
-              <div className="truncate text-[12.5px] text-muted">
+              <div className="truncate text-[11.5px] text-muted">
+                {p.exercises
+                  .slice(0, 4)
+                  .map((e) => exName(exMap.get(e.exerciseId)))
+                  .join(', ') || 'Noch keine Übungen'}
+              </div>
+              <div className="num truncate text-[11px] text-subtle">
                 {p.exercises.length} Übungen · {p.exercises.reduce((a, e) => a + e.targetSets, 0)} Sätze
-                {p.lastUsedAt ? ` · ${relativeDay(p.lastUsedAt)}` : ''}
+                {p.lastUsedAt ? ` · zuletzt ${relativeDay(p.lastUsedAt).toLowerCase()}` : ''}
               </div>
             </div>
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated">
@@ -101,6 +117,9 @@ function StartWorkout() {
             </span>
           </button>
         ))}
+        <Link to="/plans/new" className="flex min-h-[64px] items-center justify-center gap-2 rounded-2xl border border-dashed border-line text-[12.5px] font-semibold text-muted hover:text-fg">
+          <ListPlus size={18} /> Neuer Plan
+        </Link>
       </div>
 
       {!!recent?.length && (
