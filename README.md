@@ -21,6 +21,14 @@ npm run test:sql                                           # Supabase-Schema + Z
 Zum Installieren auf dem Handy muss die App über **HTTPS** ausgeliefert werden (z. B. Netlify, Vercel, Cloudflare Pages – `dist/` als statische Seite, alle Pfade auf `index.html` umleiten).
 Android/Chrome: „App installieren“. iOS/Safari: Teilen → „Zum Home-Bildschirm“.
 
+## Ersteinrichtung & Speichern
+
+Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App braucht: Name und Gewichtseinheit, Geschlecht/Alter/Größe/Gewicht, Ziel und Zielgewicht, Trainings pro Woche, Aktivitätslevel, Satzpause, Schrittziel und Darstellung. Am Ende zeigt es das berechnete Kalorien- und Makroziel.
+
+- Jede Eingabe wird sofort als Entwurf gesichert. Beim Verlassen der App (App-Wechsel, Bildschirm aus, Tab schließen) landen alle gültigen Angaben zusätzlich in der Datenbank. Beim nächsten Öffnen geht es am selben Schritt weiter.
+- Bestehende Daten werden vorausgefüllt. Einstellungen → „Einrichtung erneut durchlaufen“ startet das Onboarding neu.
+- App-weit gilt: Ein Feld, in dem beim Verlassen der App noch getippt wird, wird gespeichert. Der Plan-Editor stellt ungespeicherte Pläne wieder her.
+
 ## Architektur
 
 ```

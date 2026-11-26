@@ -92,6 +92,7 @@ await ctx.route(`${SB}/**`, async (route) => {
 
 // 1) connect server
 await page.goto(BASE + '/social');
+await page.getByRole('button', { name: 'Überspringen' }).click(); // onboarding has its own test
 await page.getByText('Online-Server verbinden').waitFor();
 await shot('s1-setup');
 await page.getByLabel('Project URL').fill(SB);
@@ -186,6 +187,7 @@ const ctx2 = await browser.newContext({ ...devices['iPhone 13'] });
 await ctx2.route(`${SB}/**`, (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: '[]' }));
 const p2 = await ctx2.newPage();
 await p2.goto(`${BASE}/social?sb=${encodeURIComponent(SB)}&key=${ANON}&from=ich_bin`);
+await p2.getByRole('button', { name: 'Überspringen' }).click(); // invite link survives the onboarding
 await p2.getByRole('heading', { name: 'Anmelden' }).waitFor();
 await p2.getByText(/@ich_bin.*hat dich eingeladen/).waitFor();
 if (p2.url().includes('key=')) fail('invite params not removed from URL');

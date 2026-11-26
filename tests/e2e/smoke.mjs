@@ -35,6 +35,7 @@ page.on('console', (m) => m.type() === 'error' && errors.push('console: ' + m.te
 const shot = async (n) => SHOTS && page.screenshot({ path: `${SHOTS}/${n}.png` });
 
 await page.goto(BASE);
+await page.getByRole('button', { name: 'Überspringen' }).click(); // onboarding has its own test
 await page.getByRole('heading', { level: 1 }).waitFor();
 await shot('01-dashboard');
 log('dashboard renders');

@@ -13,6 +13,7 @@ import HistoryPage from './pages/HistoryPage';
 import WorkoutDetail from './pages/WorkoutDetail';
 import SettingsPage from './pages/SettingsPage';
 import NotFound from './pages/NotFound';
+import { OnboardingGate } from './onboarding/OnboardingGate';
 
 // chart-heavy pages are split into their own chunk (precached for offline use)
 const StatsPage = lazy(() => import('./pages/StatsPage'));
@@ -44,37 +45,39 @@ export default function App() {
       <FeedbackProvider>
         <ScrollTop />
         <Watchers />
-        <Suspense fallback={<div className="page" />}>
-          <Routes>
-            <Route element={<AppShell />}>
-              <Route index element={<Dashboard />} />
-              <Route path="workout" element={<WorkoutPage />} />
-              <Route path="plans" element={<PlansPage />} />
-              <Route path="plans/new" element={<PlanEditor />} />
-              <Route path="plans/:id" element={<PlanEditor />} />
-              <Route path="exercises" element={<ExercisesPage />} />
-              <Route path="exercises/:id" element={<ExerciseDetail />} />
-              <Route path="history" element={<HistoryPage />} />
-              <Route path="history/:id" element={<WorkoutDetail />} />
-              <Route path="stats" element={<StatsPage />} />
-              <Route path="records" element={<RecordsPage />} />
-              <Route path="settings" element={<SettingsPage />} />
-              <Route path="health" element={<Navigate to="/activity" replace />} />
-              <Route path="health/sources" element={<SourcesPage />} />
-              <Route path="activity" element={<ActivityPage />} />
-              <Route path="social" element={<SocialPage />} />
-              <Route path="social/duel/:id" element={<DuelPage />} />
-              <Route path="social/challenge/:id" element={<ChallengePage />} />
-              <Route path="social/account" element={<AccountPage />} />
-              <Route path="body" element={<BodyPage />} />
-              <Route path="nutrition" element={<NutritionPage />} />
-              <Route path="nutrition/foods" element={<FoodsPage />} />
-              <Route path="nutrition/profile" element={<NutritionProfilePage />} />
-              <Route path="nutrition/stats" element={<NutritionStatsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </Suspense>
+        <OnboardingGate>
+          <Suspense fallback={<div className="page" />}>
+            <Routes>
+              <Route element={<AppShell />}>
+                <Route index element={<Dashboard />} />
+                <Route path="workout" element={<WorkoutPage />} />
+                <Route path="plans" element={<PlansPage />} />
+                <Route path="plans/new" element={<PlanEditor />} />
+                <Route path="plans/:id" element={<PlanEditor />} />
+                <Route path="exercises" element={<ExercisesPage />} />
+                <Route path="exercises/:id" element={<ExerciseDetail />} />
+                <Route path="history" element={<HistoryPage />} />
+                <Route path="history/:id" element={<WorkoutDetail />} />
+                <Route path="stats" element={<StatsPage />} />
+                <Route path="records" element={<RecordsPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+                <Route path="health" element={<Navigate to="/activity" replace />} />
+                <Route path="health/sources" element={<SourcesPage />} />
+                <Route path="activity" element={<ActivityPage />} />
+                <Route path="social" element={<SocialPage />} />
+                <Route path="social/duel/:id" element={<DuelPage />} />
+                <Route path="social/challenge/:id" element={<ChallengePage />} />
+                <Route path="social/account" element={<AccountPage />} />
+                <Route path="body" element={<BodyPage />} />
+                <Route path="nutrition" element={<NutritionPage />} />
+                <Route path="nutrition/foods" element={<FoodsPage />} />
+                <Route path="nutrition/profile" element={<NutritionProfilePage />} />
+                <Route path="nutrition/stats" element={<NutritionStatsPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </OnboardingGate>
       </FeedbackProvider>
     </BrowserRouter>
   );

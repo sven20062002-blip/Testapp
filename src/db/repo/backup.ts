@@ -114,7 +114,7 @@ export async function importJSON(text: string): Promise<{ workouts: number }> {
       await db.workouts.bulkPut(data.workouts.filter((w: any) => w.status === 'completed'));
       await db.workoutExercises.bulkPut(data.workoutExercises ?? []);
       await db.sets.bulkPut(data.sets ?? []);
-      if (data.settings?.[0]) await db.settings.put({ ...data.settings[0], id: 'settings' });
+      if (data.settings?.[0]) await db.settings.put({ ...data.settings[0], onboardedAt: data.settings[0].onboardedAt ?? Date.now(), id: 'settings' });
       if (data.version >= 2) {
         // older backups may still contain sleep / vital values – those areas no longer exist
         const kept = new Set(['steps', 'distance_m', 'floors', 'active_min', 'active_kcal', 'basal_kcal', 'total_kcal', 'weight_kg', 'body_fat_pct']);
@@ -136,6 +136,12 @@ export async function importJSON(text: string): Promise<{ workouts: number }> {
 
 export async function wipeAllData(): Promise<void> {
   await db.delete();
+  try {
+    // unsaved drafts (onboarding, plan editor) belong to the wiped data as well
+    for (const k of Object.keys(localStorage)) if (k === 'forge-onboarding' || k.startsWith('forge-plan-draft:')) localStorage.removeItem(k);
+  } catch {
+    /* ignore */
+  }
   location.reload();
 }
 

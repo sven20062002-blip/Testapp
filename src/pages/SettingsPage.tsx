@@ -5,6 +5,7 @@ import { Bell, Database, HeartPulse, Download, FileJson, FileSpreadsheet, Info, 
 import { updateSettings } from '@/db/repo/settings';
 import { downloadText, exportCSV, exportJSON, exportNutritionCSV, importJSON, wipeAllData } from '@/db/repo/backup';
 import { restoreStandardExercises } from '@/db/init';
+import { restartOnboarding } from '@/onboarding/model';
 import { useSettings } from '@/hooks/useData';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Segmented } from '@/components/ui/Segmented';
@@ -54,6 +55,11 @@ export default function SettingsPage() {
         </Row>
         <Row label="Wochenziel" hint="Workouts pro Woche">
           <Stepper value={s.weeklyGoal} min={1} max={14} onChange={(v) => updateSettings({ weeklyGoal: v })} />
+        </Row>
+        <Row label="Einrichtung erneut durchlaufen" hint="Körperdaten, Ziel & Training neu angeben">
+          <Button size="sm" icon={<RotateCcw size={15} />} onClick={() => void restartOnboarding()}>
+            Starten
+          </Button>
         </Row>
       </Group>
 

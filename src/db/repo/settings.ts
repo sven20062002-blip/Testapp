@@ -17,6 +17,7 @@ export const DEFAULT_SETTINGS: Settings = {
   weightStepKg: 2.5,
   userName: '',
   weeklyGoal: 3,
+  onboardedAt: null,
   updatedAt: 0,
 };
 

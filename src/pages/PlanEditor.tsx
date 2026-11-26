@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import clsx from 'clsx';
@@ -21,6 +21,15 @@ import { Field } from '@/components/exercises/ExerciseForm';
 import { PLAN_COLORS, MUSCLE_LABELS } from '@/lib/labels';
 import { RestPicker } from '@/components/workout/TimerPanel';
 import { formatClock } from '@/lib/time';
+import { clearDraft, onAppLeave, readDraft, writeDraft } from '@/lib/leave';
+
+interface PlanDraft {
+  name: string;
+  description: string;
+  color: string;
+  exercises: PlanExercise[];
+  savedAt: number;
+}
 
 export default function PlanEditor() {
   const { id } = useParams();
@@ -39,15 +48,61 @@ export default function PlanEditor() {
   const [error, setError] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
 
+  // unsaved changes are kept as a draft (also when the app is left) and restored on return
+  const draftKey = `forge-plan-draft:${id ?? 'new'}`;
+  const [restored, setRestored] = useState(false);
+  const applyState = (x: Pick<PlanDraft, 'name' | 'description' | 'color' | 'exercises'>) => {
+    setName(x.name);
+    setDescription(x.description);
+    setColor(x.color);
+    setItems(x.exercises);
+  };
+
   useEffect(() => {
-    if (id && existing && !loaded) {
-      setName(existing.name);
-      setDescription(existing.description);
-      setColor(existing.color);
-      setItems(existing.exercises);
+    if (loaded && id) return;
+    const draft = readDraft<PlanDraft>(draftKey);
+    if (!id) {
+      if (draft) {
+        applyState(draft);
+        setDirty(true);
+        setRestored(true);
+      }
+      return;
+    }
+    if (existing && !loaded) {
+      if (draft && draft.savedAt > existing.updatedAt) {
+        applyState(draft);
+        setDirty(true);
+        setRestored(true);
+      } else {
+        if (draft) clearDraft(draftKey);
+        applyState(existing);
+      }
       setLoaded(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, existing, loaded]);
+
+  const draftRef = useRef<PlanDraft | null>(null);
+  draftRef.current = dirty ? { name, description, color, exercises: items, savedAt: Date.now() } : null;
+  useEffect(() => {
+    if (dirty) writeDraft(draftKey, { name, description, color, exercises: items, savedAt: Date.now() });
+  }, [dirty, name, description, color, items, draftKey]);
+  useEffect(
+    () =>
+      onAppLeave(() => {
+        if (draftRef.current) writeDraft(draftKey, { ...draftRef.current, savedAt: Date.now() });
+      }),
+    [draftKey],
+  );
+
+  const discardDraft = () => {
+    clearDraft(draftKey);
+    setRestored(false);
+    setDirty(false);
+    setError(null);
+    applyState(existing ?? { name: '', description: '', color: PLAN_COLORS[0], exercises: [] });
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -81,6 +136,8 @@ export default function PlanEditor() {
       const pid = await savePlan(input, id);
       toast(id ? 'Plan gespeichert' : 'Plan erstellt', 'success');
       setDirty(false);
+      clearDraft(draftKey);
+      setRestored(false);
       if (andStart && !active) {
         await startWorkout({ planId: pid });
         nav('/workout');
@@ -101,6 +158,15 @@ export default function PlanEditor() {
   return (
     <div className="page">
       <PageHeader title={id ? 'Plan bearbeiten' : 'Neuer Plan'} back="/plans" />
+
+      {restored && (
+        <div className="mb-4 flex items-center gap-3 rounded-2xl bg-area-train/10 px-4 py-3 text-[13px]">
+          <span className="flex-1">Ungespeicherte Änderungen wiederhergestellt.</span>
+          <button className="font-semibold text-muted hover:text-fg" onClick={discardDraft}>
+            Verwerfen
+          </button>
+        </div>
+      )}
 
       <div className="card space-y-4 p-4">
         <Field label="Name" htmlFor="plan-name">

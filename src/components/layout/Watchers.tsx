@@ -6,6 +6,7 @@ import { restRemainingMs } from '@/lib/time';
 import { playRestDone, systemNotify, unlockAudio, vibrate } from '@/services/feedback';
 import { useFeedback } from '@/components/ui/Feedback';
 import { autoSync } from '@/health/sync';
+import { onAppLeave } from '@/lib/leave';
 
 /**
  * Global, route-independent watchers:
@@ -22,6 +23,7 @@ export function Watchers() {
       <AudioUnlock />
       <HealthAutoSync />
       <SocialOutboxSync />
+      <SaveOnLeave />
     </>
   );
 }
@@ -161,5 +163,23 @@ function SocialOutboxSync() {
       clearInterval(id);
     };
   }, []);
+  return null;
+}
+
+/**
+ * When the app is left (app switch, screen off, tab closed) the focused input is blurred.
+ * All inputs save on blur (or debounced on change), so a value that is still being typed is
+ * written to the database instead of being lost. Pending online uploads are kicked off as well.
+ */
+function SaveOnLeave() {
+  useEffect(
+    () =>
+      onAppLeave(() => {
+        const el = document.activeElement;
+        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) el.blur();
+        void import('@/social/outbox').then((m) => m.flushOutbox()).catch(() => {});
+      }),
+    [],
+  );
   return null;
 }

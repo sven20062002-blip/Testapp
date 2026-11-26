@@ -203,6 +203,8 @@ export interface Settings {
   weightStepKg: number;
   userName: string;
   weeklyGoal: number;
+  /** set when the onboarding was completed (or skipped); null → onboarding is shown */
+  onboardedAt: number | null;
   updatedAt: number;
 }
 

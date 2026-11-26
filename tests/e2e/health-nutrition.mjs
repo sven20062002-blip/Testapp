@@ -60,6 +60,7 @@ page.on('console', (m) => m.type() === 'error' && !/Failed to load resource|open
 const shot = (n) => SHOTS && page.screenshot({ path: `${SHOTS}/${n}.png` });
 
 await page.goto(BASE + '/health/sources');
+await page.getByRole('button', { name: 'Überspringen' }).click(); // onboarding has its own test
 await page.getByRole('button', { name: /Export\.zip auswählen/ }).click();
 const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.getByRole('button', { name: 'Zustimmen & Datei wählen' }).click()]);
 await chooser.setFiles(zipPath);
