@@ -161,7 +161,7 @@ export default function NutritionProfilePage() {
                 ['Kalorienziel', plan.target],
               ].map(([l, v]) => (
                 <div key={l as string} className="rounded-xl bg-elevated/70 p-2.5">
-                  <div className="num text-[18px] font-extrabold">{fmtNumber(v as number, 0)}</div>
+                  <div className="num text-[18px] font-bold">{fmtNumber(v as number, 0)}</div>
                   <div className="text-[11px] text-muted">{l} (kcal)</div>
                 </div>
               ))}

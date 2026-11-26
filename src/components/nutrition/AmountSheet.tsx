@@ -98,7 +98,7 @@ export function AmountSheet({
                 await toggleFavorite(food.id);
                 setFav((v) => !v);
               }}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line"
             >
               <Star size={18} className={clsx(fav ? 'fill-warn text-warn' : 'text-muted')} />
             </button>
@@ -110,7 +110,7 @@ export function AmountSheet({
             </label>
             <input
               id="amount"
-              className="field num text-center text-2xl font-extrabold"
+              className="field num text-center text-2xl font-bold"
               inputMode="decimal"
               value={amount}
               autoFocus
@@ -123,7 +123,7 @@ export function AmountSheet({
                 <button
                   key={q}
                   onClick={() => setAmount(String(q))}
-                  className={clsx('num rounded-lg px-3 py-1.5 text-[13px] font-semibold', qty === q ? 'bg-accent text-accent-fg' : 'bg-elevated')}
+                  className={clsx('num rounded-lg px-3 py-1.5 text-[13px] font-semibold', qty === q ? 'bg-fg text-bg' : 'bg-elevated')}
                 >
                   {q === food.servingSize ? `1 Portion (${q} ${food.unit})` : `${q} ${food.unit}`}
                 </button>

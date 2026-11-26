@@ -16,7 +16,7 @@ export function Segmented<T extends string>({
   label?: string;
 }) {
   return (
-    <div role="radiogroup" aria-label={label} className={clsx('flex rounded-xl bg-elevated p-1', className)}>
+    <div role="radiogroup" aria-label={label} className={clsx('flex rounded-full bg-elevated p-1', className)}>
       {options.map((o) => (
         <button
           key={o.value}
@@ -25,9 +25,9 @@ export function Segmented<T extends string>({
           aria-checked={value === o.value}
           onClick={() => onChange(o.value)}
           className={clsx(
-            'flex-1 whitespace-nowrap rounded-lg font-semibold transition',
+            'flex-1 whitespace-nowrap rounded-full font-medium transition',
             size === 'sm' ? 'px-2 py-1.5 text-xs' : 'px-3 py-2 text-[13px]',
-            value === o.value ? 'bg-surface text-fg shadow-sm' : 'text-muted hover:text-fg',
+            value === o.value ? 'bg-surface text-fg shadow-[0_1px_3px_rgb(0_0_0/0.12)] dark:bg-line' : 'text-muted hover:text-fg',
           )}
         >
           {o.label}

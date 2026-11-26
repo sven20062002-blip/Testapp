@@ -62,7 +62,7 @@ export default function HistoryPage() {
                 <Link key={w.id} to={`/history/${w.id}`} className="card flex items-center gap-4 p-4 transition hover:border-line">
                   <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-elevated">
                     <span className="text-[10px] font-semibold uppercase text-muted">{dayFmt.format(w.startedAt)}</span>
-                    <span className="num text-[17px] font-extrabold leading-none">{new Date(w.startedAt).getDate()}</span>
+                    <span className="num text-[17px] font-bold leading-none">{new Date(w.startedAt).getDate()}</span>
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">

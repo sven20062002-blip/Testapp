@@ -74,7 +74,7 @@ export function MacroBar({
         </span>
       </div>
       <div className={clsx('mt-1 overflow-hidden rounded-full bg-elevated', compact ? 'h-1.5' : 'h-2')}>
-        <div className={clsx('h-full rounded-full transition-all duration-500', over ? 'bg-warn' : 'bg-accent')} style={{ width: `${target ? pct : 0}%` }} />
+        <div className={clsx('h-full rounded-full transition-all duration-500', over ? 'bg-warn' : 'bg-area-food')} style={{ width: `${target ? pct : 0}%` }} />
       </div>
       {!compact && remaining != null && (
         <div className="num mt-0.5 text-right text-[11px] text-subtle">
@@ -99,7 +99,7 @@ export function KcalRing({ value, target, size = 132 }: { value: number; target:
         cy={size / 2}
         r={r}
         fill="none"
-        stroke={over ? 'rgb(var(--warn))' : 'rgb(var(--accent))'}
+        stroke={over ? 'rgb(var(--warn))' : 'rgb(var(--c-food))'}
         strokeWidth={12}
         strokeLinecap="round"
         strokeDasharray={`${c * pct} ${c}`}

@@ -103,13 +103,13 @@ export default function NutritionStatsPage() {
 
           <SectionTitle>Kalorien pro Tag</SectionTitle>
           <div className="card p-4">
-            <BarTrend data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d)?.kcal != null ? Math.round(byDay.get(d)!.kcal) : null }))} fmt={(v) => `${fmtNumber(v)} kcal`} />
+            <BarTrend color="food" data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d)?.kcal != null ? Math.round(byDay.get(d)!.kcal) : null }))} fmt={(v) => `${fmtNumber(v)} kcal`} />
             {targets.kcal && <p className="mt-2 text-[12px] text-muted">Tagesziel: {fmtNumber(targets.kcal, 0)} kcal</p>}
           </div>
 
           <SectionTitle>Protein pro Tag</SectionTitle>
           <div className="card p-4">
-            <LineTrend data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d) ? Math.round(byDay.get(d)!.protein) : null }))} fmt={(v) => `${fmtNumber(v)} g Protein`} />
+            <LineTrend color="food" data={days.map((d) => ({ label: dayLabel(d), value: byDay.get(d) ? Math.round(byDay.get(d)!.protein) : null }))} fmt={(v) => `${fmtNumber(v)} g Protein`} />
             {targets.protein && <p className="mt-2 text-[12px] text-muted">Tagesziel: {fmtNumber(targets.protein, 0)} g</p>}
           </div>
 
@@ -130,7 +130,7 @@ export default function NutritionStatsPage() {
                     <span className="num text-muted">{fmtNumber(pct, 0)} %</span>
                   </div>
                   <div className="mt-1 h-2 overflow-hidden rounded-full bg-elevated">
-                    <div className="h-full rounded-full bg-accent" style={{ width: `${pct}%` }} />
+                    <div className="h-full rounded-full bg-area-food" style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               );

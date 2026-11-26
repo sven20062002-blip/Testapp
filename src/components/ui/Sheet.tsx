@@ -45,7 +45,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
   if (!open) return null;
   return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6">
-      <div className="absolute inset-0 animate-fade-in bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="absolute inset-0 animate-fade-in bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div
         ref={panel}
         tabIndex={-1}
@@ -53,7 +53,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
         aria-modal="true"
         aria-label={typeof title === 'string' ? title : undefined}
         className={clsx(
-          'relative flex w-full flex-col overflow-hidden rounded-t-3xl border border-line/60 bg-surface outline-none animate-slide-up sm:rounded-3xl sm:animate-pop',
+          'relative flex w-full flex-col overflow-hidden rounded-t-[28px] bg-surface shadow-2xl outline-none animate-slide-up sm:rounded-3xl sm:animate-pop',
           size === 'md' && 'sm:max-w-md',
           size === 'lg' && 'sm:max-w-xl',
           size === 'full' && 'sm:max-w-2xl',
@@ -63,7 +63,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
         <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-line sm:hidden" />
         {title != null && (
           <div className="flex items-center justify-between gap-3 px-5 pb-2 pt-3 sm:pt-5">
-            <h2 className="text-lg font-bold tracking-tight">{title}</h2>
+            <h2 className="text-[18px] font-semibold tracking-[-0.01em]">{title}</h2>
             <button
               onClick={onClose}
               aria-label="Schließen"
@@ -74,7 +74,7 @@ export function Sheet({ open, onClose, title, children, footer, size = 'md', tal
           </div>
         )}
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5">{children}</div>
-        {footer && <div className="border-t border-line/70 px-5 pb-[calc(var(--safe-bottom)+16px)] pt-3 sm:pb-4">{footer}</div>}
+        {footer && <div className="px-5 pb-[calc(var(--safe-bottom)+16px)] pt-3 sm:pb-4">{footer}</div>}
         {!footer && <div className="pb-safe" />}
       </div>
     </div>,

@@ -8,8 +8,8 @@ export function Chip({ active, onClick, children }: { active?: boolean; onClick?
       aria-pressed={active}
       onClick={onClick}
       className={clsx(
-        'shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition',
-        active ? 'border-accent bg-accent text-accent-fg' : 'border-line bg-surface text-muted hover:text-fg',
+        'shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition',
+        active ? 'bg-fg text-bg' : 'bg-elevated text-muted hover:text-fg',
       )}
     >
       {children}

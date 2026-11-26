@@ -38,7 +38,7 @@ export function MuscleIcon({ muscle, size = 40, className }: { muscle: MuscleGro
   return (
     <div
       aria-hidden
-      className={clsx('flex shrink-0 items-center justify-center rounded-xl font-extrabold tracking-tight', className)}
+      className={clsx('flex shrink-0 items-center justify-center rounded-xl font-bold tracking-tight', className)}
       style={{
         width: size,
         height: size,

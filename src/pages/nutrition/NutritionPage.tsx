@@ -51,15 +51,16 @@ export default function NutritionPage() {
     <div className="page">
       <PageHeader
         title="Ernährung"
+        area="food"
         actions={
           <>
-            <Link to="/nutrition/stats" aria-label="Ernährungsstatistik" className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated">
+            <Link to="/nutrition/stats" aria-label="Ernährungsstatistik" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
               <BarChart3 size={19} />
             </Link>
-            <Link to="/nutrition/foods" aria-label="Lebensmittel & Rezepte" className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated">
+            <Link to="/nutrition/foods" aria-label="Lebensmittel & Rezepte" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
               <Apple size={19} />
             </Link>
-            <Link to="/nutrition/profile" aria-label="Ernährungsprofil" className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated">
+            <Link to="/nutrition/profile" aria-label="Ernährungsprofil" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
               <UserCog size={19} />
             </Link>
           </>
@@ -67,7 +68,7 @@ export default function NutritionPage() {
       />
 
       {/* date navigation */}
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-5 flex items-center gap-2">
         <IconButton label="Vorheriger Tag" variant="secondary" onClick={() => setDate(addDays(date, -1))}>
           <ChevronLeft size={20} />
         </IconButton>
@@ -87,13 +88,13 @@ export default function NutritionPage() {
           <div className="min-w-0 flex-1 space-y-2">
             <div>
               <div className="text-[12px] font-semibold text-muted">{kcalLeft == null ? 'Kein Kalorienziel' : kcalLeft >= 0 ? 'Verbleibend' : 'Über dem Ziel'}</div>
-              <div className={clsx('num text-[26px] font-extrabold leading-tight', kcalLeft != null && kcalLeft < 0 && 'text-warn')}>
+              <div className={clsx('num text-[26px] font-bold leading-tight', kcalLeft != null && kcalLeft < 0 && 'text-warn')}>
                 {kcalLeft == null ? '–' : `${fmtNumber(Math.abs(kcalLeft), 0)} kcal`}
               </div>
               {totals.incomplete.includes('kcal') && <div className="text-[11px] text-subtle">mind. – einige Einträge ohne Kalorienangabe</div>}
             </div>
             {targets.kcal == null ? (
-              <Link to="/nutrition/profile" className="block rounded-lg bg-accent-soft px-2.5 py-1.5 text-[12px] font-semibold dark:text-accent">
+              <Link to="/nutrition/profile" className="chip-food block rounded-xl bg-[rgb(var(--chip)/0.14)] px-2.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--chip))]">
                 Profil ausfüllen, um dein Kalorienziel zu berechnen →
               </Link>
             ) : (
@@ -130,7 +131,7 @@ export default function NutritionPage() {
         {hints.length > 0 && (
           <ul className="mt-3 space-y-1.5">
             {hints.map((h) => (
-              <li key={h} className="flex gap-2 rounded-xl bg-accent-soft/60 px-3 py-2 text-[13px]">
+              <li key={h} className="flex gap-2 rounded-xl bg-area-food/10 px-3 py-2 text-[13px]">
                 <Info size={14} className="mt-0.5 shrink-0" /> {h}
               </li>
             ))}
@@ -420,11 +421,11 @@ function CalendarSheet({ open, onClose, value, onPick }: { open: boolean; onClos
               onClick={() => onPick(d)}
               className={clsx(
                 'num flex aspect-square flex-col items-center justify-center rounded-xl text-[13px] font-semibold transition disabled:opacity-30',
-                d === value ? 'bg-fg text-bg' : has ? 'bg-accent-soft' : 'bg-elevated/60',
+                d === value ? 'bg-fg text-bg' : has ? 'bg-area-food/15' : 'bg-elevated/60',
               )}
             >
               {i + 1}
-              {has && <span className={clsx('mt-0.5 h-1 w-1 rounded-full', d === value ? 'bg-bg' : 'bg-accent')} />}
+              {has && <span className={clsx('mt-0.5 h-1 w-1 rounded-full', d === value ? 'bg-bg' : 'bg-area-food')} />}
             </button>
           );
         })}

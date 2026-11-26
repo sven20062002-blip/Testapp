@@ -86,7 +86,7 @@ export default function BodyPage() {
 
       <div className="card p-5">
         <div className="label">Aktuelles Gewicht</div>
-        <div className="num mt-1 text-[38px] font-extrabold leading-none tracking-tight">
+        <div className="num mt-1 text-[38px] font-bold leading-none tracking-tight">
           {d.current != null ? fmtNumber(d.current, 1) : '–'} <span className="text-[18px] text-subtle">kg</span>
         </div>
         <div className="mt-1 text-[12px] text-muted">
@@ -122,7 +122,7 @@ export default function BodyPage() {
       <div className="card p-4">
         {d.chart.filter((p) => p.value != null).length >= 2 ? (
           <>
-            <LineTrend data={range === '7' ? d.chart : d.smooth} fmt={(v) => `${fmtNumber(v, 1)} kg`} goal={goalW} goalLabel="Zielgewicht" />
+            <LineTrend color="body" data={range === '7' ? d.chart : d.smooth} fmt={(v) => `${fmtNumber(v, 1)} kg`} goal={goalW} goalLabel="Zielgewicht" />
             {range !== '7' && <p className="mt-1 text-[11px] text-subtle">Gleitender 7-Tage-Durchschnitt – glättet Wasserschwankungen.</p>}
           </>
         ) : (

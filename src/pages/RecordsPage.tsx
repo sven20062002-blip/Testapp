@@ -59,8 +59,8 @@ export default function RecordsPage() {
 
       {workoutBest && (
         <Link to={`/history/${workoutBest.workoutId}`} className="relative block overflow-hidden rounded-3xl bg-accent p-5 text-accent-fg">
-          <div className="text-[12px] font-extrabold uppercase tracking-[0.14em] opacity-70">Höchstes Workout-Volumen</div>
-          <div className="num mt-1 text-[32px] font-extrabold leading-none">{fmtVolume(workoutBest.value, settings.unit)}</div>
+          <div className="text-[12px] font-bold uppercase tracking-[0.14em] opacity-70">Höchstes Workout-Volumen</div>
+          <div className="num mt-1 text-[32px] font-bold leading-none">{fmtVolume(workoutBest.value, settings.unit)}</div>
           <div className="mt-1.5 text-sm font-medium opacity-75">{fmtDate(workoutBest.achievedAt)}</div>
           <Trophy className="absolute -bottom-3 -right-3 opacity-15" size={110} />
         </Link>

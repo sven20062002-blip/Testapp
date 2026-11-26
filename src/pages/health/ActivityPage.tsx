@@ -118,11 +118,11 @@ export default function ActivityPage() {
           <Footprints size={16} />
           <span className="label">Schritte heute</span>
         </div>
-        <div className="num mt-2 text-[38px] font-extrabold leading-none tracking-tight">
+        <div className="num mt-2 text-[38px] font-bold leading-none tracking-tight">
           {v('steps') ? fmtNumber(steps) : '–'}
           <span className="text-[18px] font-semibold text-subtle"> / {fmtNumber(profile.stepGoal)}</span>
         </div>
-        <ProgressBar className="mt-3 h-3" value={steps} max={profile.stepGoal} tone={steps >= profile.stepGoal ? 'good' : 'accent'} />
+        <ProgressBar className="mt-3 h-3" value={steps} max={profile.stepGoal} area="move" tone={steps >= profile.stepGoal ? 'good' : undefined} />
         <div className="mt-2 flex justify-between text-[12px] text-muted">
           <span>{remaining > 0 ? `Noch ${fmtNumber(remaining)} Schritte` : 'Tagesziel erreicht 🎉'}</span>
           {v('steps') && <SourceBadge m={v('steps')} />}
@@ -159,7 +159,7 @@ export default function ActivityPage() {
       <div className="card p-4">
         {hourly ? (
           <>
-            <BarTrend data={hourly.steps.map((v, h) => ({ label: `${h}`, value: v }))} fmt={(x) => `${fmtNumber(x)} Schritte`} height={150} />
+            <BarTrend color="move" data={hourly.steps.map((v, h) => ({ label: `${h}`, value: v }))} fmt={(x) => `${fmtNumber(x)} Schritte`} height={150} />
             <p className="mt-1 text-[11px] text-subtle">Schritte pro Stunde · <SourceBadge source={hourly.source} /></p>
           </>
         ) : (
@@ -209,7 +209,7 @@ export default function ActivityPage() {
             { value: 'floors', label: 'Etagen' },
           ]}
         />
-        <BarTrend
+        <BarTrend color="move"
           data={d.chart}
           fmt={(x) => (metric === 'distance_m' ? `${String(x).replace('.', ',')} km` : fmtMetric(metric, x))}
           goal={metric === 'steps' ? profile.stepGoal : null}
@@ -236,7 +236,7 @@ export default function ActivityPage() {
       </div>
       <SectionTitle>Körper</SectionTitle>
       <Link to="/body" className="card flex items-center gap-3 p-4">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
           <Scale size={18} />
         </span>
         <div className="flex-1">
@@ -246,7 +246,7 @@ export default function ActivityPage() {
         <ChevronRight size={18} className="text-subtle" />
       </Link>
       <Link to="/health/sources" className="card mt-2.5 flex items-center gap-3 p-4">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated transition hover:bg-line">
           <Link2 size={18} />
         </span>
         <div className="flex-1">

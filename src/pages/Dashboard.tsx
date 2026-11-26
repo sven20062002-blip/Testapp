@@ -14,7 +14,6 @@ import { Stat } from '@/components/ui/Stat';
 import { SectionTitle } from '@/components/ui/PageHeader';
 import { describePR } from '@/components/workout/PRCelebration';
 import { RECORD_LABELS } from '@/lib/labels';
-import { Logo } from '@/components/layout/Logo';
 import { unlockAudio } from '@/services/feedback';
 import { TodayOverview } from '@/components/dashboard/TodayOverview';
 
@@ -80,62 +79,60 @@ export default function Dashboard() {
   return (
     <div className="page">
       {/* Header */}
-      <header className="mb-5 flex items-center justify-between pt-2">
-        <div className="flex items-center gap-3">
-          <div className="lg:hidden">
-            <Logo size={36} />
-          </div>
-          <div>
-            <p className="text-[13px] font-medium text-muted">{fmtLong(Date.now())}</p>
-            <h1 className="text-[26px] font-extrabold leading-tight tracking-tight sm:text-[30px]">
-              {greeting()}
-              {settings.userName ? `, ${settings.userName}` : ''}
-            </h1>
-          </div>
+      <header className="mb-6 flex items-center justify-between pt-3">
+        <div>
+          <p className="text-[13px] font-medium text-muted">{fmtLong(Date.now())}</p>
+          <h1 className="title-xl mt-0.5">
+            {greeting()}
+            {settings.userName ? `, ${settings.userName}` : ''}
+          </h1>
         </div>
-        <div className="flex gap-1 lg:hidden">
-          <Link to="/exercises" aria-label="Übungen" className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated text-fg">
-            <BookOpen size={19} />
+        <div className="flex gap-1.5 lg:hidden">
+          <Link to="/exercises" aria-label="Übungen" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
+            <BookOpen size={18} />
           </Link>
-          <Link to="/settings" aria-label="Einstellungen" className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated text-fg">
-            <Settings size={19} />
+          <Link to="/settings" aria-label="Einstellungen" className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated text-fg transition hover:bg-line">
+            <Settings size={18} />
           </Link>
         </div>
       </header>
 
-      {/* Hero action */}
+      {/* Hero */}
       {active ? (
-        <Link
-          to="/workout"
-          className="relative block overflow-hidden rounded-3xl bg-accent p-5 text-accent-fg shadow-[0_16px_48px_-16px_rgb(var(--accent)/.8)] animate-rise"
-        >
-          <div className="flex items-center justify-between">
-            <span className="rounded-full bg-black/10 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider">
-              {active.pausedAt ? 'Pausiert' : 'Läuft gerade'}
+        <Link to="/workout" className="relative block overflow-hidden rounded-3xl bg-accent p-6 text-accent-fg animate-rise">
+          <div aria-hidden className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/25 blur-3xl" />
+          <div className="relative flex items-center justify-between">
+            <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] opacity-70">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-current" />
+              {active.pausedAt ? 'Pausiert' : 'Training läuft'}
             </span>
             <ChevronRight />
           </div>
-          <div className="num mt-4 text-[44px] font-extrabold leading-none tracking-tight">{formatHMS(clockElapsedMs(active, now))}</div>
-          <div className="mt-1.5 text-[15px] font-semibold opacity-80">{active.name} – zurück zum Training</div>
+          <div className="num relative mt-5 text-[52px] font-bold leading-none tracking-[-0.03em]">{formatHMS(clockElapsedMs(active, now))}</div>
+          <div className="relative mt-2 text-[15px] font-medium opacity-75">{active.name}</div>
         </Link>
       ) : (
-        <div className="grid grid-cols-2 gap-2.5 animate-rise">
-          <button
-            onClick={() => start()}
-            className="col-span-2 flex items-center gap-4 rounded-3xl bg-accent p-5 text-left text-accent-fg shadow-[0_16px_48px_-16px_rgb(var(--accent)/.8)] transition active:scale-[.99]"
-          >
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/10">
-              <Play size={28} fill="currentColor" />
-            </span>
-            <span className="flex-1">
-              <span className="block text-xl font-extrabold tracking-tight">Workout starten</span>
-              <span className="block text-sm font-medium opacity-75">Leeres Training – Timer läuft sofort</span>
-            </span>
-          </button>
-          <QuickAction to="/workout" icon={<Layers size={20} />} title="Plan starten" sub={`${plans?.length ?? 0} gespeichert`} />
-          <QuickAction to="/plans/new" icon={<ListPlus size={20} />} title="Neuer Plan" sub="Training erstellen" />
-          <QuickAction to="/history" icon={<History size={20} />} title="Verlauf" sub={`${data.t.workouts} Workouts`} />
-          <QuickAction to="/stats" icon={<BarChart3 size={20} />} title="Statistik" sub="Fortschritt ansehen" />
+        <div className="relative overflow-hidden rounded-3xl bg-surface p-6 animate-rise" style={{ boxShadow: 'var(--shadow)' }}>
+          <div aria-hidden className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-area-train/20 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-28 -left-16 h-56 w-56 rounded-full bg-area-social/10 blur-3xl" />
+          <div className="relative">
+            <div className="label">Bereit?</div>
+            <div className="mt-1.5 text-[22px] font-semibold leading-snug tracking-[-0.02em]">
+              {data.last ? `Letztes Training ${relativeDay(data.last.startedAt).toLowerCase()}` : 'Dein erstes Workout wartet'}
+            </div>
+            <button
+              onClick={() => start()}
+              className="mt-5 flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-accent text-[16px] font-semibold text-accent-fg transition active:scale-[.98]"
+            >
+              <Play size={19} fill="currentColor" /> Workout starten
+            </button>
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              <QuickAction to="/workout" icon={<Layers size={19} />} title="Pläne" />
+              <QuickAction to="/plans/new" icon={<ListPlus size={19} />} title="Neuer Plan" />
+              <QuickAction to="/history" icon={<History size={19} />} title="Verlauf" />
+              <QuickAction to="/stats" icon={<BarChart3 size={19} />} title="Statistik" />
+            </div>
+          </div>
         </div>
       )}
 
@@ -156,7 +153,7 @@ export default function Dashboard() {
       <div className="card mt-2.5 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-[15px] font-bold">Diese Woche</div>
+            <div className="text-[15px] font-semibold">Diese Woche</div>
             <div className="text-[13px] text-muted">
               {weekCount} von {settings.weeklyGoal} Workouts
             </div>
@@ -199,19 +196,19 @@ export default function Dashboard() {
           <SectionTitle action={<Link to="/history" className="text-[13px] font-semibold text-muted hover:text-fg">Alle</Link>}>Letztes Workout</SectionTitle>
           <Link to={`/history/${data.last.id}`} className="card flex items-center gap-4 p-4 transition hover:border-line">
             <div className="flex h-12 w-12 flex-col items-center justify-center rounded-2xl bg-elevated">
-              <span className="num text-[17px] font-extrabold leading-none">{new Date(data.last.startedAt).getDate()}</span>
+              <span className="num text-[17px] font-bold leading-none">{new Date(data.last.startedAt).getDate()}</span>
               <span className="text-[10px] font-semibold uppercase text-muted">
                 {new Intl.DateTimeFormat('de-DE', { month: 'short' }).format(data.last.startedAt)}
               </span>
             </div>
             <div className="min-w-0 flex-1">
-              <div className="truncate font-bold">{data.last.name}</div>
+              <div className="truncate font-semibold">{data.last.name}</div>
               <div className="num text-[13px] text-muted">
                 {relativeDay(data.last.startedAt)} · {formatDuration(data.last.durationSec)} · {data.last.totalSets} Sätze · {fmtVolume(data.last.totalVolume, settings.unit, true)}
               </div>
             </div>
             {data.last.prCount > 0 && (
-              <span className="flex items-center gap-1 rounded-full bg-accent-soft px-2 py-1 text-[12px] font-bold dark:text-accent">
+              <span className="chip-train flex items-center gap-1 rounded-full bg-[rgb(var(--chip)/0.14)] px-2 py-1 text-[12px] font-semibold text-[rgb(var(--chip))]">
                 <Trophy size={13} /> {data.last.prCount}
               </span>
             )}
@@ -269,7 +266,7 @@ export default function Dashboard() {
                   {RECORD_LABELS[r.type]} · {relativeDay(r.achievedAt)}
                 </div>
               </div>
-              <div className="num text-right text-[15px] font-extrabold">{describePR(r, settings.unit)}</div>
+              <div className="num text-right text-[15px] font-bold">{describePR(r, settings.unit)}</div>
             </Link>
           ))}
         </div>
@@ -278,14 +275,11 @@ export default function Dashboard() {
   );
 }
 
-function QuickAction({ to, icon, title, sub }: { to: string; icon: React.ReactNode; title: string; sub: string }) {
+function QuickAction({ to, icon, title }: { to: string; icon: React.ReactNode; title: string }) {
   return (
-    <Link to={to} className="card flex flex-col gap-3 p-4 transition hover:border-line active:scale-[.99]">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated text-fg">{icon}</span>
-      <span className="min-w-0">
-        <span className="block truncate text-[15px] font-bold">{title}</span>
-        <span className="block truncate text-[12px] text-muted">{sub}</span>
-      </span>
+    <Link to={to} className="flex flex-col items-center gap-1.5 rounded-2xl py-1.5 text-[12px] font-medium text-muted transition hover:text-fg active:scale-95">
+      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-elevated text-fg">{icon}</span>
+      {title}
     </Link>
   );
 }

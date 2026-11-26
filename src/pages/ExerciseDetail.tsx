@@ -167,7 +167,7 @@ export default function ExerciseDetail() {
               <div className="text-[12px] font-semibold text-muted">
                 {RECORD_LABELS[t]}
               </div>
-              <div className="num mt-1 text-[20px] font-extrabold">{r ? describePR(r, settings.unit) : '–'}</div>
+              <div className="num mt-1 text-[20px] font-bold">{r ? describePR(r, settings.unit) : '–'}</div>
               {r && <div className="text-[12px] text-subtle">{relativeDay(r.achievedAt)}</div>}
             </div>
           );

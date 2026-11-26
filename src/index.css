@@ -24,10 +24,10 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  --bg: 246 246 248;
+  --bg: 245 245 247;
   --surface: 255 255 255;
   --elevated: 240 240 243;
-  --line: 226 226 232;
+  --line: 229 229 234;
   --fg: 14 15 17;
   --muted: 92 94 104;
   --subtle: 150 152 162;
@@ -38,7 +38,13 @@
   --warn: 217 119 6;
   --bad: 220 38 38;
   --info: 37 99 235;
-  --shadow: 0 1px 2px rgb(16 18 27 / 0.04), 0 4px 16px rgb(16 18 27 / 0.05);
+  /* area accents – each app area owns one hue (identity, never status) */
+  --c-train: 92 150 8;
+  --c-food: 226 98 27;
+  --c-move: 8 145 178;
+  --c-body: 124 58 237;
+  --c-social: 219 39 119;
+  --shadow: 0 1px 2px rgb(16 18 27 / 0.03), 0 6px 24px -8px rgb(16 18 27 / 0.08);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --nav-h: 64px;
@@ -46,13 +52,13 @@
 }
 
 .dark {
-  --bg: 10 10 11;
-  --surface: 22 23 25;
-  --elevated: 32 33 37;
-  --line: 42 44 49;
-  --fg: 244 244 246;
-  --muted: 160 162 172;
-  --subtle: 104 107 117;
+  --bg: 8 8 10;
+  --surface: 20 20 23;
+  --elevated: 30 30 35;
+  --line: 40 40 46;
+  --fg: 245 245 247;
+  --muted: 152 154 164;
+  --subtle: 98 100 110;
   --accent: 205 255 64;
   --accent-fg: 12 14 4;
   --accent-soft: 41 52 14;
@@ -60,7 +66,12 @@
   --warn: 251 191 36;
   --bad: 248 113 113;
   --info: 96 165 250;
-  --shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px rgb(0 0 0 / 0.35);
+  --c-train: 205 255 64;
+  --c-food: 255 138 61;
+  --c-move: 61 214 245;
+  --c-body: 167 139 250;
+  --c-social: 255 92 154;
+  --shadow: none;
   color-scheme: dark;
 }
 
@@ -112,21 +123,37 @@
 }
 
 @layer components {
+  /* Cards: no outline, soft surface – hierarchy through spacing, not borders */
   .card {
-    @apply rounded-2xl bg-surface border border-line/70;
+    @apply rounded-2xl bg-surface;
     box-shadow: var(--shadow);
   }
+  /* Area-tinted icon chip: .chip-train / .chip-food / … */
+  .chip {
+    @apply inline-flex shrink-0 items-center justify-center rounded-xl;
+    background: rgb(var(--chip) / 0.14);
+    color: rgb(var(--chip));
+  }
+  .chip-train { --chip: var(--c-train); }
+  .chip-food { --chip: var(--c-food); }
+  .chip-move { --chip: var(--c-move); }
+  .chip-body { --chip: var(--c-body); }
+  .chip-social { --chip: var(--c-social); }
+  :root:not(.dark) .chip-train { --chip: 77 124 15; }
   .num {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum', 'cv11';
   }
   .label {
-    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle;
+    @apply text-[11px] font-semibold uppercase tracking-[0.09em] text-subtle;
+  }
+  .title-xl {
+    @apply text-[30px] font-bold leading-[1.1] tracking-[-0.02em];
   }
   .page {
     @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
     padding-top: calc(var(--safe-top) + 12px);
-    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 96px);
+    padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 110px);
   }
   @media (min-width: 1024px) {
     .page {
@@ -135,7 +162,7 @@
   }
   .field {
     @apply w-full rounded-xl bg-elevated border border-transparent px-3.5 py-3 text-[15px] text-fg placeholder:text-subtle
-      outline-none transition focus:border-accent/70 focus:bg-surface;
+      outline-none transition focus:border-fg/20 focus:bg-surface focus:ring-4 focus:ring-fg/[0.06];
   }
   .scroll-x {
     @apply flex gap-2 overflow-x-auto;

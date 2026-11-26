@@ -1,4 +1,5 @@
-import { Apple, BarChart3, Dumbbell, Footprints, History, Home, Link2, ListChecks, Scale, Settings, Timer, type LucideIcon } from 'lucide-react';
+import { Apple, BarChart3, Dumbbell, Footprints, History, Home, Link2, ListChecks, Scale, Settings, Timer, Users, type LucideIcon } from 'lucide-react';
+import type { Area } from '@/components/ui/PageHeader';
 
 export interface NavItem {
   to: string;
@@ -7,19 +8,21 @@ export interface NavItem {
   /** shown directly in the mobile bottom bar */
   primary?: boolean;
   center?: boolean;
-  group: 'Heute' | 'Training' | 'Körper & Ernährung' | 'App';
+  area?: Area;
+  group: 'Heute' | 'Training' | 'Freunde' | 'Körper & Ernährung' | 'App';
 }
 
 export const NAV: NavItem[] = [
   { to: '/', label: 'Heute', icon: Home, primary: true, group: 'Heute' },
-  { to: '/workout', label: 'Training', icon: Timer, primary: true, center: true, group: 'Training' },
-  { to: '/nutrition', label: 'Ernährung', icon: Apple, primary: true, group: 'Körper & Ernährung' },
-  { to: '/activity', label: 'Aktivität', icon: Footprints, primary: true, group: 'Körper & Ernährung' },
-  { to: '/plans', label: 'Pläne', icon: ListChecks, group: 'Training' },
-  { to: '/history', label: 'Verlauf', icon: History, group: 'Training' },
-  { to: '/stats', label: 'Statistik', icon: BarChart3, group: 'Training' },
-  { to: '/exercises', label: 'Übungen', icon: Dumbbell, group: 'Training' },
-  { to: '/body', label: 'Körpergewicht', icon: Scale, group: 'Körper & Ernährung' },
-  { to: '/health/sources', label: 'Datenquellen', icon: Link2, group: 'Körper & Ernährung' },
+  { to: '/workout', label: 'Training', icon: Timer, primary: true, center: true, area: 'train', group: 'Training' },
+  { to: '/nutrition', label: 'Ernährung', icon: Apple, primary: true, area: 'food', group: 'Körper & Ernährung' },
+  { to: '/social', label: 'Freunde', icon: Users, primary: true, area: 'social', group: 'Freunde' },
+  { to: '/plans', label: 'Pläne', icon: ListChecks, area: 'train', group: 'Training' },
+  { to: '/history', label: 'Verlauf', icon: History, area: 'train', group: 'Training' },
+  { to: '/stats', label: 'Statistik', icon: BarChart3, area: 'train', group: 'Training' },
+  { to: '/exercises', label: 'Übungen', icon: Dumbbell, area: 'train', group: 'Training' },
+  { to: '/activity', label: 'Aktivität', icon: Footprints, area: 'move', group: 'Körper & Ernährung' },
+  { to: '/body', label: 'Körpergewicht', icon: Scale, area: 'body', group: 'Körper & Ernährung' },
+  { to: '/health/sources', label: 'Datenquellen', icon: Link2, area: 'move', group: 'Körper & Ernährung' },
   { to: '/settings', label: 'Einstellungen', icon: Settings, group: 'App' },
 ];

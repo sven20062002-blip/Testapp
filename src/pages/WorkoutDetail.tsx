@@ -89,8 +89,8 @@ export default function WorkoutDetail() {
           <button aria-label="Schließen" onClick={() => setParams({}, { replace: true })} className="absolute right-3 top-3 rounded-full p-1.5 hover:bg-black/10">
             <X size={18} />
           </button>
-          <div className="text-[12px] font-extrabold uppercase tracking-[0.14em] opacity-70">Workout abgeschlossen</div>
-          <div className="mt-1 text-2xl font-extrabold tracking-tight">Starke Leistung! 💪</div>
+          <div className="text-[12px] font-bold uppercase tracking-[0.14em] opacity-70">Workout abgeschlossen</div>
+          <div className="mt-1 text-2xl font-bold tracking-tight">Starke Leistung! 💪</div>
           <div className="mt-1 text-sm font-medium opacity-80">
             {prs.length > 0 ? `${prs.length} neue ${prs.length === 1 ? 'Bestleistung' : 'Bestleistungen'} in diesem Training.` : 'Dein Training ist gespeichert.'}
           </div>

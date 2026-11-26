@@ -53,7 +53,7 @@ export function PRCelebration({ prs, exerciseName, unit, onClose }: { prs: LiveP
             <Trophy size={24} />
           </div>
           <div className="min-w-0">
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-fg dark:text-accent">Neuer Rekord!</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-fg dark:text-accent">Neuer Rekord!</div>
             <div className="truncate text-[16px] font-bold">{exerciseName}</div>
           </div>
         </div>
@@ -67,7 +67,7 @@ export function PRCelebration({ prs, exerciseName, unit, onClose }: { prs: LiveP
               <div className="num mt-0.5 flex items-baseline gap-2 text-[14px]">
                 <span className="text-subtle line-through decoration-1">{describePrev(p, unit)}</span>
                 <span className="text-subtle">→</span>
-                <span className="text-[17px] font-extrabold">{describePR(p, unit)}</span>
+                <span className="text-[17px] font-bold">{describePR(p, unit)}</span>
               </div>
             </div>
           ))}

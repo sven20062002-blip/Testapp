@@ -62,10 +62,10 @@ export function TodayOverview() {
     <div className="grid gap-2.5 sm:grid-cols-2">
       {/* TRAINING */}
       <Link to="/workout" className="card block p-4">
-        <Head icon={<Dumbbell size={14} />} title="Training" />
+        <Head area="train" icon={<Dumbbell size={16} />} title="Training" />
         {training.last ? (
           <>
-            <div className="mt-1.5 truncate text-[16px] font-bold">{training.last.name}</div>
+            <div className="mt-3 truncate text-[16px] font-semibold">{training.last.name}</div>
             <div className="num text-[12px] text-muted">
               Letztes Workout {relativeDay(training.last.startedAt).toLowerCase()} · {formatDuration(training.last.durationSec)} · {fmtVolume(training.last.totalVolume, settings.unit, true)}
             </div>
@@ -108,13 +108,13 @@ export function TodayOverview() {
 
       {/* AKTIVITÄT */}
       <Link to="/activity" className="card block p-4">
-        <Head icon={<Footprints size={14} />} title="Aktivität" />
+        <Head area="move" icon={<Footprints size={16} />} title="Aktivität" />
         <div className="label mt-2">Schritte heute</div>
-        <div className="num text-[26px] font-extrabold leading-tight">
+        <div className="num text-[28px] font-bold leading-tight tracking-[-0.02em]">
           {steps != null ? fmtNumber(steps) : '–'}
           <span className="text-[14px] font-semibold text-subtle"> / {fmtNumber(profile.stepGoal)}</span>
         </div>
-        <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} tone={(steps ?? 0) >= profile.stepGoal ? 'good' : 'accent'} />
+        <ProgressBar className="mt-1.5" value={steps ?? 0} max={profile.stepGoal} area="move" tone={(steps ?? 0) >= profile.stepGoal ? 'good' : undefined} />
         <div className="mt-3 grid grid-cols-3 gap-2">
           <Mini k="Distanz" v={fmtMetric('distance_m', v('distance_m')?.value)} />
           <Mini k="Aktive Min" v={fmtMetric('active_min', v('active_min')?.value, false)} />
@@ -123,9 +123,9 @@ export function TodayOverview() {
       </Link>
       {/* KÖRPER */}
       <Link to="/body" className="card block p-4">
-        <Head icon={<Scale size={14} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[11px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
+        <Head area="body" icon={<Scale size={16} />} title="Körper" extra={lastSync ? <span className="flex items-center gap-1 text-[11px] text-subtle"><RefreshCw size={10} /> {relativeDay(lastSync)}</span> : null} />
         <div className="label mt-2">Aktuelles Gewicht</div>
-        <div className="num text-[26px] font-extrabold leading-tight">
+        <div className="num text-[28px] font-bold leading-tight tracking-[-0.02em]">
           {weightDay && weight != null ? fmtNumber(weight, 1) : '–'}
           <span className="text-[14px] font-semibold text-subtle"> kg</span>
         </div>
@@ -147,11 +147,11 @@ export function TodayOverview() {
   );
 }
 
-function Head({ icon, title, extra }: { icon: React.ReactNode; title: string; extra?: React.ReactNode }) {
+function Head({ icon, title, extra, area }: { icon: React.ReactNode; title: string; extra?: React.ReactNode; area: 'train' | 'food' | 'move' | 'body' }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wider text-muted">
-        {icon} {title}
+      <span className="flex items-center gap-2 text-[14px] font-semibold">
+        <span className={`chip chip-${area} h-8 w-8 rounded-[10px]`}>{icon}</span> {title}
       </span>
       {extra ?? <ChevronRight size={16} className="text-subtle" />}
     </div>
@@ -160,8 +160,8 @@ function Head({ icon, title, extra }: { icon: React.ReactNode; title: string; ex
 
 function Mini({ k, v, icon }: { k: string; v: string; icon?: React.ReactNode }) {
   return (
-    <div className="min-w-0 rounded-xl bg-elevated/70 px-2 py-1.5">
-      <div className="num truncate text-[14px] font-bold">{v}</div>
+    <div className="min-w-0 rounded-xl bg-elevated/60 px-2.5 py-2">
+      <div className="num truncate text-[14px] font-semibold">{v}</div>
       <div className="flex items-center gap-1 truncate text-[10.5px] text-muted">
         {icon}
         {k}

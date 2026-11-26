@@ -16,8 +16,11 @@ export function NutritionTodayCard({ className }: { className?: string }) {
   return (
     <Link to="/nutrition" className={`card block p-4 transition hover:border-line ${className ?? ''}`} aria-label="Ernährung heute">
       <div className="flex items-center justify-between">
-        <span className="flex items-center gap-1.5 text-[12px] font-semibold text-muted">
-          <Utensils size={14} /> Ernährung
+        <span className="flex items-center gap-2 text-[14px] font-semibold">
+          <span className="chip chip-food h-8 w-8 rounded-[10px]">
+            <Utensils size={16} />
+          </span>
+          Ernährung
         </span>
         <ChevronRight size={16} className="text-subtle" />
       </div>
@@ -28,8 +31,8 @@ export function NutritionTodayCard({ className }: { className?: string }) {
         </div>
       ) : (
         <>
-          <div className="mt-1.5 flex items-baseline gap-1.5">
-            <span className="num text-[24px] font-extrabold leading-none">{fmtNumber(t.kcal, 0)}</span>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className="num text-[28px] font-bold leading-none tracking-[-0.02em]">{fmtNumber(t.kcal, 0)}</span>
             <span className="num text-[13px] text-muted">{targets.kcal != null ? `/ ${fmtNumber(targets.kcal, 0)} kcal` : 'kcal'}</span>
           </div>
           <div className="num mt-0.5 text-[12px] text-muted">

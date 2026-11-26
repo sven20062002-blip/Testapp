@@ -70,13 +70,13 @@ function StartWorkout() {
       <PageHeader title="Training" subtitle="Starte ein neues Workout oder wähle einen Plan" />
       <button
         onClick={() => start()}
-        className="group relative flex w-full items-center gap-4 overflow-hidden rounded-3xl bg-accent p-5 text-left text-accent-fg shadow-[0_12px_40px_-12px_rgb(var(--accent)/.7)] transition active:scale-[.99]"
+        className="group relative flex w-full items-center gap-4 overflow-hidden rounded-3xl bg-accent p-5 text-left text-accent-fg transition active:scale-[.99]"
       >
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/10">
           <Play size={28} fill="currentColor" />
         </div>
         <div className="flex-1">
-          <div className="text-xl font-extrabold tracking-tight">Leeres Workout starten</div>
+          <div className="text-xl font-bold tracking-tight">Leeres Workout starten</div>
           <div className="text-sm font-medium opacity-75">Übungen frei hinzufügen</div>
         </div>
         <ChevronRight className="opacity-60 transition group-hover:translate-x-1" />
@@ -236,7 +236,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
         </div>
         <div className="mt-2 flex items-center gap-3">
           <div
-            className={clsx('num text-[40px] font-extrabold leading-none tracking-tight', workout.pausedAt ? 'text-warn' : 'text-fg')}
+            className={clsx('num text-[40px] font-bold leading-none tracking-tight', workout.pausedAt ? 'text-warn' : 'text-fg')}
             role="timer"
             aria-label="Gesamtdauer"
             data-testid="workout-clock"
@@ -427,7 +427,7 @@ export function WorkoutClock({ workout }: { workout: Workout }) {
 function MiniStat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="rounded-2xl bg-elevated p-3 text-center">
-      <div className="num text-lg font-extrabold">{value}</div>
+      <div className="num text-lg font-bold">{value}</div>
       <div className="text-[12px] text-muted">{label}</div>
     </div>
   );

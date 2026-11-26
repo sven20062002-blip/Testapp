@@ -66,7 +66,7 @@ function SetTimerCard({
       </div>
       {running && we ? (
         <>
-          <div className="num mt-1 text-[28px] font-extrabold leading-none tracking-tight text-fg">
+          <div className="num mt-1 text-[28px] font-bold leading-none tracking-tight text-fg">
             {formatClock(setTimerElapsedMs(running, workout.pausedAt, now))}
           </div>
           <div className="mt-1 truncate text-[12px] text-muted">
@@ -78,7 +78,7 @@ function SetTimerCard({
         </>
       ) : (
         <>
-          <div className="num mt-1 text-[28px] font-extrabold leading-none tracking-tight text-subtle">0:00</div>
+          <div className="num mt-1 text-[28px] font-bold leading-none tracking-tight text-subtle">0:00</div>
           <div className="mt-1 truncate text-[12px] text-muted">
             {lastDone ? `Letzter Satz: ${formatClock(lastDone.durationSec! * 1000)}` : 'Misst die Dauer jedes Satzes'}
           </div>
@@ -121,7 +121,7 @@ function RestTimerCard({ workout }: { workout: Workout }) {
         {active ? (
           <>
             <div
-              className={clsx('num mt-1 text-[28px] font-extrabold leading-none tracking-tight', rest.status === 'paused' ? 'text-warn' : 'text-fg')}
+              className={clsx('num mt-1 text-[28px] font-bold leading-none tracking-tight', rest.status === 'paused' ? 'text-warn' : 'text-fg')}
               role="timer"
               aria-live="off"
             >
@@ -145,7 +145,7 @@ function RestTimerCard({ workout }: { workout: Workout }) {
           </>
         ) : (
           <>
-            <div className={clsx('num mt-1 text-[28px] font-extrabold leading-none tracking-tight', done ? 'text-good' : 'text-subtle')}>
+            <div className={clsx('num mt-1 text-[28px] font-bold leading-none tracking-tight', done ? 'text-good' : 'text-subtle')}>
               {done ? 'Los!' : formatClock(settings.defaultRestSec * 1000)}
             </div>
             <div className="mt-1 text-[12px] text-muted">{done ? 'Pause vorbei' : 'Standard-Pause'}</div>
