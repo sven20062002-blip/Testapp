@@ -55,7 +55,7 @@ describe('onboarding', () => {
     const d = await fresh();
     expect(Object.keys(stepErrors('body', d)).sort()).toEqual(['age', 'heightCm', 'sex', 'weight']);
     const bad = { ...d, sex: 'male' as const, age: '9', heightCm: '300', weight: '12' };
-    expect(stepErrors('body', bad)).toMatchObject({ age: '14–100 Jahre', heightCm: '120–230 cm', weight: '30–300 kg' });
+    expect(stepErrors('body', bad)).toMatchObject({ age: '16–100 Jahre', heightCm: '120–230 cm', weight: '30–300 kg' });
     expect(stepErrors('body', await filled())).toEqual({});
     expect(firstIncompleteStep(d)).toBe(1);
     expect(firstIncompleteStep(await filled())).toBe(-1);

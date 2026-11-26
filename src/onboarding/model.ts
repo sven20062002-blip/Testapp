@@ -57,7 +57,7 @@ export function draftFrom(s: Settings, p: Profile, latestWeightKg: number | null
 }
 
 const RANGES = {
-  age: [14, 100],
+  age: [16, 100],
   heightCm: [120, 230],
   weightKg: [30, 300],
 } as const;

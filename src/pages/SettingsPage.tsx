@@ -260,6 +260,11 @@ export default function SettingsPage() {
       </Group>
 
       <Group title="App" icon={<Smartphone size={16} />}>
+        <Row label="Datenschutzerklärung" hint="Welche Daten heben wie verarbeitet">
+          <a href="/privacypolicy.html" className="inline-flex h-9 items-center rounded-full bg-elevated px-3.5 text-[12.5px] font-semibold hover:bg-line">
+            Öffnen
+          </a>
+        </Row>
         {install.canInstall && (
           <Row label="Als App installieren" hint="Startbildschirm, Vollbild, offline">
             <Button size="sm" variant="primary" icon={<Download size={15} />} onClick={install.prompt}>

@@ -5,3 +5,8 @@ forge-app.zip
 .env
 .env.local
 forge-source.zip
+
+# Android build output / local SDK path
+android/local.properties
+*.keystore
+*.jks

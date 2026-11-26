@@ -82,7 +82,7 @@ export default function NutritionProfilePage() {
 
       <section className="card space-y-4 p-3.5">
         <div className="grid grid-cols-2 gap-3">
-          <NumField label="Alter" value={p.age} unit="J." min={14} max={100} integer onSave={(v) => save({ age: v })} />
+          <NumField label="Alter" value={p.age} unit="J." min={16} max={100} integer onSave={(v) => save({ age: v })} />
           <div>
             <span className="mb-1 block text-[11.5px] font-semibold text-muted">Geschlecht</span>
             <Segmented<Sex>
