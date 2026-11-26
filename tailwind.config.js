@@ -4,7 +4,7 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   // area colours are picked dynamically (`text-area-${area}`)
-  safelist: [{ pattern: /^(text|bg|ring|border)-area-(train|food|move|body|social)$/ }],
+  safelist: [{ pattern: /^(text|bg|ring|border)-area-(train|food|move|body|social|pet)$/ }],
   theme: {
     extend: {
       colors: {
@@ -20,7 +20,7 @@ export default {
         warn: c('warn'),
         bad: c('bad'),
         info: c('info'),
-        area: { train: c('c-train'), food: c('c-food'), move: c('c-move'), body: c('c-body'), social: c('c-social') },
+        area: { train: c('c-train'), food: c('c-food'), move: c('c-move'), body: c('c-body'), social: c('c-social'), pet: c('c-pet') },
       },
       fontFamily: {
         sans: ['"Inter Variable"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'system-ui', 'sans-serif'],

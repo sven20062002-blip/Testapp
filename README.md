@@ -36,6 +36,16 @@ Beim ersten Start fragt ein Onboarding in 6 Schritten alles ab, was die App brau
 - Jeder Bereich hat eine feste Farbe (Training Grün, Ernährung Orange, Aktivität Cyan, Körper Violett, Freunde Pink). Im Menü tragen die Symbole immer ihre Bereichsfarbe; der ausgewählte Bereich wird einheitlich mit einer getönten Fläche in derselben Farbe hervorgehoben. „Mehr“ übernimmt die Farbe des geöffneten Unterbereichs.
 - Kompakte Darstellung: etwas kleinere Schrift, engere Abstände, zusammengefasste Kacheln – im Schnitt rund 17 % weniger Scrollen, auf der Startseite rund ein Drittel.
 
+## Kettli – Begleiter mit Tagesaufgaben
+
+Unten in der Leiste (anstelle von „Freunde“) lebt **Kettli**, ein kleines Kettlebell-Wesen. Sein Level steht wie das Gewicht einer Kettlebell auf dem Bauch („12 kg“).
+
+- **Tagesaufgaben:** Schrittziel erreichen, ein Workout absolvieren (mit mindestens einem Satz), Kalorienziel einhalten (90–105 % des Ziels) und als Bonus „alle drei geschafft“. Belohnungen werden per Tipp abgeholt, jede genau einmal pro Tag.
+- **Level & Entwicklung:** XP lassen Kettli steigen (Level 2 nach 100 XP, danach je +20 XP mehr). Ab Level 5 Junior (Arme), ab 10 Athlet (Muskeln), ab 20 Legende (goldene Aura). Jedes Level gibt 20 Gains.
+- **Währung „Gains“** (Hantelscheibe): pro Aufgabe 10–25, dazu ein Serienbonus von bis zu +10 pro Tag in Folge. Im **Shop** gibt es Farben, Accessoires (Stirnband, Cap, Brille, Kopfhörer, Medaille, Krone) und Hintergründe; manche erst ab einem Level.
+- **Stimmung:** Kettli freut sich über erledigte Aufgaben, wird müde bei Pausen und vermisst dich nach mehreren Tagen; bestraft wird nie. Antippen lässt ihn springen und sprechen.
+- Fortschritt ist im JSON-Backup enthalten. Der Freunde-Bereich ist im Code erhalten und lässt sich in `src/config/features.ts` wieder einschalten.
+
 ## Startseite anpassen
 
 Die Startseite besteht aus Widgets: Workout starten, Schnellzugriffe, Training, Ernährung, Aktivität, Körper, Trainingsfortschritt, Letztes Workout und Bestleistungen. Über das Regler-Symbol oben rechts („Startseite anpassen“) lassen sie sich per Ziehen oder mit den Pfeilen verschieben, mit ✕ entfernen und über „Widget hinzufügen“ wieder einfügen. Mit ⤡/⤢ wird jede Kachel klein (halbe Breite, kompakte Ansicht) oder groß (ganze Breite). „Standard wiederherstellen“ setzt Reihenfolge und Größen zurück. Jede Änderung wird sofort gespeichert. Die Trainingspläne stehen nicht mehr auf der Startseite, sondern auf der Seite **Training**, mit Vorschau der Übungen, „Neuer Plan“ und „Verwalten“.

@@ -3,7 +3,7 @@
  * Stored as an ordered id list in settings.homeWidgets (null = default layout).
  */
 export type WidgetSize = 'full' | 'half';
-export type WidgetId = 'start' | 'shortcuts' | 'training' | 'nutrition' | 'activity' | 'body' | 'progress' | 'lastWorkout' | 'records';
+export type WidgetId = 'pet' | 'start' | 'shortcuts' | 'training' | 'nutrition' | 'activity' | 'body' | 'progress' | 'lastWorkout' | 'records';
 
 export interface WidgetMeta {
   id: WidgetId;
@@ -11,10 +11,11 @@ export interface WidgetMeta {
   description: string;
   /** default size – the user can switch every widget between full width and a small half tile */
   size: WidgetSize;
-  area: 'train' | 'food' | 'move' | 'body' | 'neutral';
+  area: 'train' | 'food' | 'move' | 'body' | 'pet' | 'neutral';
 }
 
 export const WIDGETS: WidgetMeta[] = [
+  { id: 'pet', title: 'Kettli', description: 'Dein Begleiter und die heutigen Aufgaben', size: 'full', area: 'pet' },
   { id: 'start', title: 'Workout starten', description: 'Großer Start-Knopf bzw. laufendes Workout', size: 'full', area: 'train' },
   { id: 'shortcuts', title: 'Schnellzugriffe', description: 'Pläne, neuer Plan, Verlauf, Statistik', size: 'full', area: 'neutral' },
   { id: 'training', title: 'Training', description: 'Letztes Workout und diese Woche', size: 'full', area: 'train' },
@@ -26,7 +27,7 @@ export const WIDGETS: WidgetMeta[] = [
   { id: 'records', title: 'Bestleistungen', description: 'Deine neuesten Rekorde', size: 'full', area: 'train' },
 ];
 
-export const DEFAULT_LAYOUT: WidgetId[] = ['start', 'shortcuts', 'training', 'nutrition', 'activity', 'body', 'progress', 'records'];
+export const DEFAULT_LAYOUT: WidgetId[] = ['pet', 'start', 'shortcuts', 'training', 'nutrition', 'activity', 'body', 'progress', 'records'];
 
 const KNOWN = new Set<string>(WIDGETS.map((w) => w.id));
 

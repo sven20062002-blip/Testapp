@@ -14,6 +14,7 @@ import WorkoutDetail from './pages/WorkoutDetail';
 import SettingsPage from './pages/SettingsPage';
 import NotFound from './pages/NotFound';
 import { OnboardingGate } from './onboarding/OnboardingGate';
+import { FEATURES } from './config/features';
 
 // chart-heavy pages are split into their own chunk (precached for offline use)
 const StatsPage = lazy(() => import('./pages/StatsPage'));
@@ -23,6 +24,7 @@ const ActivityPage = lazy(() => import('./pages/health/ActivityPage'));
 const BodyPage = lazy(() => import('./pages/health/BodyPage'));
 const SourcesPage = lazy(() => import('./pages/health/SourcesPage'));
 const SocialPage = lazy(() => import('./pages/social/SocialPage'));
+const PetPage = lazy(() => import('./pages/PetPage'));
 const DuelPage = lazy(() => import('./pages/social/DuelPage'));
 const ChallengePage = lazy(() => import('./pages/social/ChallengePage'));
 const AccountPage = lazy(() => import('./pages/social/AccountPage'));
@@ -64,10 +66,17 @@ export default function App() {
                 <Route path="health" element={<Navigate to="/activity" replace />} />
                 <Route path="health/sources" element={<SourcesPage />} />
                 <Route path="activity" element={<ActivityPage />} />
-                <Route path="social" element={<SocialPage />} />
-                <Route path="social/duel/:id" element={<DuelPage />} />
-                <Route path="social/challenge/:id" element={<ChallengePage />} />
-                <Route path="social/account" element={<AccountPage />} />
+                {FEATURES.social ? (
+                  <>
+                    <Route path="social" element={<SocialPage />} />
+                    <Route path="social/duel/:id" element={<DuelPage />} />
+                    <Route path="social/challenge/:id" element={<ChallengePage />} />
+                    <Route path="social/account" element={<AccountPage />} />
+                  </>
+                ) : (
+                  <Route path="social/*" element={<Navigate to="/pet" replace />} />
+                )}
+                <Route path="pet" element={<PetPage />} />
                 <Route path="body" element={<BodyPage />} />
                 <Route path="nutrition" element={<NutritionPage />} />
                 <Route path="nutrition/foods" element={<FoodsPage />} />

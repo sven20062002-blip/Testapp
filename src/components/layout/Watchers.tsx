@@ -7,6 +7,7 @@ import { playRestDone, systemNotify, unlockAudio, vibrate } from '@/services/fee
 import { useFeedback } from '@/components/ui/Feedback';
 import { autoSync } from '@/health/sync';
 import { onAppLeave } from '@/lib/leave';
+import { FEATURES } from '@/config/features';
 
 /**
  * Global, route-independent watchers:
@@ -22,7 +23,7 @@ export function Watchers() {
       <WakeLock />
       <AudioUnlock />
       <HealthAutoSync />
-      <SocialOutboxSync />
+      {FEATURES.social && <SocialOutboxSync />}
       <SaveOnLeave />
     </>
   );
@@ -185,7 +186,7 @@ function SaveOnLeave() {
       onAppLeave(() => {
         const el = document.activeElement;
         if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) el.blur();
-        void import('@/social/outbox').then((m) => m.flushOutbox()).catch(() => {});
+        if (FEATURES.social) void import('@/social/outbox').then((m) => m.flushOutbox()).catch(() => {});
       }),
     [],
   );

@@ -405,3 +405,34 @@ export interface OutboxItem {
   attempts: number;
   lastError: string | null;
 }
+
+/* ======================================================================
+ * PET (Kettli) – companion that levels up with daily quests
+ * ==================================================================== */
+
+export interface PetState {
+  id: 'pet';
+  name: string;
+  /** total experience (level is derived) */
+  xp: number;
+  /** currency ("Gains") */
+  coins: number;
+  /** bought shop item ids (free items are always owned) */
+  owned: string[];
+  equipped: { skin: string; accessory: string; background: string };
+  streak: number;
+  /** local day of the last claimed quest */
+  lastActiveDay: string | null;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface QuestClaim {
+  /** `${date}:${quest}` – one claim per quest and day */
+  id: string;
+  date: string;
+  quest: 'steps' | 'workout' | 'kcal' | 'bonus';
+  xp: number;
+  coins: number;
+  claimedAt: number;
+}

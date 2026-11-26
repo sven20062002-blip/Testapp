@@ -3,7 +3,7 @@ import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
-export type Area = 'train' | 'food' | 'move' | 'body' | 'social';
+export type Area = 'train' | 'food' | 'move' | 'body' | 'social' | 'pet';
 
 export function PageHeader({
   title,

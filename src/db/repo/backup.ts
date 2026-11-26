@@ -25,6 +25,9 @@ export async function exportJSON(): Promise<string> {
     foodLog: await db.foodLog.toArray(),
     recipes: await db.recipes.toArray(),
     profile: await db.profile.toArray(),
+    // Kettli
+    pet: await db.pet.toArray(),
+    questClaims: await db.questClaims.toArray(),
   };
   // Only include rows that belong to completed workouts
   const done = new Set(data.workouts.map((w) => w.id));
@@ -97,7 +100,7 @@ export async function importJSON(text: string): Promise<{ workouts: number }> {
 
   await db.transaction(
     'rw',
-    [db.exercises, db.exerciseNotes, db.plans, db.workouts, db.workoutExercises, db.sets, db.records, db.settings, db.healthMetrics, db.healthHourly, db.foods, db.foodLog, db.recipes, db.profile],
+    [db.exercises, db.exerciseNotes, db.plans, db.workouts, db.workoutExercises, db.sets, db.records, db.settings, db.healthMetrics, db.healthHourly, db.foods, db.foodLog, db.recipes, db.profile, db.pet, db.questClaims],
     async () => {
       const active = await db.workouts.where('status').equals('active').toArray();
       const activeIds = new Set(active.map((w) => w.id));
@@ -124,6 +127,13 @@ export async function importJSON(text: string): Promise<{ workouts: number }> {
           await db[t].clear();
           if (Array.isArray(data[t])) await (db[t] as any).bulkPut(data[t]);
         }
+      }
+      // Kettli: only replaced when the backup contains it (older backups keep the current pet)
+      if (Array.isArray(data.pet) && data.pet.length) {
+        await db.pet.clear();
+        await db.pet.bulkPut(data.pet);
+        await db.questClaims.clear();
+        if (Array.isArray(data.questClaims)) await db.questClaims.bulkPut(data.questClaims);
       }
     },
   );

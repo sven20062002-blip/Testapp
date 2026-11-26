@@ -48,6 +48,8 @@ import { DEFAULT_LAYOUT, addWidget, hiddenWidgets, moveWidget, normalizeLayout, 
 import { useFlip } from '@/hooks/useFlip';
 import { AnimatedNumber } from '@/components/ui/AnimatedNumber';
 import { DuelBanner } from '@/components/social/DuelBanner';
+import { PetWidget } from '@/pet/PetWidget';
+import { FEATURES } from '@/config/features';
 import { Sheet } from '@/components/ui/Sheet';
 import { Button } from '@/components/ui/Button';
 
@@ -106,7 +108,7 @@ function Home({ settings }: { settings: SettingsT }) {
         )}
       </header>
 
-      {!editing && <DuelBanner />}
+      {!editing && FEATURES.social && <DuelBanner />}
 
       {editing ? (
         <div ref={grid}>
@@ -319,6 +321,8 @@ function EditableWidget({
 
 function Widget({ id, compact }: { id: WidgetId; compact: boolean }) {
   switch (id) {
+    case 'pet':
+      return <PetWidget compact={compact} />;
     case 'start':
       return <StartWidget compact={compact} />;
     case 'shortcuts':

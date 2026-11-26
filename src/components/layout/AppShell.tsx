@@ -34,7 +34,7 @@ export function AppShell() {
           </div>
         </div>
         <nav className="flex flex-col gap-0.5 overflow-y-auto" aria-label="Hauptnavigation">
-          {(['Heute', 'Training', 'Freunde', 'Körper & Ernährung', 'App'] as const).map((g) => (
+          {(['Heute', 'Training', 'Kettli', 'Freunde', 'Körper & Ernährung', 'App'] as const).map((g) => (
             <div key={g} className="mb-3">
               {g !== 'Heute' && <div className="label mb-1 px-3">{g}</div>}
               {NAV.filter((n) => n.group === g).map(({ to, label, icon: I, area }) => (

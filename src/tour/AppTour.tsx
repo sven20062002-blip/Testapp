@@ -6,6 +6,7 @@ import { Apple, ArrowLeft, ArrowRight, Home, MoreHorizontal, Timer, Users, X } f
 import { db } from '@/db/db';
 import { Button } from '@/components/ui/Button';
 import { TOUR, type TourIcon } from './steps';
+import { KettliIcon } from '@/pet/KettliIcon';
 import { finishTour, loadTourStep, rememberTourOrigin, saveTourStep, tourOrigin } from './state';
 
 const ICONS: Record<TourIcon, ReactNode> = {
@@ -14,6 +15,7 @@ const ICONS: Record<TourIcon, ReactNode> = {
   food: <Apple size={20} />,
   social: <Users size={20} />,
   more: <MoreHorizontal size={20} />,
+  pet: <KettliIcon size={20} />,
 };
 
 /** first target that is actually rendered and visible (phone bottom bar vs. desktop sidebar) */

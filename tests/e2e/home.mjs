@@ -19,7 +19,7 @@ page.on('console', (m) => m.type() === 'error' && errors.push('console: ' + m.te
 const shot = (n) => SHOTS && page.screenshot({ path: `${SHOTS}/${n}.png` });
 const order = () => page.locator('[data-widget]').evaluateAll((els) => els.map((e) => e.getAttribute('data-widget')));
 /** wait until no animation is running any more (tiles glide to their new place) */
-const settled = () => page.waitForFunction(() => document.getAnimations().filter((a) => a.playState === 'running' && !(a.animationName || '').startsWith('drift')).length === 0, null, { timeout: 5000 });
+const settled = () => page.waitForFunction(() => document.getAnimations().filter((a) => a.playState === 'running' && !/^(drift|kettli)/.test(a.animationName || '')).length === 0, null, { timeout: 5000 });
 const until = async (fn, msg, timeout = 4000) => {
   const end = Date.now() + timeout;
   while (Date.now() < end) { if (await fn()) return; await page.waitForTimeout(100); }
@@ -32,7 +32,7 @@ await page.getByRole('button', { name: 'Tour beenden' }).click();
 await page.getByTestId('app-tour').waitFor({ state: 'detached' });
 await page.locator('[data-widget="start"]').waitFor();
 const initial = await order();
-if (initial.join() !== 'start,shortcuts,training,nutrition,activity,body,progress,records') fail('unexpected default layout: ' + initial);
+if (initial.join() !== 'pet,start,shortcuts,training,nutrition,activity,body,progress,records') fail('unexpected default layout: ' + initial);
 if (await page.getByText('Trainingspläne').count()) fail('plans still on the home screen');
 log('default home screen without training plans', initial.join(' · '));
 
@@ -61,7 +61,7 @@ log('remove, move up, add via sheet');
 
 // drag & drop: records (last before lastWorkout) onto the start widget
 const handle = page.getByRole('button', { name: 'Bestleistungen verschieben' });
-const target = page.getByTestId('edit-start');
+const target = page.getByTestId('edit-pet');
 await handle.scrollIntoViewIfNeeded();
 const hb = await handle.boundingBox();
 await page.mouse.move(hb.x + hb.width / 2, hb.y + hb.height / 2);

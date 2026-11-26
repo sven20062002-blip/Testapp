@@ -117,7 +117,7 @@ await page.reload();
 await tourAt('Training', '/workout');
 log('leaving the app mid-tour resumes at the same station');
 
-for (const [t, p] of [['Ernährung', '/nutrition'], ['Freunde', '/social'], ['Mehr', '/']]) {
+for (const [t, p] of [['Ernährung', '/nutrition'], ['Kettli', '/pet'], ['Mehr', '/']]) {
   await tour.getByRole('button', { name: /^(Weiter|Los geht's)/ }).click();
   await tourAt(t, p);
   await page.waitForTimeout(400);

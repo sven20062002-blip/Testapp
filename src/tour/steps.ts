@@ -1,6 +1,6 @@
 import type { Area } from '@/components/ui/PageHeader';
 
-export type TourIcon = 'home' | 'train' | 'food' | 'social' | 'more';
+export type TourIcon = 'home' | 'train' | 'food' | 'social' | 'pet' | 'more';
 
 export interface TourStep {
   id: string;
@@ -50,15 +50,15 @@ export const TOUR: TourStep[] = [
     bullets: ['Lebensmittel per Barcode-Scanner oder Suche erfassen', 'Tagesziel aus deinem Profil berechnet', 'Eigene Lebensmittel, Rezepte und Favoriten'],
   },
   {
-    id: 'social',
-    route: '/social',
-    target: ['[data-tour="nav-/social"]'],
-    icon: 'social',
-    area: 'social',
-    title: 'Freunde',
-    text: 'Hebe gegen deine Freunde.',
-    bullets: ['Feed mit den Workouts deiner Freunde', 'Ranglisten und Challenges über einen Zeitraum', 'Live-Duell: gleichzeitig trainieren, jeder Satz zählt'],
-    note: 'Dafür brauchst du einmalig ein Konto. Geteilt werden nur Zusammenfassungen.',
+    id: 'pet',
+    route: '/pet',
+    target: ['[data-tour="nav-/pet"]'],
+    icon: 'pet',
+    area: 'pet',
+    title: 'Kettli',
+    text: 'Dein kleiner Trainingspartner wächst mit dir.',
+    bullets: ['Tägliche Aufgaben: Schrittziel, ein Workout, Kalorienziel', 'Belohnungen abholen: XP für Kettlis Level und Gains als Währung', 'Im Shop neue Farben, Accessoires und Hintergründe kaufen'],
+    note: 'Je öfter du dranbleibst, desto größer wird deine Serie – und der Bonus.',
   },
   {
     id: 'more',

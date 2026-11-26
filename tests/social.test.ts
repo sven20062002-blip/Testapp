@@ -1,4 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+// the online area is switched off in the app (FEATURES.social) but its code stays tested
+vi.mock('@/config/features', () => ({ FEATURES: { social: true } }));
 import { db } from '@/db/db';
 import { initDatabase } from '@/db/init';
 import * as W from '@/db/repo/workouts';

@@ -33,6 +33,7 @@ import type { Suggestion } from '@/components/workout/SetRow';
 import { PageHeader, SectionTitle } from '@/components/ui/PageHeader';
 import { playPR, unlockAudio, vibrate } from '@/services/feedback';
 import { DuelBanner } from '@/components/social/DuelBanner';
+import { FEATURES } from '@/config/features';
 
 export default function WorkoutPage() {
   const active = useActiveWorkout();
@@ -184,7 +185,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
         return;
       }
       if (settings.vibration) vibrate(30);
-      void import('@/social/duelBridge').then((m) => m.postSetToDuels(s.id)).catch(() => {});
+      if (FEATURES.social) void import('@/social/duelBridge').then((m) => m.postSetToDuels(s.id)).catch(() => {});
       if (res.prs.length) {
         const we = exercises?.find((e) => e.id === s.workoutExerciseId);
         setCelebration({ prs: res.prs, name: we ? name(we.snapshot) : '' });
@@ -319,7 +320,7 @@ function ActiveWorkout({ workout }: { workout: Workout }) {
         )}
 
         <TimerPanel workout={workout} exercises={exercises ?? []} sets={allSets} onCompleteSet={onCompleteFromTimer} />
-        <DuelBanner />
+        {FEATURES.social && <DuelBanner />}
 
         {nextOpen && (exercises?.length ?? 0) > 1 && (
           <button

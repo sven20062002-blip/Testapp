@@ -1,4 +1,5 @@
 import { db } from '../db';
+import { FEATURES } from '@/config/features';
 import type { Workout, WorkoutExercise, WorkoutSet } from '../types';
 import { uid } from '@/lib/id';
 import { snapshotOf } from './exercises';
@@ -11,6 +12,7 @@ import type { LivePR } from '@/lib/metrics';
 
 /** Online sync hooks (lazy import keeps the core independent of the social module). */
 function socialSync(kind: 'upload' | 'delete', workoutId: string): void {
+  if (!FEATURES.social) return;
   void import('@/social/outbox')
     .then((m) => (kind === 'upload' ? m.enqueueWorkout(workoutId) : m.enqueueWorkoutDelete(workoutId)))
     .catch(() => {});

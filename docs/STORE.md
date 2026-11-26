@@ -30,7 +30,7 @@ App-Name: **heben – Fitness & Lifestyle** (27 Zeichen, Grenze 30) · App-ID: *
 4. **Health-Connect-Erklärung** (App-Inhalte → Gesundheits-Apps / Health Connect): pro Berechtigung den Zweck angeben, z. B. „Schritte: Anzeige der täglichen Aktivität und des Schrittziels“. Nur die 8 Lese-Rechte + Verlauf angeben.
 5. **Datensicherheit** (Data safety):
    - Gesundheit & Fitness: *gesammelt, nicht geteilt*, verarbeitet nur auf dem Gerät → bei „auf Gerät verarbeitet“ ankreuzen; nicht übertragen.
-   - Online-Funktionen (optional): E-Mail, Benutzername, Fitness-Zusammenfassungen werden *übertragen* (Konto/Funktion), verschlüsselt, löschbar.
+   - Online-Funktionen: derzeit nicht in der App (Freunde-Bereich ist ausgeschaltet) – keine Daten werden übertragen außer Lebensmittel-Suchen an Open Food Facts.
    - Keine Werbung, keine Analysedienste.
 6. **Inhaltsbewertung**, Zielgruppe ab 16, Store-Eintrag (Texte unten), Screenshots (mind. 2 Handy-Screenshots).
 
@@ -46,9 +46,9 @@ App-Name: **heben – Fitness & Lifestyle** (27 Zeichen, Grenze 30) · App-ID: *
 
 **Name:** heben – Fitness & Lifestyle
 
-**Untertitel (iOS, max. 30):** Training, Ernährung, Freunde
+**Untertitel (iOS, max. 30):** Training, Ernährung, Kettli
 
-**Kurzbeschreibung (Play, max. 80):** Workouts tracken, Kalorien zählen und gegen Freunde heben – alles in einer App.
+**Kurzbeschreibung (Play, max. 80):** Workouts tracken, Kalorien zählen und dein Kettli großziehen – alles in einer App.
 
 **Beschreibung:**
 
@@ -69,9 +69,10 @@ App-Name: **heben – Fitness & Lifestyle** (27 Zeichen, Grenze 30) · App-ID: *
 > • Schritte, Kalorien und Gewicht aus Apple Health bzw. Health Connect
 > • Gewichtsverlauf mit Trend
 >
-> FREUNDE
-> • Feed, Ranglisten und Challenges unter Freunden
-> • Live-Duell: gleichzeitig trainieren, jeder Satz zählt sofort
+> KETTLI – DEIN TRAININGSPARTNER
+> • Ein kleines Kettlebell-Wesen, das mit dir wächst
+> • Tägliche Aufgaben: Schrittziel, Workout, Kalorienziel
+> • Belohnungen sammeln, Level steigen, neue Looks im Shop
 >
 > DEINE DATEN
 > • Alles bleibt auf deinem Gerät und funktioniert offline

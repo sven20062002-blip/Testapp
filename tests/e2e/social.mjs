@@ -1,6 +1,12 @@
 // E2E for the online features against a mocked Supabase (REST/RPC/auth intercepted by Playwright).
 // Verifies UI flows and the exact requests the app sends. Usage: node tests/e2e/social.mjs [baseUrl] [shotDir]
 import { createRequire } from 'node:module';
+import { readFileSync } from 'node:fs';
+// the online area is switched off in the app for now (src/config/features.ts) – skip until it is back
+if (/social:\s*false/.test(readFileSync(new URL('../../src/config/features.ts', import.meta.url), 'utf8'))) {
+  console.log('SOCIAL E2E SKIPPED (FEATURES.social = false)');
+  process.exit(0);
+}
 const require = createRequire(import.meta.url);
 let pw;
 try { pw = require('playwright'); } catch { pw = require('/opt/node-tools/node_modules/playwright'); }

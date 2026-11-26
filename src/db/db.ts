@@ -7,6 +7,8 @@ import type {
   HealthHourly,
   HealthMetric,
   OutboxItem,
+  PetState,
+  QuestClaim,
   HealthSourceState,
   Profile,
   Recipe,
@@ -37,6 +39,8 @@ export class ForgeDB extends Dexie {
   recipes!: Table<Recipe, string>;
   profile!: Table<Profile, string>;
   socialOutbox!: Table<OutboxItem, string>;
+  pet!: Table<PetState, string>;
+  questClaims!: Table<QuestClaim, string>;
 
   constructor(name = 'forge') {
     super(name);
@@ -97,6 +101,15 @@ export class ForgeDB extends Dexie {
           delete s.clientId;
           delete s.grantedScopes;
           delete s.diagnostics;
+        });
+      });
+    // v7: Kettli (companion) and its daily quest claims
+    this.version(7)
+      .stores({ pet: 'id', questClaims: 'id, date' })
+      .upgrade(async (tx) => {
+        // put the new Kettli widget at the top of a customised home screen
+        await tx.table('settings').toCollection().modify((s: { homeWidgets?: string[] | null }) => {
+          if (Array.isArray(s.homeWidgets) && !s.homeWidgets.includes('pet')) s.homeWidgets = ['pet', ...s.homeWidgets];
         });
       });
   }
