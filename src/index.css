@@ -328,3 +328,15 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *
 .kettli-glow { animation: kettli-glow 2.4s ease-in-out infinite; }
 .float-up { position: absolute; animation: float-up 1.1s var(--ease-out) forwards; pointer-events: none; }
 .coin-pop { animation: coin-pop .5s var(--ease-spring); }
+
+/* extra menu colours so every entry in "Mehr" has its own (dark / light) */
+.chip-amber { --chip: 251 191 36; }
+.chip-indigo { --chip: 129 140 248; }
+.chip-blue { --chip: 96 165 250; }
+.chip-rose { --chip: 251 113 133; }
+.chip-slate { --chip: 148 163 184; }
+:root:not(.dark) .chip-amber { --chip: 202 138 4; }
+:root:not(.dark) .chip-indigo { --chip: 79 70 229; }
+:root:not(.dark) .chip-blue { --chip: 37 99 235; }
+:root:not(.dark) .chip-rose { --chip: 225 29 72; }
+:root:not(.dark) .chip-slate { --chip: 71 85 105; }

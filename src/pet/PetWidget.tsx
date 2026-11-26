@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { Kettli } from './Kettli';
 import { usePet, usePetView, useTodayQuests } from './hooks';
-import { CURRENCY } from './model';
+import { CURRENCY, DEFAULT_PET_NAME } from './model';
 
 /** Home-screen tile: Kettli, its level and today's quest progress. */
 export function PetWidget({ compact }: { compact?: boolean }) {
@@ -18,7 +18,7 @@ export function PetWidget({ compact }: { compact?: boolean }) {
     return (
       <Link to="/pet" className="chip-pet card flex h-full flex-col items-center p-2.5 pb-3 text-center">
         {kettli}
-        <span className="text-[12.5px] font-semibold">{pet.name}</span>
+        <span className="text-[12.5px] font-semibold">{DEFAULT_PET_NAME}</span>
         <span className="text-[10.5px] text-muted">
           Lv {view.level} · {claimed}/3 Aufgaben
         </span>
@@ -30,7 +30,7 @@ export function PetWidget({ compact }: { compact?: boolean }) {
       <div className="-my-1 shrink-0">{kettli}</div>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
-          <span className="truncate text-[15px] font-bold">{pet.name}</span>
+          <span className="truncate text-[15px] font-bold">{DEFAULT_PET_NAME}</span>
           <ChevronRight size={16} className="shrink-0 text-subtle" />
         </div>
         <div className="text-[11.5px] text-muted">

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { db } from '@/db/db';
 import { initDatabase } from '@/db/init';
 import { ITEMS, canBuy, levelInfo, moodOf, nextStreak, questStatus, stageOf, streakBonus, xpForNext } from '@/pet/model';
-import { buyItem, claimQuest, equipItem, getPet, renamePet } from '@/pet/repo';
+import { buyItem, claimQuest, equipItem, getPet } from '@/pet/repo';
 
 beforeEach(async () => {
   vi.useFakeTimers({ toFake: ['Date'] });
@@ -81,7 +81,7 @@ describe('Kettli repo', () => {
     expect(r2!.coins).toBe(10 + 20); // quest + level-up reward, no second streak bonus that day
   });
 
-  it('buy, equip, rename', async () => {
+  it('buy and equip', async () => {
     await expect(buyItem('skin-ocean')).rejects.toThrow(/fehlen/);
     await db.pet.put({ ...(await getPet()), coins: 100 });
     await buyItem('skin-ocean');
@@ -91,9 +91,8 @@ describe('Kettli repo', () => {
     await equipItem('skin-classic'); // free items are always owned
     expect((await getPet()).equipped.skin).toBe('skin-classic');
     await expect(equipItem('skin-lava')).rejects.toThrow(/Noch nicht gekauft/);
-    await renamePet('  Bruno  ');
     pet = await getPet();
-    expect(pet.name).toBe('Bruno');
+    expect(pet.name).toBe('Kettli');
   });
 });
 

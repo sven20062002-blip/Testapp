@@ -5,7 +5,6 @@ import {
   ArrowDown,
   ArrowUp,
   BarChart3,
-  BookOpen,
   Check,
   ChevronRight,
   Clock,
@@ -21,7 +20,6 @@ import {
   Play,
   Plus,
   RotateCcw,
-  Settings,
   SlidersHorizontal,
   Trophy,
   Weight,
@@ -101,8 +99,6 @@ function Home({ settings }: { settings: SettingsT }) {
             </div>
             <div className="flex shrink-0 gap-1.5">
               <RoundLink onClick={() => setEditing(true)} label="Startseite anpassen" icon={<SlidersHorizontal size={17} />} />
-              <RoundLink to="/exercises" label="Übungen" icon={<BookOpen size={17} />} className="lg:hidden" />
-              <RoundLink to="/settings" label="Einstellungen" icon={<Settings size={17} />} className="lg:hidden" />
             </div>
           </>
         )}

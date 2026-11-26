@@ -33,16 +33,17 @@ log('old /social links lead to Kettli');
 
 // adopt
 await page.getByRole('heading', { name: 'Das ist dein Kettli' }).waitFor();
-await page.getByLabel('Name').fill('Bruno');
+if (await page.getByLabel('Name').count()) fail('Kettli can still be renamed');
 await page.getByRole('button', { name: "Los geht's" }).click();
-await page.getByRole('heading', { name: 'Bruno' }).waitFor();
+await page.getByRole('heading', { name: 'Kettli', exact: true }).waitFor();
 if ((await coins()) !== 0) fail('starts with coins');
 const wq = page.getByTestId('quest-workout');
 if (await wq.getByRole('button', { name: /abholen/ }).count()) fail('workout quest claimable without workout');
+if (await page.getByRole('button', { name: 'Namen ändern' }).count()) fail('rename button still there');
 await page.getByTestId('kettli').click();
 await page.locator('.float-up').first().waitFor();
 await shot('k1-pet');
-log('adopt + name, tap Kettli → reaction, nothing claimable yet');
+log('adopt (fixed name Kettli), tap Kettli → reaction, nothing claimable yet');
 
 // do a workout from a plan
 await page.goto(BASE + '/workout');
@@ -64,7 +65,7 @@ await page.getByRole('button', { name: 'Speichern' }).click();
 await page.waitForTimeout(400);
 
 await page.goto(BASE + '/pet');
-await page.getByRole('heading', { name: 'Bruno' }).waitFor();
+await page.getByRole('heading', { name: 'Kettli', exact: true }).waitFor();
 await wq.getByRole('button', { name: 'Ein Workout absolvieren abholen' }).click();
 await page.getByText('+30 XP').first().waitFor();
 await page.getByTestId('quest-steps').getByRole('button', { name: /abholen/ }).click();

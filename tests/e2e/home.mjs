@@ -35,6 +35,15 @@ const initial = await order();
 if (initial.join() !== 'pet,start,shortcuts,training,nutrition,activity,body,progress,records') fail('unexpected default layout: ' + initial);
 if (await page.getByText('Trainingspläne').count()) fail('plans still on the home screen');
 log('default home screen without training plans', initial.join(' · '));
+if (await page.locator('header').getByRole('link', { name: /^(Übungen|Einstellungen)$/ }).count()) fail('exercises/settings buttons still on the home screen');
+await page.getByRole('button', { name: 'Weitere Bereiche' }).click();
+const colours = await page.getByRole('dialog').locator('button').evaluateAll((bs) =>
+  bs.filter((b) => b.querySelector('.chip')).map((b) => [b.textContent.trim(), getComputedStyle(b.querySelector('.chip')).color]),
+);
+if (colours.length !== 8 || new Set(colours.map((c) => c[1])).size !== colours.length) fail('menu colours not all different: ' + JSON.stringify(colours));
+await shot('h-more');
+await page.keyboard.press('Escape');
+log('home header without exercises/settings; all', colours.length, 'menu entries in their own colour');
 
 // training page lists the plans
 await page.getByRole('link', { name: 'Training' }).first().click();

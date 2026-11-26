@@ -12,6 +12,8 @@ export interface NavItem {
   primary?: boolean;
   center?: boolean;
   area?: Area;
+  /** own menu colour ("Mehr" sheet, sidebar) – defaults to the area colour */
+  tint?: 'amber' | 'indigo' | 'blue' | 'rose' | 'slate';
   group: 'Heute' | 'Training' | 'Kettli' | 'Freunde' | 'Körper & Ernährung' | 'App';
 }
 
@@ -22,13 +24,13 @@ const ALL_NAV: NavItem[] = [
   { to: '/pet', label: 'Kettli', icon: KettliIcon, primary: true, area: 'pet', group: 'Kettli' },
   { to: '/social', label: 'Freunde', icon: Users, primary: true, area: 'social', group: 'Freunde' },
   { to: '/plans', label: 'Pläne', icon: ListChecks, area: 'train', group: 'Training' },
-  { to: '/history', label: 'Verlauf', icon: History, area: 'train', group: 'Training' },
-  { to: '/stats', label: 'Statistik', icon: BarChart3, area: 'train', group: 'Training' },
-  { to: '/exercises', label: 'Übungen', icon: Dumbbell, area: 'train', group: 'Training' },
+  { to: '/history', label: 'Verlauf', icon: History, area: 'train', tint: 'amber', group: 'Training' },
+  { to: '/stats', label: 'Statistik', icon: BarChart3, area: 'train', tint: 'indigo', group: 'Training' },
+  { to: '/exercises', label: 'Übungen', icon: Dumbbell, area: 'train', tint: 'blue', group: 'Training' },
   { to: '/activity', label: 'Aktivität', icon: Footprints, area: 'move', group: 'Körper & Ernährung' },
   { to: '/body', label: 'Körpergewicht', icon: Scale, area: 'body', group: 'Körper & Ernährung' },
-  { to: '/health/sources', label: 'Datenquellen', icon: Link2, area: 'move', group: 'Körper & Ernährung' },
-  { to: '/settings', label: 'Einstellungen', icon: Settings, group: 'App' },
+  { to: '/health/sources', label: 'Datenquellen', icon: Link2, area: 'move', tint: 'rose', group: 'Körper & Ernährung' },
+  { to: '/settings', label: 'Einstellungen', icon: Settings, tint: 'slate', group: 'App' },
 ];
 
 /** Freunde is switched off for now (FEATURES.social) – Kettli takes its place in the bottom bar. */

@@ -2,7 +2,7 @@ import { useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import clsx from 'clsx';
-import { Check, ChevronRight, Dumbbell, Flame, Footprints, Gift, Lock, Pencil, Sparkles, Utensils } from 'lucide-react';
+import { Check, ChevronRight, Dumbbell, Flame, Footprints, Gift, Lock, Sparkles, Utensils } from 'lucide-react';
 import { db } from '@/db/db';
 import { PageHeader, SectionTitle } from '@/components/ui/PageHeader';
 import { Segmented } from '@/components/ui/Segmented';
@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/Button';
 import { useFeedback } from '@/components/ui/Feedback';
 import { AnimatedNumber } from '@/components/ui/AnimatedNumber';
 import { Kettli } from '@/pet/Kettli';
-import { CURRENCY, ITEMS, LEVEL_UP_COINS, MOOD_LINES, STAGES, canBuy, nextStage, type ItemKind, type QuestId, type QuestStatus, type ShopItem } from '@/pet/model';
-import { DEFAULT_PET, buyItem, claimQuest, equipItem, renamePet } from '@/pet/repo';
+import { CURRENCY, DEFAULT_PET_NAME as PET_NAME, ITEMS, LEVEL_UP_COINS, MOOD_LINES, STAGES, canBuy, nextStage, type ItemKind, type QuestId, type QuestStatus, type ShopItem } from '@/pet/model';
+import { DEFAULT_PET, buyItem, claimQuest, equipItem } from '@/pet/repo';
 import { usePet, usePetView, useTodayQuests } from '@/pet/hooks';
 import type { PetState } from '@/db/types';
 
@@ -45,7 +45,6 @@ function useStoredPet() {
 /* ---------------- first visit: name your Kettli ---------------- */
 
 function Adopt() {
-  const [name, setName] = useState('Kettli');
   const [busy, setBusy] = useState(false);
   return (
     <div className="page">
@@ -55,19 +54,15 @@ function Adopt() {
         <p className="mx-auto mt-2 max-w-xs text-[13.5px] leading-relaxed text-muted">
           Erledige jeden Tag deine Aufgaben – Schritte, Workout, Kalorien – und Kettli wächst mit dir. Mit {CURRENCY} kaufst du ihm neue Looks.
         </p>
-        <label className="mt-6 block text-left">
-          <span className="mb-1.5 block text-[12.5px] font-semibold text-muted">Wie soll er heißen?</span>
-          <input className="field text-center text-[17px] font-semibold" value={name} maxLength={16} onChange={(e) => setName(e.target.value)} aria-label="Name" />
-        </label>
         <Button
           variant="primary"
           size="lg"
           block
-          className="mt-4"
-          disabled={busy || !name.trim()}
+          className="mt-6"
+          disabled={busy}
           onClick={async () => {
             setBusy(true);
-            await db.pet.put({ ...DEFAULT_PET(), name: name.trim().slice(0, 16) });
+            await db.pet.put(DEFAULT_PET());
           }}
         >
           Los geht's
@@ -91,7 +86,6 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
   const [bubble, setBubble] = useState<string | null>(null);
   const [fx, setFx] = useState<FloatFx[]>([]);
   const [levelUp, setLevelUp] = useState<{ level: number; stage?: string } | null>(null);
-  const [rename, setRename] = useState(false);
   const fxId = useRef(0);
   const bubbleTimer = useRef<ReturnType<typeof setTimeout>>();
   const next = nextStage(view.level);
@@ -127,7 +121,7 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
 
   return (
     <div className="page">
-      <PageHeader title={pet.name} subtitle={`${STAGES.find((s) => s.id === view.stage)!.label} · Level ${view.level}`} area="pet" actions={<CoinPill coins={pet.coins} />} />
+      <PageHeader title={PET_NAME} subtitle={`${STAGES.find((s) => s.id === view.stage)!.label} · Level ${view.level}`} area="pet" actions={<CoinPill coins={pet.coins} />} />
 
       {/* hero */}
       <section className="card relative overflow-visible p-4">
@@ -135,9 +129,6 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
           <span className={clsx('flex items-center gap-1 rounded-full px-2.5 py-1', pet.streak > 0 ? 'bg-area-food/15 text-area-food' : 'bg-elevated text-muted')}>
             <Flame size={13} /> {pet.streak} {pet.streak === 1 ? 'Tag' : 'Tage'}
           </span>
-          <button onClick={() => setRename(true)} className="flex items-center gap-1 rounded-full bg-elevated px-2.5 py-1 text-muted hover:text-fg" aria-label="Namen ändern">
-            <Pencil size={12} /> Name
-          </button>
         </div>
         <div className="relative mx-auto mt-1 w-fit">
           {bubble && (
@@ -146,7 +137,7 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
               <span className="absolute -bottom-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rotate-45 bg-fg" />
             </div>
           )}
-          <button onClick={poke} className="block rounded-3xl outline-none" aria-label={`${pet.name} antippen`} data-testid="kettli">
+          <button onClick={poke} className="block rounded-3xl outline-none" aria-label={`${PET_NAME} antippen`} data-testid="kettli">
             <Kettli key={jump} jumping={jump > 0} skin={pet.equipped.skin} accessory={pet.equipped.accessory} background={pet.equipped.background} level={view.level} mood={view.mood} size={210} />
           </button>
           {fx.map((f) => (
@@ -165,7 +156,7 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
           <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-elevated">
             <div className="h-full rounded-full bg-area-pet transition-[width] duration-700 ease-[cubic-bezier(.2,.9,.25,1)]" style={{ width: `${Math.max(3, view.pct * 100)}%` }} />
           </div>
-          {next && <p className="mt-1.5 text-[11.5px] text-subtle">Ab Level {next.from} wird {pet.name} zum {next.label}.</p>}
+          {next && <p className="mt-1.5 text-[11.5px] text-subtle">Ab Level {next.from} wird {PET_NAME} zum {next.label}.</p>}
         </div>
       </section>
 
@@ -186,7 +177,7 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
             <Kettli skin={pet.equipped.skin} accessory={pet.equipped.accessory} level={levelUp.level} mood="ecstatic" size={170} className="mx-auto" />
             <div className="mt-2 text-[12px] font-semibold uppercase tracking-wider text-area-pet">Level-Up!</div>
             <div className="title-xl mt-1">Level {levelUp.level}</div>
-            {levelUp.stage && <p className="mt-1 text-[14px] font-semibold">{pet.name} ist jetzt ein {levelUp.stage}! ✨</p>}
+            {levelUp.stage && <p className="mt-1 text-[14px] font-semibold">{PET_NAME} ist jetzt ein {levelUp.stage}! ✨</p>}
             <p className="mt-1 text-[13px] text-muted">
               +{LEVEL_UP_COINS} {CURRENCY} als Belohnung
             </p>
@@ -196,7 +187,6 @@ function PetHome({ pet, view, quests }: { pet: PetState; view: NonNullable<Retur
           </div>
         )}
       </Sheet>
-      <RenameSheet open={rename} onClose={() => setRename(false)} current={pet.name} />
     </div>
   );
 }
@@ -362,30 +352,5 @@ function Shop({ pet, level }: { pet: PetState; level: number }) {
           })()}
       </Sheet>
     </>
-  );
-}
-
-function RenameSheet({ open, onClose, current }: { open: boolean; onClose: () => void; current: string }) {
-  const [name, setName] = useState(current);
-  const { toast } = useFeedback();
-  return (
-    <Sheet open={open} onClose={onClose} title="Name ändern">
-      <input className="field text-[16px]" value={name} maxLength={16} onChange={(e) => setName(e.target.value)} aria-label="Neuer Name" />
-      <Button
-        variant="primary"
-        block
-        className="mt-3"
-        onClick={async () => {
-          try {
-            await renamePet(name);
-            onClose();
-          } catch (e) {
-            toast((e as Error).message, 'error');
-          }
-        }}
-      >
-        Speichern
-      </Button>
-    </Sheet>
   );
 }

@@ -78,12 +78,3 @@ export async function equipItem(itemId: string): Promise<void> {
     await db.pet.put({ ...pet, equipped: { ...pet.equipped, [item.kind]: item.id }, updatedAt: Date.now() });
   });
 }
-
-export async function renamePet(name: string): Promise<void> {
-  const n = name.trim().slice(0, 16);
-  if (!n) throw new Error('Bitte einen Namen eingeben');
-  await db.transaction('rw', db.pet, async () => {
-    const pet = await getPet();
-    await db.pet.put({ ...pet, name: n, updatedAt: Date.now() });
-  });
-}

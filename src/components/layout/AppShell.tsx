@@ -20,7 +20,7 @@ export function AppShell() {
   const moreItem = secondary.find((n) => loc.pathname.startsWith(n.to));
   const moreActive = !!moreItem;
   // "Mehr" takes the colour of the area that is currently open behind it
-  const moreArea = moreItem?.area ?? 'neutral';
+  const moreArea = moreItem?.tint ?? moreItem?.area ?? 'neutral';
 
   return (
     <div className="min-h-dvh lg:flex">
@@ -37,7 +37,7 @@ export function AppShell() {
           {(['Heute', 'Training', 'Kettli', 'Freunde', 'Körper & Ernährung', 'App'] as const).map((g) => (
             <div key={g} className="mb-3">
               {g !== 'Heute' && <div className="label mb-1 px-3">{g}</div>}
-              {NAV.filter((n) => n.group === g).map(({ to, label, icon: I, area }) => (
+              {NAV.filter((n) => n.group === g).map(({ to, label, icon: I, area, tint }) => (
                 <NavLink
                   key={to}
                   to={to}
@@ -45,7 +45,7 @@ export function AppShell() {
                   data-tour={`nav-${to}`}
                   className={({ isActive }) =>
                     clsx(
-                      `chip-${area ?? 'neutral'} flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-semibold transition`,
+                      `chip-${tint ?? area ?? 'neutral'} flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-semibold transition`,
                       isActive ? 'nav-pill text-fg' : 'text-muted hover:bg-elevated/60 hover:text-fg',
                     )
                   }
@@ -112,7 +112,7 @@ export function AppShell() {
 
       <Sheet open={more} onClose={() => setMore(false)} title="Weitere Bereiche">
         <div className="grid grid-cols-3 gap-2">
-          {secondary.map(({ to, label, icon: I, area }) => (
+          {secondary.map(({ to, label, icon: I, area, tint }) => (
             <button
               key={to}
               onClick={() => {
@@ -120,11 +120,11 @@ export function AppShell() {
                 nav(to);
               }}
               className={clsx(
-                `chip-${area ?? 'neutral'} flex flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-[12.5px] font-medium transition`,
+                `chip-${tint ?? area ?? 'neutral'} flex flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-[12.5px] font-medium transition`,
                 loc.pathname.startsWith(to) ? 'nav-pill' : 'hover:bg-elevated',
               )}
             >
-              <span className={clsx('chip h-10 w-10 rounded-2xl', `chip-${area ?? 'neutral'}`)}>
+              <span className={clsx('chip h-10 w-10 rounded-2xl', `chip-${tint ?? area ?? 'neutral'}`)}>
                 <I size={21} />
               </span>
               {label}
